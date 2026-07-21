@@ -3,7 +3,7 @@ package com.expensemanager.utils;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-/** Lop CurrencyUtils. */
+/** Lop CurrencyUtils xử lý tiền tệ. */
 public class CurrencyUtils {
     /** Ngăn không cho tạo đối tượng từ bên ngoài. */
     private CurrencyUtils() {

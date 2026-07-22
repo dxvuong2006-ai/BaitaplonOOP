@@ -1,4 +1,53 @@
 package com.expensemanager.model.wallet;
 
-public class Wallet {
-}
+/**
+ * Lớp trừu tượng đại diện cho một ví tiền trong hệ thống quản lý chi tiêu.
+ * Các lớp con phải tự định nghĩa logic rút tiền riêng (ví dụ CashWallet, BankWallet).
+ */
+public abstract class wallet {
+
+    private int id;
+    private String name;
+    protected double balance;
+
+    /**
+     * Khởi tạo một ví tiền.
+     *
+     * @param id định danh ví
+     * @param name tên ví, không được rỗng
+     * @param balance số dư ban đầu, phải >= 0
+     */
+    public wallet(int id, String name, double balance) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Tên ví không được để trống.");
+        }
+        if (balance < 0) {
+            throw new IllegalArgumentException("Số dư ban đầu không được âm.");
+        }
+        this.id = id;
+        this.name = name;
+        this.balance = balance;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Tên ví không được để trống.");
+        }
+        this.name = name;
+    }
+
+    public double getBalance() {
+        return balance;
+    }

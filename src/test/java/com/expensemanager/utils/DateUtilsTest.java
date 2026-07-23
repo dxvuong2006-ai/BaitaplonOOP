@@ -1,90 +1,95 @@
-package com.expensemanager;
+package com.expensemanager.utils;
 
-import com.expensemanager.utils.DateUtils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Lop kiểm tra lop DateUtils. */
-public class DateUtilsTest {
+/**
+ * Lớp kiểm thử cho DateUtils.
+ * Tập trung vào việc thay đổi Strategy và các logic tính toán khoảng thời gian.
+ */
+class DateUtilsTest {
 
-    /** 1. Kiểm thử phương thức formatDate(). */
-    @Test
-    public void testFormatDate_WithValidDate() {
-        // Chuẩn bị dữ liệu: Tạo một ngày 25/12/2026
-        LocalDate date = LocalDate.of(2026, 12, 25);
-
-        // Thực thi
-        String result = DateUtils.formatDate(date);
-
-        // Kiểm tra kết quả có đúng định dạng dd/MM/yyyy không
-        assertEquals("25/12/2026", result, "Định dạng ngày tháng bị sai!");
+    /** * Đảm bảo sau mỗi test case, Strategy mặc định được reset lại,
+     * tránh việc test case này làm hỏng test case khác (Test Isolation).
+     */
+    @AfterEach
+    void tearDown() {
+        DateUtils.setStrategy(new SlashDateFormatStrategy());
     }
 
-    /** Kiểm tra với giá trị ngày tháng rỗng. */
     @Test
-    public void testFormatDate_WithNullDate() {
-        // Thực thi với giá trị null
-        String result = DateUtils.formatDate(null);
-
-        // Kiểm tra kết quả phải trả về chuỗi rỗng để không bị crash app
-        assertEquals("", result, "Nếu date là null thì phải trả về chuỗi rỗng!");
+    @DisplayName("DateUtils: Uỷ quyền đúng cho Strategy mặc định (Slash)")
+    void testDefaultStrategyDelegation() {
+        LocalDate date = LocalDate.of(2026, 1, 15);
+        assertEquals("15/01/2026", DateUtils.formatDate(date));
+        assertTrue(DateUtils.getStrategy() instanceof SlashDateFormatStrategy);
     }
 
-    /** 2. Kiểm thử phương thức parseDate(). */
     @Test
-    public void testParseDate_WithValidString() {
-        // Thực thi
-        LocalDate result = DateUtils.parseDate("01/01/2025");
+    @DisplayName("DateUtils: Có thể thay đổi Strategy (Đa hình) ở Runtime")
+    void testSetStrategy() {
+        LocalDate date = LocalDate.of(2026, 1, 15);
 
-        // Kiểm tra
-        assertNotNull(result);
-        assertEquals(2025, result.getYear());
-        assertEquals(01, result.getMonthValue());
-        assertEquals(01, result.getDayOfMonth());
+        // Đổi sang ISO
+        DateUtils.setStrategy(new IsoDateFormatStrategy());
+        assertEquals("2026-01-15", DateUtils.formatDate(date));
+        assertTrue(DateUtils.getStrategy() instanceof IsoDateFormatStrategy);
     }
 
-    /** Kiểm tra với ngày tháng bị lỗi phông. */
     @Test
-    public void testParseDate_WithInvalidFormat() {
-        // Kiểm tra xem phương thức có NÉM RA đúng lỗi DateTimeParseException khi nhập sai form không
-        assertThrows(DateTimeParseException.class, () -> {
-            DateUtils.parseDate("25-12-2026"); // Sai dấu phân cách
-        }, "Phải ném ra ngoại lệ khi chuỗi sai định dạng!");
+    @DisplayName("DateUtils: Bắn ngoại lệ IllegalArgumentException nếu set Strategy null")
+    void testSetNullStrategy() {
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> DateUtils.setStrategy(null)
+        );
+        assertEquals("Strategy không được là null!", exception.getMessage());
     }
 
-    /** Kiểm tra với giá trị ngày tháng không tồn tại. */
     @Test
-    public void testParseDate_WithNonExistentDate() {
-        // Kiểm tra với ngày không có thực (Tháng 2 năm không nhuận làm gì có ngày 29)
-        assertThrows(DateTimeParseException.class, () -> {
-            DateUtils.parseDate("29/02/2025");
-        }, "Phải ném ra ngoại lệ với những ngày không tồn tại trên lịch!");
+    @DisplayName("DateUtils: Tính ngày đến hạn kế tiếp (nextDueDate) chính xác")
+    void testGetNextDate() {
+        LocalDate baseDate = LocalDate.of(2026, 1, 15);
+
+        assertEquals(LocalDate.of(2026, 1, 16), DateUtils.getNextDate(baseDate, Period.DAILY));
+        assertEquals(LocalDate.of(2026, 1, 22), DateUtils.getNextDate(baseDate, Period.WEEKLY));
+        assertEquals(LocalDate.of(2026, 2, 15), DateUtils.getNextDate(baseDate, Period.MONTH));
+        assertEquals(LocalDate.of(2027, 1, 15), DateUtils.getNextDate(baseDate, Period.YEARLY));
     }
 
-    /** 3. Kiểm thử phương thức isValidDate(). */
     @Test
-    public void testIsValidDate_WithValidString() {
-        // Ngày chuẩn, năm nhuận có 29/2
-        assertTrue(DateUtils.isValidDate("29/02/2024"), "Ngày 29/02/2024 là hợp lệ!");
-        assertTrue(DateUtils.isValidDate("15/08/2026"), "Ngày 15/08/2026 là hợp lệ!");
+    @DisplayName("DateUtils: Kiểm tra cùng khoảng thời gian (isInSamePeriod)")
+    void testIsInSamePeriod() {
+        LocalDate today = LocalDate.of(2026, 7, 22);
+
+        // DAILY
+        assertTrue(DateUtils.isInSamePeriod(LocalDate.of(2026, 7, 22), today, Period.DAILY));
+        assertFalse(DateUtils.isInSamePeriod(LocalDate.of(2026, 7, 23), today, Period.DAILY));
+
+        // MONTHLY
+        assertTrue(DateUtils.isInSamePeriod(LocalDate.of(2026, 7, 1), today, Period.MONTH));
+        assertFalse(DateUtils.isInSamePeriod(LocalDate.of(2026, 8, 22), today, Period.MONTH));
+
+        // YEARLY
+        assertTrue(DateUtils.isInSamePeriod(LocalDate.of(2026, 1, 1), today, Period.YEARLY));
+        assertFalse(DateUtils.isInSamePeriod(LocalDate.of(2027, 7, 22), today, Period.YEARLY));
     }
 
-    /** Kiểm tra với giá trị ngày không tồn tại. */
     @Test
-    public void testIsValidDate_WithInvalidString() {
-        // Các trường hợp sai định dạng hoặc ngày hư cấu
-        assertFalse(DateUtils.isValidDate("31/04/2026"), "Tháng 4 chỉ có 30 ngày, phải trả về false!");
-        assertFalse(DateUtils.isValidDate("abc"), "Chuỗi chữ cái phải trả về false!");
-        assertFalse(DateUtils.isValidDate("1/1/2026"), "Thiếu số 0 ở ngày và tháng, phải trả về false!");
-    }
+    @DisplayName("DateUtils: Xử lý giao năm cho tuần chuẩn xác (WEEKLY Edge Case)")
+    void testIsInSamePeriodWeeklyEdgeCase() {
+        // 30/12/2024 và 31/12/2024 (Đều thuộc Tuần 1 của năm 2025 theo chuẩn ISO)
+        LocalDate dec30 = LocalDate.of(2024, 12, 30);
+        LocalDate dec31 = LocalDate.of(2024, 12, 31);
+        LocalDate jan1 = LocalDate.of(2025, 1, 1);
 
-    /** Kiểm tra với giá trị ngày tháng rỗng. */
-    @Test
-    public void testIsValidDate_WithNull() {
-        // Xử lý an toàn khi truyền null
-        assertFalse(DateUtils.isValidDate(null), "Truyền null vào thì phải trả về false, không được crash!");
+        assertTrue(DateUtils.isInSamePeriod(dec30, dec31, Period.WEEKLY));
+        assertTrue(DateUtils.isInSamePeriod(dec31, jan1, Period.WEEKLY));
     }
 }

@@ -13,7 +13,7 @@ public class CashWallet extends wallet {
      * @param balance số dư ban đầu
      */
     public CashWallet(int id, String name, double balance) {
-        super(id, name, balance);
+        super(id, name, balance, WalletType.CASH);
     }
 
     /**

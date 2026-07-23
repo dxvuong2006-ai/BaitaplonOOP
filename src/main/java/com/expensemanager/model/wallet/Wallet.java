@@ -51,3 +51,35 @@ public abstract class wallet {
     public double getBalance() {
         return balance;
     }
+
+    public void setBalance(double balance) {
+        if (balance < 0) {
+            throw new IllegalArgumentException("Số dư không được âm.");
+        }
+        this.balance = balance;
+    }
+
+    public WalletType getType() {
+        return type;
+    }
+
+    /**
+     * Nạp tiền vào ví.
+     *
+     * @param amount số tiền nạp, phải > 0
+     */
+    public void deposit(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Số tiền nạp phải lớn hơn 0.");
+        }
+        this.balance += amount;
+    }
+
+    /**
+     * Rút tiền khỏi ví. Mỗi loại ví con tự định nghĩa cách xử lý riêng
+     * (ví dụ CashWallet không cho rút quá số dư, BankWallet có thể cho phép thấu chi).
+     *
+     * @param amount số tiền cần rút, phải > 0
+     */
+    public abstract void withdraw(double amount);
+}

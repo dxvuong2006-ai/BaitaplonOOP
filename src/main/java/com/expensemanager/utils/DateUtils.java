@@ -2,70 +2,49 @@ package com.expensemanager.utils;
 
 import com.expensemanager.model.enums.Period;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.temporal.WeekFields;
 
-/** Lớp tiện ích xử lý ngày tháng toàn cục, điều hướng thông qua DateFormatStrategy. */
-public final class DateUtils {
+/** Kiểm tra ngày tháng. */
+public class DateUtils {
 
-    /** Chiến lược mặc định (dd/MM/uuuu). Đánh dấu volatile để an toàn khi đổi strategy. */
-    private static volatile DateFormatStrategy defaultStrategy = new SlashDateFormatStrategy();
+    /** Ngăn không cho tạo đối tượng từ bên ngoài do các phương thức đều là static. */
+    private DateUtils() {}
 
-    /** Ngăn khởi tạo lớp tiện ích. */
-    private DateUtils() {
-        throw new UnsupportedOperationException("Utility class không thể khởi tạo!");
-    }
+    public static final String DATE_PATTERN = "dd/MM/yyyy";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
-
-    /** Trả về chiến lược định dạng mặc định. */
-    public static DateFormatStrategy getStrategy() {
-        return defaultStrategy;
-    }
-
-    /** Thiết lập chiến lược định dạng mặc định. */
-    public static void setStrategy(DateFormatStrategy strategy) {
-        if (strategy == null) {
-            throw new IllegalArgumentException("Strategy không được là null!");
-        }
-        DateUtils.defaultStrategy = strategy;
-    }
-
-    // --- Các hàm Format/Parse sử dụng Strategy mặc định ---
-
-    /** Định dạng ngày theo chiến lược mặc định. */
+    /** Chuyển đổi ngày nhập vào dạng LocalDate thành chuỗi(Để hiển thị). */
     public static String formatDate(LocalDate date) {
-        return defaultStrategy.format(date);
+        return (date != null) ? date.format(FORMATTER) : "";
     }
 
-    /** Phân tích chuỗi ngày theo chiến lược mặc định. */
+    /** Chuyển đổi ngày nhập vào dạng chuỗi thành dạng LocalDate(Để tính toán). */
     public static LocalDate parseDate(String dateStr) throws DateTimeParseException {
-        return defaultStrategy.parse(dateStr);
+        if (dateStr == null || dateStr.trim().isEmpty()) {
+            throw new DateTimeParseException("Ngày không được để trống!", dateStr, 0);
+        }
+        dateStr = dateStr.trim();
+        return LocalDate.parse(dateStr, FORMATTER);
     }
 
-    /** Kiểm tra chuỗi ngày có hợp lệ hay không. */
+    /** Kiểm tra chuỗi có phải là ngày hợp lệ không. */
     public static boolean isValidDate(String dateStr) {
-        return defaultStrategy.isValid(dateStr);
+        try {
+            parseDate(dateStr);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 
-    // --- Các hàm Format/Parse tùy biến (không làm đổi strategy mặc định) ---
-
-    /** Định dạng ngày theo chiến lược được chỉ định. */
-    public static String formatDate(LocalDate date, DateFormatStrategy customStrategy) {
-        return (customStrategy != null) ? customStrategy.format(date) : formatDate(date);
-    }
-
-    /** Phân tích chuỗi ngày theo chiến lược được chỉ định. */
-    public static LocalDate parseDate(String dateStr, DateFormatStrategy customStrategy)
-            throws DateTimeParseException {
-        return (customStrategy != null) ? customStrategy.parse(dateStr) : parseDate(dateStr);
-    }
-
-    // --- Các hàm nghiệp vụ tính toán thời gian ---
-
-    /** Tính ngày tiếp theo theo chu kỳ. */
+    /** . */
     public static LocalDate getNextDate(LocalDate fromDate, Period period) {
-        if (fromDate == null || period == null) {
-            return fromDate;
+        if (fromDate == null) {
+            throw new IllegalArgumentException("Ngày không được để trống");
+        }
+        if (period == null) {
+            throw new IllegalArgumentException("Chu kỳ không được để trống");
         }
         switch (period) {
             case DAILY:
@@ -80,31 +59,4 @@ public final class DateUtils {
                 throw new IllegalArgumentException("Chu kỳ không hỗ trợ: " + period);
         }
     }
-
-    /** Kiểm tra hai ngày có thuộc cùng chu kỳ hay không. */
-    public static boolean isInSamePeriod(LocalDate date, LocalDate today, Period period) {
-        if (date == null || today == null || period == null) {
-            return false;
-        }
-        switch (period) {
-            case DAILY:
-                return date.isEqual(today);
-            case WEEKLY:
-                WeekFields weekFields = WeekFields.ISO;
-                int dateWeek = date.get(weekFields.weekOfWeekBasedYear());
-                int todayWeek = today.get(weekFields.weekOfWeekBasedYear());
-                int dateYear = date.get(weekFields.weekBasedYear());
-                int todayYear = today.get(weekFields.weekBasedYear());
-                return dateWeek == todayWeek && dateYear == todayYear;
-            case MONTH:
-                return date.getYear() == today.getYear() && date.getMonthValue() == today.getMonthValue();
-            case YEARLY:
-                return date.getYear() == today.getYear();
-            default:
-                return false;
-        }
-    }
 }
-
-
-

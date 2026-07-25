@@ -4,11 +4,14 @@ import com.expensemanager.view.ConsoleView;
 
 /**
  * Điểm khởi đầu (entry point) của toàn bộ ứng dụng.
- * Đây là nơi duy nhất chương trình Java bắt đầu chạy,
- * có nhiệm vụ khởi tạo và gọi tầng View để hiển thị giao diện.
+ * Tuỳ chỉnh dòng gọi bên dưới để chạy phiên bản Console hoặc GUI.
  */
 public class Main {
     public static void main(String[] args) {
-        new ConsoleView().start();
+        // Chế độ dòng lệnh (Tuần 1-2)
+        // new ConsoleView().start();
+
+        // Chế độ giao diện đồ hoạ (Tuần 3)
+        AppLauncher.main(args);
     }
 }

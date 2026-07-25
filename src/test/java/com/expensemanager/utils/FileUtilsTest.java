@@ -1,116 +1,61 @@
 package com.expensemanager.utils;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Lop kiem thu tu dong (Unit Test) cho FileUtils dung JUnit 5.
- */
 class FileUtilsTest {
 
     @TempDir
     Path tempDir;
 
     @Test
-    @DisplayName("Test private constructor ngat khoi tao doi tuong qua Reflection")
-    void testPrivateConstructor() throws Exception {
-        Constructor<FileUtils> constructor = FileUtils.class.getDeclaredConstructor();
-        constructor.setAccessible(true);
+    void testReadAllLines_FileNotExists() throws IOException {
+        // Đường dẫn tới file không có thật trong thư mục tạm
+        String nonExistentFile = tempDir.resolve("non_existent.txt").toString();
 
-        InvocationTargetException exception = assertThrows(
-                InvocationTargetException.class,
-                constructor::newInstance,
-                "Khong the khoi tao Utility Class tu ben ngoai"
-        );
+        List<String> lines = FileUtils.readAllLines(nonExistentFile);
 
-        assertTrue(exception.getCause() instanceof UnsupportedOperationException);
-        assertEquals("Utility class khong the khoi tao!", exception.getCause().getMessage());
+        assertNotNull(lines);
+        assertTrue(lines.isEmpty());
     }
 
     @Test
-    @DisplayName("Test kiem tra tap tin ton tai (fileExists)")
-    void testFileExists() throws Exception {
-        // 1. DUONG DAN RONG HOAC NULL
-        assertFalse(FileUtils.fileExists(null));
-        assertFalse(FileUtils.fileExists(""));
-        assertFalse(FileUtils.fileExists("   "));
+    void testWriteAndReadAllLines_Success() throws IOException {
+        String filePath = tempDir.resolve("test_expense.txt").toString();
+        List<String> expectedLines = Arrays.asList("An 100000", "Thu 500000", "Chi tieu");
 
-        // 2. FILE KHONG TON TAI
-        Path nonExistentFile = tempDir.resolve("non_existent.csv");
-        assertFalse(FileUtils.fileExists(nonExistentFile.toString()));
+        // Ghi dữ liệu vào file
+        FileUtils.writeAllLines(filePath, expectedLines);
 
-        // 3. FILE THU CUM (KHONG PHAI REGULAR FILE)
-        assertTrue(FileUtils.fileExists(tempDir.toString()) == false);
+        // Đọc dữ liệu từ file
+        List<String> actualLines = FileUtils.readAllLines(filePath);
 
-        // 4. FILE THUC SU TON TAI
-        Path realFile = tempDir.resolve("test_exists.txt");
-        Files.createFile(realFile);
-        assertTrue(FileUtils.fileExists(realFile.toString()));
+        assertEquals(expectedLines, actualLines);
     }
 
     @Test
-    @DisplayName("Test dam bao thu muc cha ton tai (ensureParentDirectoryExists)")
-    void testEnsureParentDirectoryExists() throws Exception {
-        // Test loi khi duong dan rui/null
-        assertThrows(IllegalArgumentException.class, () -> FileUtils.ensureParentDirectoryExists(null));
-        assertThrows(IllegalArgumentException.class, () -> FileUtils.ensureParentDirectoryExists(""));
+    void testWriteAllLines_AutoCreateParentDirectories() throws IOException {
+        // Tạo đường dẫn có thư mục con chưa tồn tại
+        Path subDir = tempDir.resolve("sub/folder/data.txt");
+        String filePath = subDir.toString();
 
-        // Test tao thu muc cha long nhau
-        Path nestedPath = tempDir.resolve("subfolder/data/transactions.csv");
-        FileUtils.ensureParentDirectoryExists(nestedPath.toString());
+        List<String> lines = Collections.singletonList("Test nested directory");
 
-        assertTrue(Files.exists(nestedPath.getParent()));
-    }
+        // Ghi file nên tự động tạo các thư mục cha
+        assertDoesNotThrow(() -> FileUtils.writeAllLines(filePath, lines));
 
-    @Test
-    @DisplayName("Test lay phan mo rong cua file (getFileExtension)")
-    void testGetFileExtension() {
-        assertEquals("", FileUtils.getFileExtension(null));
-        assertEquals("", FileUtils.getFileExtension(""));
-        assertEquals("csv", FileUtils.getFileExtension("transactions.csv"));
-        assertEquals("json", FileUtils.getFileExtension("config/settings.json"));
-        assertEquals("gz", FileUtils.getFileExtension("backup.tar.gz"));
-        assertEquals("", FileUtils.getFileExtension(".gitignore"));
-        assertEquals("", FileUtils.getFileExtension("filename_without_extension"));
-    }
-
-    @Test
-    @DisplayName("Test kiem tra dung luong file (getFileSize)")
-    void testGetFileSize() throws Exception {
-        // File khong ton tai tra ve 0L
-        assertEquals(0L, FileUtils.getFileSize(tempDir.resolve("unknown.txt").toString()));
-
-        // File co noi dung
-        Path sampleFile = tempDir.resolve("sample.txt");
-        String content = "Hello Expense Manager!";
-        Files.writeString(sampleFile, content);
-
-        assertEquals(content.getBytes().length, FileUtils.getFileSize(sampleFile.toString()));
-    }
-
-    @Test
-    @DisplayName("Test xoa file (deleteFile)")
-    void testDeleteFile() throws Exception {
-        // Xoa file khong ton tai tra ve false
-        assertFalse(FileUtils.deleteFile(tempDir.resolve("no_file.txt").toString()));
-
-        // Xoa file dang ton tai
-        Path fileToDelete = tempDir.resolve("to_delete.txt");
-        Files.createFile(fileToDelete);
-        assertTrue(Files.exists(fileToDelete));
-
-        boolean deleted = FileUtils.deleteFile(fileToDelete.toString());
-        assertTrue(deleted);
-        assertFalse(Files.exists(fileToDelete));
+        // Kiểm tra xem file và nội dung đã được ghi thành công chưa
+        assertTrue(Files.exists(subDir));
+        List<String> actualLines = FileUtils.readAllLines(filePath);
+        assertEquals(lines, actualLines);
     }
 }

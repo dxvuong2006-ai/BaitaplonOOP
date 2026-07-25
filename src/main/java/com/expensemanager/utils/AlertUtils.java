@@ -17,7 +17,7 @@ public class AlertUtils {
             alert.setHeaderText(null);
             alert.setContentText(message);
             alert.showAndWait();
-        } catch (NoClassDefFoundError | Exception e) {
+        } catch (Throwable e) {
             if (type == AlertType.ERROR) {
                 System.err.println(title + ": " + message);
             } else {

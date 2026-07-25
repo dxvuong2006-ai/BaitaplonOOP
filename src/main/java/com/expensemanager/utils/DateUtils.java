@@ -22,7 +22,7 @@ public class DateUtils {
     /** Chuyển đổi ngày nhập vào dạng chuỗi thành dạng LocalDate(Để tính toán). */
     public static LocalDate parseDate(String dateStr) throws DateTimeParseException {
         if (dateStr == null || dateStr.trim().isEmpty()) {
-            throw new DateTimeParseException("Ngày không được để trống!", dateStr, 0);
+            throw new DateTimeParseException("Ngày không được để trống!", dateStr == null ? "" : dateStr, 0);
         }
         dateStr = dateStr.trim();
         return LocalDate.parse(dateStr, FORMATTER);

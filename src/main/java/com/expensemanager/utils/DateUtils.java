@@ -11,8 +11,7 @@ public class DateUtils {
     /** Ngăn không cho tạo đối tượng từ bên ngoài do các phương thức đều là static. */
     private DateUtils() {}
 
-    public static final String DATE_PATTERN = "dd/MM/yyyy";
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     /** Chuyển đổi ngày nhập vào dạng LocalDate thành chuỗi(Để hiển thị). */
     public static String formatDate(LocalDate date) {

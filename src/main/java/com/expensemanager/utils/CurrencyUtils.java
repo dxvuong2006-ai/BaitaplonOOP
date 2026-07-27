@@ -8,7 +8,7 @@ public class CurrencyUtils {
     private CurrencyUtils() {}
 
     private static final Locale VIETNAM_LOCALE = new Locale("vi", "VN");
-    private static final double EPSILON = 0.0001;
+    public static final double EPSILON = 0.0001;
 
     /** Định dạng số tiền nhập vào thành dạng tiền Việt Nam(Để hiển thị). */
     public static String formatVND(double amount) {

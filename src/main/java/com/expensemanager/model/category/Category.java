@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Danh mục chi tiêu/thu nhập, dùng để phân loại các giao dịch (ví dụ: Ăn uống, Di chuyển).
  */
-public class category {
+public class Category {
 
     private int id;
     private String name;
@@ -18,7 +18,7 @@ public class category {
      * @param name tên danh mục, không được rỗng
      * @param description mô tả chi tiết, có thể để trống
      */
-    public category(int id, String name, String description) {
+    public Category(int id, String name, String description) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Tên danh mục không được để trống.");
         }
@@ -59,10 +59,10 @@ public class category {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof category)) {
+        if (!(o instanceof Category)) {
             return false;
         }
-        category other = (category) o;
+        Category other = (Category) o;
         return id == other.id;
     }
 

@@ -14,11 +14,15 @@ public class Category {
     /**
      * Khởi tạo một danh mục.
      *
-     * @param id định danh danh mục
-     * @param name tên danh mục, không được rỗng
+     * @param id          định danh danh mục, phải >= 0
+     * @param name        tên danh mục, không được rỗng
      * @param description mô tả chi tiết, có thể để trống
+     * @throws IllegalArgumentException nếu id âm, hoặc name rỗng/null
      */
     public Category(int id, String name, String description) {
+        if (id < 0) {
+            throw new IllegalArgumentException("Định danh danh mục không được âm.");
+        }
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Tên danh mục không được để trống.");
         }
@@ -27,18 +31,43 @@ public class Category {
         this.description = description;
     }
 
+    /**
+     * Lấy định danh của danh mục.
+     *
+     * @return id của danh mục
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Gán lại định danh cho danh mục.
+     *
+     * @param id định danh mới, phải >= 0
+     * @throws IllegalArgumentException nếu id âm
+     */
     public void setId(int id) {
+        if (id < 0) {
+            throw new IllegalArgumentException("Định danh danh mục không được âm.");
+        }
         this.id = id;
     }
 
+    /**
+     * Lấy tên danh mục.
+     *
+     * @return tên danh mục
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Đổi tên danh mục.
+     *
+     * @param name tên danh mục mới, không được rỗng
+     * @throws IllegalArgumentException nếu name rỗng hoặc null
+     */
     public void setName(String name) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Tên danh mục không được để trống.");
@@ -46,14 +75,30 @@ public class Category {
         this.name = name;
     }
 
+    /**
+     * Lấy mô tả chi tiết của danh mục.
+     *
+     * @return mô tả danh mục, có thể null hoặc rỗng
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Cập nhật mô tả cho danh mục.
+     *
+     * @param description mô tả mới, có thể để trống hoặc null
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * So sánh hai danh mục có cùng định danh (id) hay không.
+     *
+     * @param o đối tượng cần so sánh
+     * @return true nếu cùng id, ngược lại false
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -66,7 +111,23 @@ public class Category {
         return id == other.id;
     }
 
+    /**
+     * Sinh mã băm dựa trên id, khớp với logic của {@link #equals(Object)}.
+     *
+     * @return mã băm của danh mục
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    /**
+     * Biểu diễn danh mục dưới dạng chuỗi dễ đọc, phục vụ debug/log.
+     *
+     * @return chuỗi mô tả danh mục
+     */
+    @Override
+    public String toString() {
+        return "Category{id=" + id + ", name='" + name + "'}";
+    }
+}

@@ -1,6 +1,6 @@
 package com.expensemanager.repository;
 
-import com.expensemanager.model.wallet.wallet;
+import com.expensemanager.model.wallet.Wallet;
 import com.expensemanager.utils.DatabaseConfig;
 
 import java.sql.Connection;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class WalletRepository {
 
     // Nhận vào đối tượng wallet (chữ w viết thường)
-    public void addWallet(wallet w) {
+    public void addWallet(Wallet w) {
         String sql = "INSERT INTO wallets(name, balance) VALUES(?, ?)";
 
         try (Connection conn = DatabaseConfig.getConnection();

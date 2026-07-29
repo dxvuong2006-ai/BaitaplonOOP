@@ -14,5 +14,6 @@ public enum FieldType {
     PAYMENTMETHOD,
     PERIOD,
     AMOUNTSTR,
-    TRANSACTIONFEE
+    TRANSACTIONFEE,
+    FEEPERCENT
 }

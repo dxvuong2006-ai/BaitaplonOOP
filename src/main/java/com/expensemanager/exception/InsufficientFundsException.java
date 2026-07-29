@@ -17,14 +17,6 @@ public class InsufficientFundsException extends ExpenseManagerException {
         this.requiredAmount = requiredAmount;
     }
 
-    public double getCurrentBalance() {
-        return currentBalance;
-    }
-
-    public double getRequiredAmount() {
-        return requiredAmount;
-    }
-
     public double getShortage() {
         return requiredAmount - currentBalance;
     }

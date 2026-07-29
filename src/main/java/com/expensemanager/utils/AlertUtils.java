@@ -10,12 +10,30 @@ public class AlertUtils {
     private AlertUtils() {}
 
     /** Tạo khung hiển thị lên màn hình. */
-    private static void showAlert(AlertType type, String title, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    private static void showAlert(AlertType type,
+                                  String title,
+                                  String message) {
+
+        try {
+
+            Alert alert = new Alert(type);
+
+            alert.setTitle(title);
+
+            alert.setHeaderText(null);
+
+            alert.setContentText(message);
+
+            alert.showAndWait();
+
+        } catch (Exception e) {
+
+            System.err.println(
+                    "[Alert Error] " + e.getMessage()
+            );
+
+            System.err.println(title + ": " + message);
+        }
     }
 
     /** Hiển thị thông báo thông tin lên màn hình. */

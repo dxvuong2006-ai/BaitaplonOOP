@@ -4,7 +4,7 @@ import com.expensemanager.model.enums.Period;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import com.expensemanager.exception.EmptyFieldException;
-import com.expensemanager.exception.InvalidDateException;
+import com.expensemanager.exception.InvalidFormatException;
 import com.expensemanager.model.enums.FieldType;
 
 /** Kiểm tra ngày tháng. */
@@ -34,7 +34,7 @@ public class DateUtils {
         try {
             parseDate(dateStr);
             return true;
-        } catch (InvalidDateException e) {
+        } catch (InvalidFormatException e) {
             return false;
         }
     }

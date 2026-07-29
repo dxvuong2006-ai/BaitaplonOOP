@@ -1,14 +1,231 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.expensemanager.controller.DashboardController"
-            prefHeight="400.0" prefWidth="600.0">
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.expensemanager.controller.DashboardController"
+      styleClass="dashboard-root"
+      spacing="18.0">
 
-</AnchorPane>
+    <padding>
+        <Insets top="25.0"
+                right="25.0"
+                bottom="25.0"
+                left="25.0"/>
+    </padding>
+
+    <!-- Phần tiêu đề Dashboard -->
+    <HBox alignment="CENTER_LEFT">
+
+        <VBox spacing="5.0">
+            <Label text="Tổng quan"
+                   styleClass="dashboard-title"/>
+
+            <Label text="Cái nhìn tổng thể về tình hình tài chính của bạn"
+                   styleClass="dashboard-subtitle"/>
+        </VBox>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Button text="Tháng 07/2026"
+                styleClass="period-button"/>
+    </HBox>
+
+    <!-- Ba thẻ thống kê -->
+    <HBox spacing="15.0">
+
+        <!-- Tổng số dư -->
+        <VBox spacing="8.0"
+              maxWidth="Infinity"
+              HBox.hgrow="ALWAYS"
+              styleClass="summary-card">
+
+            <HBox alignment="CENTER_LEFT">
+                <Label text="TỔNG SỐ DƯ"
+                       styleClass="summary-label balance-text"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <StackPane styleClass="summary-icon balance-icon">
+                    <Label text="₫"
+                           styleClass="summary-icon-text"/>
+                </StackPane>
+            </HBox>
+
+            <Label text="0 ₫"
+                   styleClass="summary-value"/>
+
+            <Label text="Tổng tài sản hiện có"
+                   styleClass="summary-description"/>
+        </VBox>
+
+        <!-- Tổng thu -->
+        <VBox spacing="8.0"
+              maxWidth="Infinity"
+              HBox.hgrow="ALWAYS"
+              styleClass="summary-card">
+
+            <HBox alignment="CENTER_LEFT">
+                <Label text="TỔNG THU"
+                       styleClass="summary-label income-text"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <StackPane styleClass="summary-icon income-icon">
+                    <Label text="↑"
+                           styleClass="summary-icon-text"/>
+                </StackPane>
+            </HBox>
+
+            <Label text="0 ₫"
+                   styleClass="summary-value"/>
+
+            <Label text="↑ Thu nhập trong tháng"
+                   styleClass="summary-description income-text"/>
+        </VBox>
+
+        <!-- Tổng chi -->
+        <VBox spacing="8.0"
+              maxWidth="Infinity"
+              HBox.hgrow="ALWAYS"
+              styleClass="summary-card">
+
+            <HBox alignment="CENTER_LEFT">
+                <Label text="TỔNG CHI"
+                       styleClass="summary-label expense-text"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <StackPane styleClass="summary-icon expense-icon">
+                    <Label text="↓"
+                           styleClass="summary-icon-text"/>
+                </StackPane>
+            </HBox>
+
+            <Label text="0 ₫"
+                   styleClass="summary-value"/>
+
+            <Label text="↓ Chi tiêu trong tháng"
+                   styleClass="summary-description expense-text"/>
+        </VBox>
+
+    </HBox>
+
+    <!-- Hàng hai biểu đồ -->
+    <HBox spacing="15.0"
+          prefHeight="225.0">
+
+        <!-- Biểu đồ thu chi -->
+        <VBox spacing="12.0"
+              maxWidth="Infinity"
+              HBox.hgrow="ALWAYS"
+              styleClass="dashboard-panel">
+
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Biểu đồ thu chi"
+                       styleClass="panel-title"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Button text="7 ngày qua"
+                        styleClass="filter-button"/>
+            </HBox>
+
+            <StackPane VBox.vgrow="ALWAYS"
+                       styleClass="chart-placeholder">
+
+                <Label text="Biểu đồ thu và chi sẽ hiển thị tại đây"
+                       styleClass="placeholder-text"/>
+            </StackPane>
+
+        </VBox>
+
+        <!-- Biểu đồ danh mục -->
+        <VBox prefWidth="300.0"
+              spacing="12.0"
+              styleClass="dashboard-panel">
+
+            <Label text="Chi tiêu theo danh mục"
+                   styleClass="panel-title"/>
+
+            <StackPane VBox.vgrow="ALWAYS"
+                       styleClass="chart-placeholder">
+
+                <Label text="Biểu đồ tròn sẽ hiển thị tại đây"
+                       styleClass="placeholder-text"/>
+            </StackPane>
+
+        </VBox>
+
+    </HBox>
+
+    <!-- Giao dịch gần đây -->
+    <VBox spacing="10.0"
+          prefHeight="220.0"
+          styleClass="dashboard-panel">
+
+        <HBox alignment="CENTER_LEFT">
+            <Label text="Giao dịch gần đây"
+                   styleClass="panel-title"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button text="Xem tất cả →"
+                    styleClass="filter-button"/>
+        </HBox>
+
+        <!-- Tiêu đề các cột -->
+        <HBox alignment="CENTER_LEFT"
+              styleClass="transaction-header">
+
+            <Label text="Ngày"
+                   prefWidth="110.0"
+                   styleClass="transaction-header-label"/>
+
+            <Label text="Mô tả"
+                   prefWidth="230.0"
+                   styleClass="transaction-header-label"/>
+
+            <Label text="Ví"
+                   prefWidth="130.0"
+                   styleClass="transaction-header-label"/>
+
+            <Label text="Danh mục"
+                   prefWidth="140.0"
+                   styleClass="transaction-header-label"/>
+
+            <Label text="Loại"
+                   prefWidth="90.0"
+                   styleClass="transaction-header-label"/>
+
+            <Label text="Số tiền"
+                   prefWidth="140.0"
+                   styleClass="transaction-header-label"/>
+        </HBox>
+
+        <!-- Trạng thái chưa có dữ liệu -->
+        <StackPane VBox.vgrow="ALWAYS"
+                   styleClass="transaction-empty">
+
+            <VBox alignment="CENTER"
+                  spacing="5.0">
+
+                <Label text="Chưa có giao dịch nào"
+                       styleClass="empty-title"/>
+
+                <Label text="Các giao dịch mới nhất sẽ hiển thị tại đây"
+                       styleClass="placeholder-text"/>
+            </VBox>
+
+        </StackPane>
+
+    </VBox>
+
+</VBox>

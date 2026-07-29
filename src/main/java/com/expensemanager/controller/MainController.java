@@ -18,6 +18,11 @@ public class MainController {
     @FXML
     private StackPane contentPane;
 
+    @FXML
+    private void initialize() {
+        loadView("dashboard.fxml");
+    }
+
     /**
      * Hàm dùng chung để nạp 1 file FXML bất kỳ vào vùng nội dung chính.
      * Tách riêng thành 1 hàm để tránh lặp code ở mỗi handleShowXXX().

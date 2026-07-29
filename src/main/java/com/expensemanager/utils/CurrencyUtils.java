@@ -16,7 +16,6 @@ public class CurrencyUtils {
         return formatter.format(amount);
     }
 
-    /** Chuyển đổi tỷ giá ngoại tệ. */
     /** Chuyển chuỗi tiền Việt Nam thành dạng số(Để tính toán). */
     public static double parseAmount(String amountStr) throws NumberFormatException {
         if (amountStr == null || amountStr.trim().isEmpty()) {
@@ -54,4 +53,6 @@ public class CurrencyUtils {
     public static double roundToDong(double amount) {
         return Math.round(amount);
     }
+
+    /** Chuyển đổi tỷ giá ngoại tệ. */
 }

@@ -1,7 +1,9 @@
 package com.expensemanager.model.transaction;
 
+import com.expensemanager.exception.EmptyFieldException;
 import com.expensemanager.model.category.Category;
 import com.expensemanager.model.enums.TransactionType;
+import com.expensemanager.model.enums.FieldType;
 import com.expensemanager.model.wallet.Wallet;
 import java.time.LocalDate;
 
@@ -13,7 +15,7 @@ public class Expense extends Transaction {
 
     public Expense(String id, double amount, LocalDate date, String note, Category category, Wallet wallet, String paymentMethod) {
         super(id, amount, date, note, category, wallet);
-        this.paymentMethod = paymentMethod;
+        setPaymentMethod(paymentMethod);
     }
 
     @Override
@@ -30,6 +32,9 @@ public class Expense extends Transaction {
         return paymentMethod;
     }
     public void setPaymentMethod(String paymentMethod) {
+        if (paymentMethod == null) {
+            throw new EmptyFieldException(FieldType.PAYMENTMETHOD);
+        }
         this.paymentMethod = paymentMethod;
     }
 }

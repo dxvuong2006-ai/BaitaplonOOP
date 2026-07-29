@@ -3,7 +3,9 @@ package com.expensemanager.utils;
 import com.expensemanager.model.enums.Period;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import com.expensemanager.exception.EmptyFieldException;
+import com.expensemanager.exception.InvalidFormatException;
+import com.expensemanager.model.enums.FieldType;
 
 /** Kiểm tra ngày tháng. */
 public class DateUtils {
@@ -19,9 +21,9 @@ public class DateUtils {
     }
 
     /** Chuyển đổi ngày nhập vào dạng chuỗi thành dạng LocalDate(Để tính toán). */
-    public static LocalDate parseDate(String dateStr) throws DateTimeParseException {
+    public static LocalDate parseDate(String dateStr)  {
         if (dateStr == null || dateStr.trim().isEmpty()) {
-            throw new DateTimeParseException("Ngày không được để trống!", dateStr == null ? "" : dateStr, 0);
+            throw new EmptyFieldException(FieldType.DATE);
         }
         dateStr = dateStr.trim();
         return LocalDate.parse(dateStr, FORMATTER);
@@ -32,7 +34,7 @@ public class DateUtils {
         try {
             parseDate(dateStr);
             return true;
-        } catch (DateTimeParseException e) {
+        } catch (InvalidFormatException e) {
             return false;
         }
     }
@@ -40,10 +42,10 @@ public class DateUtils {
     /** . */
     public static LocalDate getNextDate(LocalDate fromDate, Period period) {
         if (fromDate == null) {
-            throw new IllegalArgumentException("Ngày không được để trống");
+            throw new EmptyFieldException(FieldType.DATE);
         }
         if (period == null) {
-            throw new IllegalArgumentException("Chu kỳ không được để trống");
+            throw new EmptyFieldException(FieldType.PERIOD);
         }
         switch (period) {
             case DAILY:

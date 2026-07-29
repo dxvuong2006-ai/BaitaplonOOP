@@ -2,6 +2,8 @@ package com.expensemanager.utils;
 
 import java.text.NumberFormat;
 import java.util.Locale;
+import com.expensemanager.exception.EmptyFieldException;
+import com.expensemanager.model.enums.FieldType;
 
 public class CurrencyUtils {
     /** Ngăn không cho khởi tạo đối tượng bên ngoài do các phương thức đều là static. */
@@ -17,9 +19,9 @@ public class CurrencyUtils {
     }
 
     /** Chuyển chuỗi tiền Việt Nam thành dạng số(Để tính toán). */
-    public static double parseAmount(String amountStr) throws NumberFormatException {
+    public static double parseAmount(String amountStr) throws NumberFormatException,EmptyFieldException {
         if (amountStr == null || amountStr.trim().isEmpty()) {
-            throw new NumberFormatException("Số tiền không được để trống!");
+            throw new EmptyFieldException(FieldType.AMOUNTSTR);
         }
         String cleanStr = amountStr.replace("₫", "")
                 .replace("VND", "")
@@ -34,7 +36,7 @@ public class CurrencyUtils {
         try {
             parseAmount(amountStr);
             return true;
-        } catch (NumberFormatException ex) {
+        } catch (Exception ex) {
             return false;
         }
     }

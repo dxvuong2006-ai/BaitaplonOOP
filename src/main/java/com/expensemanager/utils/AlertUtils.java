@@ -11,19 +11,11 @@ public class AlertUtils {
 
     /** Tạo khung hiển thị lên màn hình. */
     private static void showAlert(AlertType type, String title, String message) {
-        try {
-            Alert alert = new Alert(type);
-            alert.setTitle(title);
-            alert.setHeaderText(null);
-            alert.setContentText(message);
-            alert.showAndWait();
-        } catch (Throwable e) {
-            if (type == AlertType.ERROR) {
-                System.err.println(title + ": " + message);
-            } else {
-                System.out.println(title + ": " + message);
-            }
-        }
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     /** Hiển thị thông báo thông tin lên màn hình. */

@@ -2,10 +2,8 @@ package com.expensemanager.model.wallet;
 
 import com.expensemanager.model.enums.WalletType;
 import com.expensemanager.model.enums.FieldType;
-import com.expensemanager.exception.InsufficientFundsException;
-import com.expensemanager.exception.NegativeAmountException;
+import com.expensemanager.exception.NegativeValueException;
 import com.expensemanager.exception.EmptyFieldException;
-import com.expensemanager.exception.NegativeBalanceException;
 
 /**
  * Lớp trừu tượng đại diện cho một ví tiền trong hệ thống quản lý chi tiêu.
@@ -32,7 +30,7 @@ public abstract class Wallet {
             throw new EmptyFieldException(FieldType.NAME);
         }
         if (balance < 0) {
-            throw new NegativeBalanceException();
+            throw new NegativeValueException(FieldType.BALANCE);
         }
         if (type == null) {
             throw new EmptyFieldException(FieldType.WALLETTYPE);
@@ -105,7 +103,7 @@ public abstract class Wallet {
      */
     public void setBalance(double balance) {
         if (balance < 0) {
-            throw new NegativeBalanceException();
+            throw new NegativeValueException(FieldType.BALANCE);
         }
         this.balance = balance;
     }
@@ -127,7 +125,7 @@ public abstract class Wallet {
      */
     public void deposit(double amount) {
         if (amount <= 0) {
-            throw new NegativeAmountException("Số tiền nạp phải lớn hơn 0.");
+            throw new NegativeValueException(FieldType.AMOUNT);
         }
         this.balance += amount;
     }

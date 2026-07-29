@@ -1,7 +1,8 @@
 package com.expensemanager.model.wallet;
 
+import com.expensemanager.model.enums.FieldType;
 import com.expensemanager.model.enums.WalletType;
-import com.expensemanager.exception.NegativeAmountException;
+import com.expensemanager.exception.NegativeValueException;
 import com.expensemanager.exception.InsufficientFundsException;
 
 /**
@@ -30,7 +31,7 @@ public class CashWallet extends Wallet {
     @Override
     public void withdraw(double amount) {
         if (amount <= 0) {
-            throw new NegativeAmountException("Số tiền rút phải lớn hơn 0.");
+            throw new NegativeValueException(FieldType.AMOUNT);
         }
         if (amount > getBalance()) {
             throw new InsufficientFundsException(balance,amount);

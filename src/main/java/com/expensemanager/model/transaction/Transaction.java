@@ -4,7 +4,7 @@ import com.expensemanager.model.category.Category;
 import com.expensemanager.model.enums.TransactionType;
 import com.expensemanager.model.enums.FieldType;
 import com.expensemanager.model.wallet.Wallet;
-import com.expensemanager.exception.NegativeAmountException;
+import com.expensemanager.exception.NegativeValueException;
 import com.expensemanager.exception.EmptyFieldException;
 import java.time.LocalDate;
 
@@ -61,7 +61,7 @@ public abstract class Transaction {
 
     public void setAmount(double amount) {
         if (amount <= 0) {
-            throw new NegativeAmountException("Số tiền giao dịch phải lớn hơn 0.");
+            throw new NegativeValueException(FieldType.AMOUNT);
         }
         this.amount = amount;
     }

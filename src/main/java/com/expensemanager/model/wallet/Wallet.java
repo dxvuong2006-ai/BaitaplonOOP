@@ -1,6 +1,9 @@
 package com.expensemanager.model.wallet;
 
 import com.expensemanager.model.enums.WalletType;
+import com.expensemanager.model.enums.FieldType;
+import com.expensemanager.exception.NegativeValueException;
+import com.expensemanager.exception.EmptyFieldException;
 
 /**
  * Lớp trừu tượng đại diện cho một ví tiền trong hệ thống quản lý chi tiêu.
@@ -8,7 +11,7 @@ import com.expensemanager.model.enums.WalletType;
  */
 public abstract class Wallet {
 
-    private int id;
+    private String id;
     private String name;
     protected double balance;
     private final WalletType type;
@@ -22,20 +25,17 @@ public abstract class Wallet {
      * @param type    loại ví, không được null
      * @throws IllegalArgumentException nếu id âm, name rỗng/null, balance âm, hoặc type null
      */
-    public Wallet(int id, String name, double balance, WalletType type) {
-        if (id < 0) {
-            throw new IllegalArgumentException("Định danh ví không được âm.");
-        }
+    public Wallet(String id, String name, double balance, WalletType type) {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Tên ví không được để trống.");
+            throw new EmptyFieldException(FieldType.NAME);
         }
         if (balance < 0) {
-            throw new IllegalArgumentException("Số dư ban đầu không được âm.");
+            throw new NegativeValueException(FieldType.BALANCE);
         }
         if (type == null) {
-            throw new IllegalArgumentException("Loại ví không được để trống.");
+            throw new EmptyFieldException(FieldType.WALLETTYPE);
         }
-        this.id = id;
+        setId(id);
         this.name = name;
         this.balance = balance;
         this.type = type;
@@ -46,7 +46,7 @@ public abstract class Wallet {
      *
      * @return id của ví
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -56,9 +56,9 @@ public abstract class Wallet {
      * @param id định danh mới, phải >= 0
      * @throws IllegalArgumentException nếu id âm
      */
-    public void setId(int id) {
-        if (id < 0) {
-            throw new IllegalArgumentException("Định danh ví không được âm.");
+    public void setId(String id) {
+        if (id == null) {
+            throw new EmptyFieldException(FieldType.ID);
         }
         this.id = id;
     }
@@ -80,7 +80,7 @@ public abstract class Wallet {
      */
     public void setName(String name) {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Tên ví không được để trống.");
+            throw new EmptyFieldException(FieldType.NAME);
         }
         this.name = name;
     }
@@ -103,7 +103,7 @@ public abstract class Wallet {
      */
     public void setBalance(double balance) {
         if (balance < 0) {
-            throw new IllegalArgumentException("Số dư không được âm.");
+            throw new NegativeValueException(FieldType.BALANCE);
         }
         this.balance = balance;
     }
@@ -125,7 +125,7 @@ public abstract class Wallet {
      */
     public void deposit(double amount) {
         if (amount <= 0) {
-            throw new IllegalArgumentException("Số tiền nạp phải lớn hơn 0.");
+            throw new NegativeValueException(FieldType.AMOUNT);
         }
         this.balance += amount;
     }

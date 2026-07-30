@@ -1,13 +1,15 @@
 package com.expensemanager.model.category;
 
 import java.util.Objects;
+import com.expensemanager.model.enums.FieldType;
+import com.expensemanager.exception.EmptyFieldException;
 
 /**
  * Danh mục chi tiêu/thu nhập, dùng để phân loại các giao dịch (ví dụ: Ăn uống, Di chuyển).
  */
 public class Category {
 
-    private int id;
+    private String id;
     private String name;
     private String description;
 
@@ -19,12 +21,12 @@ public class Category {
      * @param description mô tả chi tiết, có thể để trống
      * @throws IllegalArgumentException nếu id âm, hoặc name rỗng/null
      */
-    public Category(int id, String name, String description) {
-        if (id < 0) {
-            throw new IllegalArgumentException("Định danh danh mục không được âm.");
+    public Category(String id, String name, String description) {
+        if (id == null) {
+            throw new EmptyFieldException(FieldType.ID);
         }
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Tên danh mục không được để trống.");
+            throw new EmptyFieldException(FieldType.NAME);
         }
         this.id = id;
         this.name = name;
@@ -36,7 +38,7 @@ public class Category {
      *
      * @return id của danh mục
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -46,9 +48,9 @@ public class Category {
      * @param id định danh mới, phải >= 0
      * @throws IllegalArgumentException nếu id âm
      */
-    public void setId(int id) {
-        if (id < 0) {
-            throw new IllegalArgumentException("Định danh danh mục không được âm.");
+    public void setId(String id) {
+        if (id == null) {
+            throw new EmptyFieldException(FieldType.ID);
         }
         this.id = id;
     }
@@ -70,7 +72,7 @@ public class Category {
      */
     public void setName(String name) {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Tên danh mục không được để trống.");
+            throw new EmptyFieldException(FieldType.NAME);
         }
         this.name = name;
     }
@@ -128,6 +130,6 @@ public class Category {
      */
     @Override
     public String toString() {
-        return "Category{id=" + id + ", name='" + name + "'}";
+        return "Category{id= " + id + ", name= " + name + "}";
     }
 }

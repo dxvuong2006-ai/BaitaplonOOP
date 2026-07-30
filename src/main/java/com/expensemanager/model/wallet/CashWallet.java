@@ -1,6 +1,9 @@
 package com.expensemanager.model.wallet;
 
+import com.expensemanager.model.enums.FieldType;
 import com.expensemanager.model.enums.WalletType;
+import com.expensemanager.exception.NegativeValueException;
+import com.expensemanager.exception.InsufficientFundsException;
 
 /**
  * Ví tiền mặt: rút bao nhiêu trừ bấy nhiêu, không tính phí giao dịch.
@@ -15,7 +18,7 @@ public class CashWallet extends Wallet {
      * @param balance số dư ban đầu, phải >= 0
      * @throws IllegalArgumentException nếu id âm, name rỗng/null, hoặc balance âm
      */
-    public CashWallet(int id, String name, double balance) {
+    public CashWallet(String id, String name, double balance) {
         super(id, name, balance, WalletType.CASH);
     }
 
@@ -28,10 +31,10 @@ public class CashWallet extends Wallet {
     @Override
     public void withdraw(double amount) {
         if (amount <= 0) {
-            throw new IllegalArgumentException("Số tiền rút phải lớn hơn 0.");
+            throw new NegativeValueException(FieldType.AMOUNT);
         }
         if (amount > getBalance()) {
-            throw new IllegalArgumentException("Ví tiền mặt không đủ số dư.");
+            throw new InsufficientFundsException(balance,amount);
         }
         setBalance(getBalance() - amount);
     }

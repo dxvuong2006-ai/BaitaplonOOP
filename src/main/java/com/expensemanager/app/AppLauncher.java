@@ -21,10 +21,13 @@ public class AppLauncher extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/com/expensemanager/view/main.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 1200, 800);
 
         primaryStage.setTitle("Quản Lý Chi Tiêu");
         primaryStage.setScene(scene);
+        primaryStage.setMinWidth(1100);
+        primaryStage.setMinHeight(700);
+        primaryStage.centerOnScreen();
         primaryStage.show();
     }
     public static void main(String[] args) {

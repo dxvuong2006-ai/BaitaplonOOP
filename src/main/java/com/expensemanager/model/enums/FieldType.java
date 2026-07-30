@@ -15,5 +15,6 @@ public enum FieldType {
     PERIOD,
     AMOUNTSTR,
     TRANSACTIONFEE,
-    FEEPERCENT
+    FEEPERCENT,
+    LIMITAMOUNT
 }

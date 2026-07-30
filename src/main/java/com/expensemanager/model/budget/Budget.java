@@ -1,6 +1,9 @@
 package com.expensemanager.model.budget;
 
+import com.expensemanager.exception.EmptyFieldException;
+import com.expensemanager.exception.NegativeValueException;
 import com.expensemanager.model.category.Category;
+import com.expensemanager.model.enums.FieldType;
 import com.expensemanager.model.enums.Period;
 import com.expensemanager.utils.CurrencyUtils;
 import java.util.Objects;
@@ -10,7 +13,7 @@ import java.util.Objects;
  * Giúp người dùng đặt hạn mức chi tiêu cho từng danh mục trong một chu kỳ xác định.
  */
 public class Budget {
-    private int id;
+    private String id;
     private Category category;
     private double limitAmount; 
     private Period period;
@@ -25,20 +28,20 @@ public class Budget {
      * @param limitAmount hạn mức chi tiêu tối đa (>= 0)
      * @param period      chu kỳ áp dụng (DAILY, WEEKLY, MONTH, YEARLY)
      */
-    public Budget(int id, Category category, double limitAmount, Period period) {
+    public Budget(String id, Category category, double limitAmount, Period period) {
         setId(id);
         setLimitAmount(limitAmount);
         this.category = category;
         this.period = period;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        if (id < 0) {
-            throw new IllegalArgumentException("Mã định danh ngân sách không được âm.");
+    public void setId(String id) {
+        if (id == null) {
+            throw new EmptyFieldException(FieldType.ID);
         }
         this.id = id;
     }
@@ -48,6 +51,9 @@ public class Budget {
     }
 
     public void setCategory(Category category) {
+        if (category == null) {
+            throw new EmptyFieldException(FieldType.CATEGORY);
+        }
         this.category = category;
     }
 
@@ -57,7 +63,7 @@ public class Budget {
 
     public void setLimitAmount(double limitAmount) {
         if (limitAmount < 0) {
-            throw new IllegalArgumentException("Hạn mức ngân sách không được âm.");
+            throw new NegativeValueException(FieldType.LIMITAMOUNT);
         }
         this.limitAmount = limitAmount;
     }

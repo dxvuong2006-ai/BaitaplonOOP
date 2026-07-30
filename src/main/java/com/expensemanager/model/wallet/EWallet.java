@@ -1,5 +1,7 @@
 package com.expensemanager.model.wallet;
 
+import com.expensemanager.exception.NegativeValueException;
+import com.expensemanager.model.enums.FieldType;
 import com.expensemanager.model.enums.WalletType;
 import com.expensemanager.utils.CurrencyUtils;
 
@@ -18,7 +20,7 @@ public class EWallet extends Wallet {
      * @param name    tên ví điện tử, không được rỗng
      * @param balance số dư ban đầu (>= 0)
      */
-    public EWallet(int id, String name, double balance) {
+    public EWallet(String id, String name, double balance) {
         this(id, name, balance, 0.0);
     }
 
@@ -30,7 +32,7 @@ public class EWallet extends Wallet {
      * @param balance    số dư ban đầu (>= 0)
      * @param feePercent tỉ lệ phí giao dịch tính theo % (>= 0)
      */
-    public EWallet(int id, String name, double balance, double feePercent) {
+    public EWallet(String id, String name, double balance, double feePercent) {
         super(id, name, balance, WalletType.EWALLET);
         setFeePercent(feePercent);
     }
@@ -41,7 +43,7 @@ public class EWallet extends Wallet {
 
     public void setFeePercent(double feePercent) {
         if (feePercent < 0) {
-            throw new IllegalArgumentException("Tỉ lệ phí giao dịch không được âm.");
+            throw new NegativeValueException(FieldType.FEEPERCENT);
         }
         this.feePercent = feePercent;
     }
@@ -57,7 +59,7 @@ public class EWallet extends Wallet {
     @Override
     public void withdraw(double amount) {
         if (amount <= 0) {
-            throw new IllegalArgumentException("Số tiền rút phải lớn hơn 0.");
+            throw new NegativeValueException(FieldType.AMOUNT);
         }
         double fee = amount * (feePercent / 100.0);
         double totalDeduction = amount + fee;

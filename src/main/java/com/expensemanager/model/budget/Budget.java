@@ -73,6 +73,11 @@ public class Budget {
     }
 
     public void setPeriod(Period period) {
+        if(period==null) {
+            throw new EmptyFieldException(
+                    FieldType.PERIOD
+            );
+        }
         this.period = period;
     }
 
@@ -102,7 +107,7 @@ public class Budget {
         if (this == o) return true;
         if (!(o instanceof Budget)) return false;
         Budget budget = (Budget) o;
-        return id == budget.id;
+        return Objects.equals(id, budget.id);
     }
 
     @Override

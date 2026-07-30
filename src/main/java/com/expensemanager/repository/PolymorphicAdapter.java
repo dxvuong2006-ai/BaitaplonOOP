@@ -1,5 +1,7 @@
 package com.expensemanager.repository;
 
+import com.expensemanager.exception.EmptyFieldException;
+import com.expensemanager.model.enums.FieldType;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -46,7 +48,7 @@ public class PolymorphicAdapter<T> implements JsonSerializer<T>, JsonDeserialize
      */
     public PolymorphicAdapter(Map<String, Class<? extends T>> registry) {
         if (registry == null || registry.isEmpty()) {
-            throw new IllegalArgumentException("registry không được rỗng");
+            throw new EmptyFieldException(FieldType.REGISTRY);
         }
         this.registry = registry;
     }

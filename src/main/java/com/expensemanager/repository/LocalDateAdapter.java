@@ -12,14 +12,7 @@ import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 
-/**
- * SỬA so với bản trước của tao: dùng lại {@link DateUtils#formatDate} /
- * {@link DateUtils#parseDate} (định dạng dd/MM/yyyy) thay vì tự hard-code
- * ISO_LOCAL_DATE. Lý do: project đã có DateUtils làm "nguồn chân lý" duy
- * nhất cho định dạng ngày (dùng khi hiển thị CLI/GUI); nếu JsonStorage tự
- * dùng định dạng khác thì ngày lưu trong file JSON sẽ không khớp với ngày
- * hiển thị/nhập ở nơi khác trong ứng dụng.
- */
+
 public class LocalDateAdapter implements JsonSerializer<LocalDate>, JsonDeserializer<LocalDate> {
 
     @Override

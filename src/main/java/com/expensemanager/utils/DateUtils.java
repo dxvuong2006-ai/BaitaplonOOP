@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import com.expensemanager.exception.EmptyFieldException;
 import com.expensemanager.exception.InvalidFormatException;
 import com.expensemanager.model.enums.FieldType;
+import java.time.temporal.IsoFields;
 
 /** Kiểm tra ngày tháng. */
 public class DateUtils {
@@ -39,25 +40,27 @@ public class DateUtils {
         }
     }
 
-    /** . */
-    public static LocalDate getNextDate(LocalDate fromDate, Period period) {
-        if (fromDate == null) {
-            throw new EmptyFieldException(FieldType.DATE);
-        }
-        if (period == null) {
-            throw new EmptyFieldException(FieldType.PERIOD);
+    /** Kiểm tra xem 2 ngày có cùng trong 1 chu kỳ hay không. */
+    public static boolean isInSamePeriod(LocalDate date,
+                                         LocalDate referenceDate,
+                                         Period period) {
+        if (date == null || referenceDate == null || period == null) {
+            return false;
         }
         switch (period) {
             case DAILY:
-                return fromDate.plusDays(1);
+                return date.equals(referenceDate);
             case WEEKLY:
-                return fromDate.plusWeeks(1);
+                return date.getYear() == referenceDate.getYear()
+                        && date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR)
+                        == referenceDate.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
             case MONTH:
-                return fromDate.plusMonths(1);
+                return date.getYear() == referenceDate.getYear()
+                        && date.getMonth() == referenceDate.getMonth();
             case YEARLY:
-                return fromDate.plusYears(1);
+                return date.getYear() == referenceDate.getYear();
             default:
-                throw new IllegalArgumentException("Chu kỳ không hỗ trợ: " + period);
+                return false;
         }
     }
 }

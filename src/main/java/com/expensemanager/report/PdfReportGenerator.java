@@ -10,11 +10,12 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import java.io.File;
 import java.io.IOException;
 
+/** Xuất file dạng pdf. */
 public class PdfReportGenerator implements ReportGenerator {
 
+    /** Ghi đè. */
     @Override
-    public void generateReport(ReportData reportData,
-                               File outputFile) throws IOException {
+    public void generateReport(ReportData reportData, File outputFile) throws IOException {
 
         PDDocument document = new PDDocument();
 
@@ -22,8 +23,7 @@ public class PdfReportGenerator implements ReportGenerator {
 
         document.addPage(page);
 
-        PDPageContentStream content =
-                new PDPageContentStream(document, page);
+        PDPageContentStream content = new PDPageContentStream(document, page);
 
         content.beginText();
 

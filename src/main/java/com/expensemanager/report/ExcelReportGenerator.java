@@ -8,11 +8,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/** Xuất dạng file excel. */
 public class ExcelReportGenerator implements ReportGenerator {
 
+    /** Ghi đè. */
     @Override
-    public void generateReport(ReportData reportData,
-                               File outputFile) throws IOException {
+    public void generateReport(ReportData reportData, File outputFile) throws IOException {
 
         Workbook workbook = new XSSFWorkbook();
 
@@ -59,8 +60,7 @@ public class ExcelReportGenerator implements ReportGenerator {
         row.createCell(1).setCellValue(
                 reportData.getNetSaving());
 
-        try (FileOutputStream fos =
-                     new FileOutputStream(outputFile)) {
+        try (FileOutputStream fos = new FileOutputStream(outputFile)) {
 
             workbook.write(fos);
 

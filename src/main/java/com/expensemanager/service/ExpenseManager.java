@@ -5,6 +5,7 @@ import com.expensemanager.model.wallet.Wallet;
 import com.expensemanager.model.budget.Budget;
 import com.expensemanager.model.category.Category;
 import com.expensemanager.utils.CurrencyUtils;
+import com.expensemanager.model.enums.FieldType;
 
 import com.expensemanager.exception.EmptyFieldException;
 import com.expensemanager.exception.InvalidFormatException;
@@ -51,11 +52,11 @@ public class ExpenseManager {
     /** Tạo thêm 1 giao dịch. */
     public void addTransaction(Transaction transaction) {
         if (transaction == null || transaction.getWallet() == null) {
-            throw new EmptyFieldException();
+            throw new EmptyFieldException(FieldType.WALLET);
         }
         Wallet wallet = transaction.getWallet();
         if (wallet == null) {
-            throw new EmptyFieldException();
+            throw new EmptyFieldException(FieldType.WALLET);
         }
         double signedAmount = transaction.getSignedAmount();
         if (signedAmount < 0) {
@@ -79,7 +80,7 @@ public class ExpenseManager {
     /** Xóa giao dịch. */
     public void removeTransaction(Transaction transaction) {
         if (transaction == null) {
-            throw new EmptyFieldException();
+            throw new EmptyFieldException(FieldType.ID);
         }
         if (!transactions.contains(transaction)) {
             return;
@@ -111,7 +112,7 @@ public class ExpenseManager {
     /** Tạo loại ví mới. */
     public void addWallet (Wallet wallet) {
         if (wallet == null) {
-            throw new EmptyFieldException();
+            throw new EmptyFieldException(FieldType.WALLET);
         }
         ValidationService
                 .validateWalletName(wallets, wallet.getName());
@@ -121,7 +122,7 @@ public class ExpenseManager {
     /** Xóa ví. */
     public void removeWallet(Wallet wallet) {
         if (wallet == null) {
-            throw new EmptyFieldException();
+            throw new EmptyFieldException(FieldType.WALLET);
         }
         wallets.remove(wallet);
     }
@@ -152,7 +153,7 @@ public class ExpenseManager {
     /** Thêm loại. */
     public void addCategory(Category category) {
         if (category == null) {
-            throw new EmptyFieldException();
+            throw new EmptyFieldException(FieldType.CATEGORY);
         }
         if (findCategoryByName(category.getName()) != null) {
             throw new IllegalArgumentException();
@@ -163,7 +164,7 @@ public class ExpenseManager {
     /** Xóa loại. */
     public void removeCategory(Category category) {
         if (category == null) {
-            throw new EmptyFieldException();
+            throw new EmptyFieldException(FieldType.CATEGORY);
         }
         categories.remove(category);
     }
@@ -189,7 +190,7 @@ public class ExpenseManager {
     /** Thêm ngân sách. */
     public void addBudget(Budget budget) {
         if (budget == null) {
-            throw new EmptyFieldException();
+            throw new EmptyFieldException(FieldType.CATEGORY);
         }
         budgets.add(budget);
     }
@@ -197,7 +198,7 @@ public class ExpenseManager {
     /** Xóa ngân sách. */
     public void removeBudget(Budget budget) {
         if (budget == null) {
-            throw new EmptyFieldException();
+            throw new EmptyFieldException(FieldType.CATEGORY);
         }
         budgets.remove(budget);
     }

@@ -26,7 +26,7 @@ public class BudgetService {
                         equals(budget.getCategory()))
                 .filter(transaction -> DateUtils.isInSamePeriod(
                         transaction.getDate(), today, budget.getPeriod()))
-                .MapToDouble(Transaction::getAmount)
+                .mapToDouble(Transaction::getAmount)
                 .sum();
     }
 

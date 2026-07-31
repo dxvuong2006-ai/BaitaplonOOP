@@ -2,8 +2,9 @@ package com.expensemanager.model.enums;
 
 /** Enum định nghĩa loại giao dịch tài chính. */
 public enum TransactionType {
-    INCOME("Income"),
-    EXPENSE("Expense");
+    INCOME("Inccome"),
+    EXPENSE("Expense"),
+    RECURRING_EXPENSE("Recurring Expense");
 
     private final String displayName;
 

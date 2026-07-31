@@ -2,10 +2,10 @@ package com.expensemanager.service;
 
 import com.expensemanager.exception.EmptyFieldException;
 import com.expensemanager.model.category.Category;
+import com.expensemanager.model.enums.FieldType;
 import com.expensemanager.model.enums.TransactionType;
 import com.expensemanager.model.transaction.Transaction;
 import com.expensemanager.model.wallet.Wallet;
-import org.apache.poi.ss.formula.functions.T;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -42,7 +42,7 @@ public class StatisticsService {
     /** Kiểm tra danh sách giao dịch. */
     private void checkTransactionList(List<Transaction> transactions) {
         if (transactions == null) {
-            throw new EmptyFieldException();
+            throw new EmptyFieldException(FieldType.AMOUNT);
         }
     }
 
@@ -189,7 +189,7 @@ public class StatisticsService {
     public Map<YearMonth, Double> calculateMonthlyStatistics(List<Transaction> transactions,
                                                              TransactionType type) {
         if (type == null) {
-            throw new EmptyFieldException();
+            throw new EmptyFieldException(FieldType.CATEGORY);
         }
         checkTransactionList(transactions);
         Map<YearMonth, Double> result = new HashMap<>();

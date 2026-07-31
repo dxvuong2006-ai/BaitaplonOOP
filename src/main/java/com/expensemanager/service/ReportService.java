@@ -22,7 +22,8 @@ public class ReportService{
     public ReportData createReport(LocalDate startDate, LocalDate endDate) {
         ValidationService.validateDateRange(startDate, endDate);
         List<Transaction> transactions = statsService
-                .getTransactionsInPeriod(startDate, endDate);
+                .getTransactionsInPeriod(ExpenseManager.
+                        getInstance().getTransactions(), startDate, endDate);
         ReportData report = new ReportData();
         report.setStartDate(startDate);
         report.setEndDate(endDate);

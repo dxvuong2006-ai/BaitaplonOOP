@@ -1,5 +1,8 @@
 package com.expensemanager.model.wallet;
 
+import com.expensemanager.exception.NegativeValueException;
+import com.expensemanager.exception.*;
+import com.expensemanager.model.enums.FieldType;
 import com.expensemanager.model.enums.WalletType;
 import com.expensemanager.utils.CurrencyUtils;
 
@@ -18,7 +21,7 @@ public class BankAccount extends Wallet {
      * @param name    tên tài khoản/ngân hàng, không được rỗng
      * @param balance số dư ban đầu (>= 0)
      */
-    public BankAccount(int id, String name, double balance) {
+    public BankAccount(String id, String name, double balance) {
         this(id, name, balance, 0.0);
     }
 
@@ -30,7 +33,7 @@ public class BankAccount extends Wallet {
      * @param balance        số dư ban đầu (>= 0)
      * @param transactionFee phí giao dịch cố định (>= 0)
      */
-    public BankAccount(int id, String name, double balance, double transactionFee) {
+    public BankAccount(String id, String name, double balance, double transactionFee) {
         super(id, name, balance, WalletType.BANK);
         setTransactionFee(transactionFee);
     }
@@ -41,7 +44,7 @@ public class BankAccount extends Wallet {
 
     public void setTransactionFee(double transactionFee) {
         if (transactionFee < 0) {
-            throw new IllegalArgumentException("Phí giao dịch không được âm.");
+            throw new NegativeValueException(FieldType.TRANSACTIONFEE);
         }
         this.transactionFee = transactionFee;
     }
@@ -61,7 +64,7 @@ public class BankAccount extends Wallet {
         double totalDeduction = amount + transactionFee;
         // Dùng epsilon để tránh sai số float khi rút sát/đúng số dư hiện có
         if (totalDeduction > getBalance() + CurrencyUtils.EPSILON) {
-            throw new IllegalArgumentException("Tài khoản ngân hàng không đủ số dư để thực hiện rút tiền và thanh toán phí giao dịch.");
+            throw new InsufficientFundsException(getBalance(), totalDeduction);
         }
         setBalance(getBalance() - totalDeduction);
     }

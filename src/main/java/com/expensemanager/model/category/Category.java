@@ -22,7 +22,7 @@ public class Category {
      * @throws IllegalArgumentException nếu id âm, hoặc name rỗng/null
      */
     public Category(String id, String name, String description) {
-        if (id == null) {
+        if(id==null || id.isBlank()) {
             throw new EmptyFieldException(FieldType.ID);
         }
         if (name == null || name.isBlank()) {
@@ -49,7 +49,7 @@ public class Category {
      * @throws IllegalArgumentException nếu id âm
      */
     public void setId(String id) {
-        if (id == null) {
+        if(id==null || id.isBlank()) {
             throw new EmptyFieldException(FieldType.ID);
         }
         this.id = id;
@@ -110,7 +110,7 @@ public class Category {
             return false;
         }
         Category other = (Category) o;
-        return id == other.id;
+        return Objects.equals(id, other.id);
     }
 
     /**

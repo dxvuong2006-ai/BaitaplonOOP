@@ -27,6 +27,13 @@
             <version>3.45.1.0</version>
         </dependency>
 
+        <!-- Thư viện xử lý JSON (dùng cho JsonStorage, PolymorphicAdapter, LocalDateAdapter) -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>

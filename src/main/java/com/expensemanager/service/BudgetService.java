@@ -6,7 +6,7 @@ import com.expensemanager.model.transaction.Expense;
 import com.expensemanager.utils.DateUtils;
 import com.expensemanager.exception.BudgetExceededException;
 
-
+import java.util.Objects;
 import java.time.LocalDate;
 
 
@@ -20,8 +20,9 @@ public class BudgetService {
         LocalDate today = LocalDate.now();
         return manager.getTransactions().stream()
                 .filter(transaction -> transaction instanceof Expense)
-                .filter(transaction -> transaction.getCategory().
-                        equals(budget.getCategory()))
+                .filter(transaction -> transaction.getCategory() != null)
+                .filter(transaction -> Objects.equals(
+                        transaction.getCategory(), budget.getCategory()))
                 .filter(transaction -> DateUtils.isInSamePeriod(
                         transaction.getDate(), today, budget.getPeriod()))
                 .mapToDouble(Transaction::getAmount)

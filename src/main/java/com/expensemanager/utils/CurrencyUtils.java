@@ -27,7 +27,11 @@ public class CurrencyUtils {
                 .replace("VND", "")
                 .replace("vnd", "")
                 .replace(".", "")
+                .replace(",", "")
                 .trim();
+        if (cleanStr == null) {
+            throw new EmptyFieldException(FieldType.AMOUNT);
+        }
         return Double.parseDouble(cleanStr);
     }
 
@@ -53,7 +57,7 @@ public class CurrencyUtils {
 
     /** Làm tròn tiền thành lên hàng đơn vị. */
     public static double roundToDong(double amount) {
-        return Math.round(amount);
+        return Math.round(amount * 100.0) / 100.0;
     }
 
     /** Chuyển đổi tỷ giá ngoại tệ. */

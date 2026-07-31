@@ -7,6 +7,7 @@ import com.expensemanager.model.category.Category;
 import com.expensemanager.utils.CurrencyUtils;
 import com.expensemanager.model.enums.FieldType;
 
+import com.expensemanager.exception.DuplicateEntityException;
 import com.expensemanager.exception.EmptyFieldException;
 import com.expensemanager.exception.InvalidFormatException;
 import com.expensemanager.exception.InsufficientFundsException;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /** Lớp xử lý nghiệp vụ của dự án. */
 public class ExpenseManager {
@@ -156,7 +158,7 @@ public class ExpenseManager {
             throw new EmptyFieldException(FieldType.CATEGORY);
         }
         if (findCategoryByName(category.getName()) != null) {
-            throw new IllegalArgumentException();
+            throw new DuplicateEntityException("Danh mục", category.getName());
         }
         categories.add(category);
     }
@@ -209,7 +211,7 @@ public class ExpenseManager {
             return null;
         }
         for (Budget budget : budgets) {
-            if (budget.getCategory().equals(category)) {
+            if (Objects.equals(budget.getCategory(), category)) {
                 return budget;
             }
         }

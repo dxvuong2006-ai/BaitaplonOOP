@@ -55,4 +55,6 @@ public class CurrencyUtils {
     public static double roundToDong(double amount) {
         return Math.round(amount);
     }
+
+    /** Chuyển đổi tỷ giá ngoại tệ. */
 }

@@ -54,7 +54,7 @@ public class ValidationService {
                 continue;
             }
             if (wallet.getName().equalsIgnoreCase(walletName)) {
-                throw new DuplicateEntityException(FieldType.NAME);
+                throw new DuplicateEntityException("Ví", wallet.getName());
             }
         }
     }

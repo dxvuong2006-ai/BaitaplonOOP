@@ -19,4 +19,7 @@ public enum FieldType {
     LIMITAMOUNT,
     TRANSACTIONTYPE,
     STORAGETYPE,
-    REGISTRY}
+    REGISTRY,
+    TRANSACTION,
+    BUDGET
+}

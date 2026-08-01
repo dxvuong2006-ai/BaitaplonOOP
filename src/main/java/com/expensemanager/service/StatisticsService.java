@@ -14,10 +14,6 @@ import java.util.*;
 /** Lớp cung cấp chức năng thống kê giao dịch. */
 public class StatisticsService {
 
-    /** Khởi tạo. */
-    public StatisticsService() {
-    }
-
     /** Lấy danh sách giao dịch trong khoản thời gian. */
     public List<Transaction> getTransactionsInPeriod(List<Transaction> transactions,
                                                      LocalDate startDate, LocalDate endDate) {
@@ -182,7 +178,7 @@ public class StatisticsService {
         return result;
     }
 
-    /** Khung thống kê chi hoặc tiêu theo tháng. */
+    /** Khung thống kê chi hoặc thu theo tháng. */
     public Map<YearMonth, Double> calculateMonthlyStatistics(List<Transaction> transactions,
                                                              TransactionType type) {
         if (type == null) {

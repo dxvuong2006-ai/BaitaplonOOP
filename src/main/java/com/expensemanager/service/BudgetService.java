@@ -1,6 +1,7 @@
 package com.expensemanager.service;
 
 import com.expensemanager.model.budget.Budget;
+import com.expensemanager.model.transaction.Income;
 import com.expensemanager.model.transaction.Transaction;
 import com.expensemanager.model.transaction.Expense;
 import com.expensemanager.utils.DateUtils;
@@ -20,6 +21,21 @@ public class BudgetService {
         LocalDate today = LocalDate.now();
         return manager.getTransactions().stream()
                 .filter(transaction -> transaction instanceof Expense)
+                .filter(transaction -> transaction.getCategory() != null)
+                .filter(transaction -> Objects.equals(
+                        transaction.getCategory(), budget.getCategory()))
+                .filter(transaction -> DateUtils.isInSamePeriod(
+                        transaction.getDate(), today, budget.getPeriod()))
+                .mapToDouble(Transaction::getAmount)
+                .sum();
+    }
+
+    /** Giúp lọc loại giao dịch thu tiêu rồi tính tổng tiền trong chu kỳ. */
+    private double calculateTotalIncomeAmount(Budget budget) {
+        ExpenseManager manager = ExpenseManager.getInstance();
+        LocalDate today = LocalDate.now();
+        return manager.getTransactions().stream()
+                .filter(transaction -> transaction instanceof Income)
                 .filter(transaction -> transaction.getCategory() != null)
                 .filter(transaction -> Objects.equals(
                         transaction.getCategory(), budget.getCategory()))

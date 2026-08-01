@@ -11,6 +11,7 @@ import com.expensemanager.exception.DuplicateEntityException;
 import com.expensemanager.exception.EmptyFieldException;
 import com.expensemanager.exception.InvalidFormatException;
 import com.expensemanager.exception.InsufficientFundsException;
+import org.apache.poi.sl.usermodel.TextRun;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -79,7 +80,7 @@ public class ExpenseManager {
     /** Xóa giao dịch. */
     public void removeTransaction(Transaction transaction) {
         if (transaction == null) {
-            throw new EmptyFieldException(FieldType.ID);
+            throw new EmptyFieldException(FieldType.TRANSACTION);
         }
         if (!transactions.contains(transaction)) {
             return;
@@ -98,7 +99,7 @@ public class ExpenseManager {
     /** Tìm giao dịch bằng ID. */
     public Transaction findTransactionById(String id) {
         if (id == null || id.trim().isEmpty()) {
-            return null;
+            throw new EmptyFieldException(FieldType.ID);
         }
         for (Transaction transaction : transactions) {
             if (transaction.getId().equals(id)) {
@@ -113,8 +114,7 @@ public class ExpenseManager {
         if (wallet == null) {
             throw new EmptyFieldException(FieldType.WALLET);
         }
-        ValidationService
-                .validateWalletName(wallets, wallet.getName());
+        ValidationService.validateWalletName(wallets, wallet.getName());
         wallets.add(wallet);
     }
 

@@ -15,10 +15,6 @@ import java.time.LocalDate;
 /** Lớp kiểm tra dữ liệu và các quy tắc nghiệp vụ trước khi thao tác. */
 public class ValidationService {
 
-    /** Khỏi tạo. */
-    private ValidationService() {
-    }
-
     /** Kiểm tra giao dịch rút tiền(Tính thêm phí giao dịch nếu dùng ngân hàng). */
     public static void validateWithdraw(Wallet wallet, double amountToWithdraw) {
         if (wallet == null) {
@@ -40,7 +36,7 @@ public class ValidationService {
         }
     }
 
-    /** Kiểm tra tên ví trước khi tạo giao dịch mới. */
+    /** Kiểm tra tên ví trước khi tạo ví mới. */
     public static void validateWalletName(List<Wallet> existingWallet, String name) {
         if (existingWallet == null) {
             throw new EmptyFieldException(FieldType.WALLET);
@@ -82,7 +78,7 @@ public class ValidationService {
     /** Kiểm tra xem lượng tiền có hợp lệ không. */
     public static void validateAmount(double amount) {
         if (!CurrencyUtils.isPositiveAmount(amount)) {
-            throw new InvalidFormatException(FieldType.AMOUNT, String.valueOf(amount));
+            throw new NegativeValueException(FieldType.AMOUNT);
         }
     }
 

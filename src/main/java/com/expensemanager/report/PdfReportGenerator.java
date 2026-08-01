@@ -6,6 +6,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class PdfReportGenerator implements ReportGenerator {
 
         content.beginText();
 
-        content.setFont(PDType1Font.HELVETICA,12);
+        content.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 12);
 
         content.setLeading(18);
 

@@ -14,11 +14,8 @@ import java.util.*;
 /** Lớp cung cấp chức năng thống kê giao dịch. */
 public class StatisticsService {
 
-    private final ExpenseManager manager;
-
     /** Khởi tạo. */
     public StatisticsService() {
-        manager = ExpenseManager.getInstance();
     }
 
     /** Lấy danh sách giao dịch trong khoản thời gian. */

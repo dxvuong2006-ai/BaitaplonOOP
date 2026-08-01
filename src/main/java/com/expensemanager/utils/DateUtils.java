@@ -6,6 +6,9 @@ import java.time.format.DateTimeFormatter;
 import com.expensemanager.exception.EmptyFieldException;
 import com.expensemanager.exception.InvalidFormatException;
 import com.expensemanager.model.enums.FieldType;
+
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.time.temporal.IsoFields;
 
 /** Kiểm tra ngày tháng. */
@@ -14,7 +17,7 @@ public class DateUtils {
     /** Ngăn không cho tạo đối tượng từ bên ngoài do các phương thức đều là static. */
     private DateUtils() {}
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy").withResolverStyle(ResolverStyle.STRICT);
 
     /** Chuyển đổi ngày nhập vào dạng LocalDate thành chuỗi(Để hiển thị). */
     public static String formatDate(LocalDate date) {
@@ -27,7 +30,11 @@ public class DateUtils {
             throw new EmptyFieldException(FieldType.DATE);
         }
         dateStr = dateStr.trim();
-        return LocalDate.parse(dateStr, FORMATTER);
+        try {
+            return LocalDate.parse(dateStr, FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new InvalidFormatException(FieldType.DATE,dateStr);
+        }
     }
 
     /** Kiểm tra chuỗi có phải là ngày hợp lệ không. */

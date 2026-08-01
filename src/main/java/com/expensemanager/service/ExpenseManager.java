@@ -57,9 +57,6 @@ public class ExpenseManager {
             throw new EmptyFieldException(FieldType.WALLET);
         }
         Wallet wallet = transaction.getWallet();
-        if (wallet == null) {
-            throw new EmptyFieldException(FieldType.WALLET);
-        }
         double signedAmount = transaction.getSignedAmount();
         if (signedAmount < 0) {
             ValidationService.validateWithdraw(wallet, -signedAmount);

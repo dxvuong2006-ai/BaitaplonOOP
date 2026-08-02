@@ -9,9 +9,9 @@ import com.expensemanager.view.ConsoleView;
 public class Main {
     public static void main(String[] args) {
         // Chế độ dòng lệnh (Tuần 1-2)
-        // new ConsoleView().start();
+        new ConsoleView().start();
 
         // Chế độ giao diện đồ hoạ (Tuần 3)
-        AppLauncher.main(args);
+        //AppLauncher.main(args);
     }
 }

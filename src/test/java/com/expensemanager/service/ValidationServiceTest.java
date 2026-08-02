@@ -23,8 +23,8 @@ class ValidationServiceTest {
     }
 
     @Test
-    void testValidateAmount_Invalid() {
-        assertThrows(InvalidFormatException.class,
+    void testValidateAmount_Negative() {
+        assertThrows(NegativeValueException.class,
                 () -> ValidationService.validateAmount(-100));
     }
 

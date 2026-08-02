@@ -1,7 +1,5 @@
 package com.expensemanager.repository;
 
-import com.expensemanager.exception.EmptyFieldException;
-import com.expensemanager.model.enums.FieldType;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -36,7 +34,13 @@ import java.util.Map;
  */
 public class PolymorphicAdapter<T> implements JsonSerializer<T>, JsonDeserializer<T> {
 
-    private static final String CLASS_META_KEY = "type";
+    // ĐÃ SỬA LỖI: trước đây key này là "type", bị TRÙNG với field "type"
+    // (kiểu WalletType) đã có sẵn trong lớp Wallet -> khi serialize, 2 field
+    // cùng tên "type" đè lên nhau, khiến lúc đọc lại nhận nhầm giá trị
+    // "BANK"/"CASH"/"EWALLET" (của field domain) làm tên lớp con, gây lỗi
+    // JsonParseException. Đổi sang "@class" để chắc chắn không trùng với
+    // field của bất kỳ Model nào (Wallet, Transaction, Budget...).
+    private static final String CLASS_META_KEY = "@class";
 
     private final Map<String, Class<? extends T>> registry;
 
@@ -48,7 +52,7 @@ public class PolymorphicAdapter<T> implements JsonSerializer<T>, JsonDeserialize
      */
     public PolymorphicAdapter(Map<String, Class<? extends T>> registry) {
         if (registry == null || registry.isEmpty()) {
-            throw new EmptyFieldException(FieldType.REGISTRY);
+            throw new IllegalArgumentException("registry không được rỗng");
         }
         this.registry = registry;
     }

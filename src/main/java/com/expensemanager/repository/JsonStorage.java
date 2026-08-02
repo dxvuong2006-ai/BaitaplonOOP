@@ -74,7 +74,13 @@ public class JsonStorage<T> implements Storage<T> {
 
     @Override
     public void save(String filePath, List<T> data) throws IOException {
-        String json = gson.toJson(data != null ? data : new ArrayList<T>());
+        // ĐÃ SỬA LỖI: trước đây dùng gson.toJson(Object) (chỉ 1 tham số).
+        // Do Java xóa thông tin generic lúc runtime, Gson không còn biết
+        // danh sách này là List<Wallet> nữa, nên nó bỏ qua PolymorphicAdapter
+        // đã đăng ký cho Wallet.class và tự lấy adapter mặc định theo class
+        // thật của từng phần tử -> field "@class" không được ghi vào JSON.
+        // Phải truyền thêm listType để Gson biết đúng kiểu khai báo tĩnh.
+        String json = gson.toJson(data != null ? data : new ArrayList<T>(), listType);
         FileUtils.writeAllLines(filePath, List.of(json.split("\n")));
     }
 }

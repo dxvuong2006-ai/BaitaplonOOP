@@ -41,7 +41,6 @@ public class CsvStorage<T> implements Storage<T> {
         if (lines.isEmpty()) {
             return result;
         }
-
         // File luôn do chính Storage này ghi ra -> dòng đầu chắc chắn là header,
         // không cần so sánh nội dung, tránh trường hợp trùng ngẫu nhiên với dữ liệu thật.
         for (int i = 1; i < lines.size(); i++) {

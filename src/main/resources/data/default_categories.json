@@ -1,0 +1,42 @@
+[
+  {
+    "id": "CAT01",
+    "name": "Ăn uống",
+    "description": "Chi tiêu ăn uống hàng ngày"
+  },
+  {
+    "id": "CAT02",
+    "name": "Di chuyển",
+    "description": "Xăng xe, Grab, xe buýt"
+  },
+  {
+    "id": "CAT03",
+    "name": "Hóa đơn & tiện ích",
+    "description": "Điện, nước, internet, điện thoại"
+  },
+  {
+    "id": "CAT04",
+    "name": "Giải trí",
+    "description": "Xem phim, du lịch, mua sắm giải trí"
+  },
+  {
+    "id": "CAT05",
+    "name": "Sức khỏe",
+    "description": "Khám bệnh, thuốc, bảo hiểm y tế"
+  },
+  {
+    "id": "CAT06",
+    "name": "Giáo dục",
+    "description": "Học phí, sách, khóa học"
+  },
+  {
+    "id": "CAT07",
+    "name": "Lương",
+    "description": "Thu nhập từ công việc chính"
+  },
+  {
+    "id": "CAT08",
+    "name": "Khác",
+    "description": "Các khoản không thuộc danh mục trên"
+  }
+]

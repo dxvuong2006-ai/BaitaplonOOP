@@ -47,7 +47,7 @@ public class ExpenseManager {
 
     /** Phương thức khởi tạo của EM. */
     private ExpenseManager() {
-        StorageType storageType = StorageType.CSV;
+        StorageType storageType = StorageType.JSON;
 
         walletStorageFactory = new WalletStorageFactory(storageType);
         categoryStorageFactory = new CategoryStorageFactory(storageType);

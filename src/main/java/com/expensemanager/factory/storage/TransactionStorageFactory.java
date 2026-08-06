@@ -60,18 +60,52 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
     // Có chỉnh sửa lại m đọc lại đi.
     protected Function<String[], TransactionRecord> getDeserializer() {
         return row -> {
-            String id = row[0];
-            double amount = Double.parseDouble(row[1]);
-            LocalDate date = DateUtils.parseDate(row[2]);
-            String note = row.length > 3 ? row[3] : "";
-            String categoryId = row.length > 4 ? row[4] : "";
-            String walletId = row.length > 5 ? row[5] : "";
-            String type = row.length > 6 ? row[6] : "";
-            String extraField = row.length > 7 ? row[7] : "";
-            String period = row.length > 8 ? row[8] : "";
+            // 1. Kiểm tra an toàn độ dài dòng thô
+            if (row == null || row.length < 3) {
+                return null;
+            }
+
+            String id = row[0].trim();
+
+            // 2. Parse số tiền an toàn (loại bỏ khoảng trắng)
+            double amount = 0.0;
+            try {
+                amount = Double.parseDouble(row[1].trim());
+            } catch (NumberFormatException ignored) {}
+
+            // 3. Parse ngày an toàn (Xử lý dứt điểm lỗi crash)
+            LocalDate date = parseDateSafely(row[2]);
+
+            // 4. Lấy các trường còn lại với trim()
+            String note = row.length > 3 ? row[3].trim() : "";
+            String categoryId = row.length > 4 ? row[4].trim() : "";
+            String walletId = row.length > 5 ? row[5].trim() : "";
+            String type = row.length > 6 ? row[6].trim() : "";
+            String extraField = row.length > 7 ? row[7].trim() : "";
+            String period = row.length > 8 ? row[8].trim() : "";
 
             return new TransactionRecord(id, amount, date, note, categoryId,
                     walletId, type, extraField, period);
         };
+    }
+
+    // tạm đi
+    private LocalDate parseDateSafely(String rawDate) {
+        if (rawDate == null || rawDate.isBlank()) {
+            return LocalDate.now();
+        }
+
+        String cleanDate = rawDate.trim();
+        try {
+            return DateUtils.parseDate(cleanDate);
+        } catch (Exception e) {
+            try {
+                // Thử parse chuẩn ISO (yyyy-MM-dd) nếu DateUtils thất bại
+                return LocalDate.parse(cleanDate);
+            } catch (Exception ex) {
+                // Giá trị mặc định an toàn để không crash luồng đọc
+                return LocalDate.now();
+            }
+        }
     }
 }

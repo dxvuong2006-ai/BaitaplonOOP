@@ -17,7 +17,7 @@ public class StatisticsService {
     /** Lấy danh sách giao dịch trong khoản thời gian. */
     public List<Transaction> getTransactionsInPeriod(List<Transaction> transactions,
                                                      LocalDate startDate, LocalDate endDate) {
-        ValidationService.validateTransaction(transactions);
+        ValidationService.validateTransactions(transactions);
         ValidationService.validateDateRange(startDate, endDate);
         List<Transaction> result = new ArrayList<>();
         for (Transaction transaction : transactions) {
@@ -34,7 +34,7 @@ public class StatisticsService {
 
     /** Tổng thu. */
     public double calculateTotalIncome(List<Transaction> transactions) {
-        ValidationService.validateTransaction(transactions);
+        ValidationService.validateTransactions(transactions);
         double total = 0;
         for (Transaction transaction : transactions) {
             if (transaction == null) {
@@ -49,7 +49,7 @@ public class StatisticsService {
 
     /** Tổng chi. */
     public double calculateTotalExpense(List<Transaction> transactions) {
-        ValidationService.validateTransaction(transactions);
+        ValidationService.validateTransactions(transactions);
         double total = 0;
         for (Transaction transaction : transactions) {
             if (transaction == null) {
@@ -69,7 +69,7 @@ public class StatisticsService {
 
     /** Thống kê chi theo từng loại giao dịch. */
     public Map<Category, Double> calculateExpenseByCategory(List<Transaction> transactions) {
-        ValidationService.validateTransaction(transactions);
+        ValidationService.validateTransactions(transactions);
         Map<Category, Double> result = new HashMap<>();
         for (Transaction transaction : transactions) {
             if (transaction == null) {
@@ -92,7 +92,7 @@ public class StatisticsService {
     /** Thống kê thu theo từng loại giao dịch. */
     public Map<Category, Double> calculateIncomeByCategory(
             List<Transaction> transactions) {
-        ValidationService.validateTransaction(transactions);
+        ValidationService.validateTransactions(transactions);
         Map<Category, Double> result = new HashMap<>();
         for (Transaction transaction : transactions) {
             if (transaction == null) {
@@ -114,7 +114,7 @@ public class StatisticsService {
 
     /** Đếm số giao dịch. */
     public int countTransactions(List<Transaction> transactions) {
-        ValidationService.validateTransaction(transactions);
+        ValidationService.validateTransactions(transactions);
         int count = 0;
         for (Transaction transaction : transactions) {
             if (transaction != null) {
@@ -126,7 +126,7 @@ public class StatisticsService {
 
     /** Thống kê chi theo loại ví. */
     public Map<Wallet, Double> calculateExpenseByWallet(List<Transaction> transactions) {
-        ValidationService.validateTransaction(transactions);
+        ValidationService.validateTransactions(transactions);
         Map<Wallet, Double> result = new HashMap<>();
         for (Transaction transaction : transactions) {
             if (transaction == null) {
@@ -148,7 +148,7 @@ public class StatisticsService {
 
     /** Thống kê thu theo loại ví. */
     public Map<Wallet, Double> calculateIncomeByWallet(List<Transaction> transactions) {
-        ValidationService.validateTransaction(transactions);
+        ValidationService.validateTransactions(transactions);
         Map<Wallet, Double> result = new HashMap<>();
         for (Transaction transaction : transactions) {
             if (transaction == null) {
@@ -174,7 +174,7 @@ public class StatisticsService {
         if (type == null) {
             throw new EmptyFieldException(FieldType.CATEGORY);
         }
-        ValidationService.validateTransaction(transactions);
+        ValidationService.validateTransactions(transactions);
         Map<YearMonth, Double> result = new HashMap<>();
         for (Transaction transaction : transactions) {
             if (transaction == null) {

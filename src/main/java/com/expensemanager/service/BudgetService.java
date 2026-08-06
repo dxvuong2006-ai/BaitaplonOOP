@@ -1,6 +1,5 @@
 package com.expensemanager.service;
 
-import com.expensemanager.exception.EmptyFieldException;
 import com.expensemanager.model.budget.Budget;
 import com.expensemanager.model.category.Category;
 import com.expensemanager.model.enums.FieldType;
@@ -8,7 +7,10 @@ import com.expensemanager.model.transaction.Income;
 import com.expensemanager.model.transaction.Transaction;
 import com.expensemanager.model.transaction.Expense;
 import com.expensemanager.utils.DateUtils;
+
 import com.expensemanager.exception.BudgetExceededException;
+import com.expensemanager.exception.DuplicateEntityException;
+import com.expensemanager.exception.EmptyFieldException;
 
 import java.util.ArrayList;
 import java.util.Collections;

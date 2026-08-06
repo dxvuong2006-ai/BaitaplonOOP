@@ -15,7 +15,7 @@ public class ReportService{
 
     /** Khởi tạo. */
     public ReportService() {
-        statsService = new StatisticsService();
+        statsService = ExpenseManager.getInstance().getStatisticsService();
     }
 
     /** Tạo bản báo cáo. */

@@ -12,6 +12,6 @@ public class Main {
         // new ConsoleView().start();
 
         // Chế độ giao diện đồ hoạ (Tuần 3)
-        AppLauncher.main(args);
+       AppLauncher.main(args);
     }
 }

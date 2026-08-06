@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="16.0"
+      prefWidth="480.0"
+      styleClass="transaction-form-root">
+
+    <padding>
+        <Insets top="24.0"
+                right="24.0"
+                bottom="24.0"
+                left="24.0"/>
+    </padding>
+
+    <Label text="Thêm giao dịch"
+           styleClass="dashboard-title"/>
+
+    <Label text="Nhập thông tin khoản thu hoặc chi"
+           styleClass="dashboard-subtitle"/>
+
+    <Label text="Loại giao dịch"
+           styleClass="form-label"/>
+
+    <HBox spacing="20.0">
+        <fx:define>
+            <ToggleGroup fx:id="transactionTypeGroup"/>
+        </fx:define>
+
+        <RadioButton text="Thu"
+                     toggleGroup="$transactionTypeGroup"
+                     selected="true"/>
+
+        <RadioButton text="Chi"
+                     toggleGroup="$transactionTypeGroup"/>
+    </HBox>
+
+    <Label text="Số tiền"
+           styleClass="form-label"/>
+
+    <TextField promptText="Nhập số tiền"/>
+
+    <Label text="Ngày giao dịch"
+           styleClass="form-label"/>
+
+    <DatePicker promptText="Chọn ngày"
+                maxWidth="Infinity"/>
+
+    <Label text="Ví"
+           styleClass="form-label"/>
+
+    <ComboBox promptText="Chọn ví"
+              maxWidth="Infinity"/>
+
+    <Label text="Danh mục"
+           styleClass="form-label"/>
+
+    <ComboBox promptText="Chọn danh mục"
+              maxWidth="Infinity"/>
+
+    <Label text="Mô tả"
+           styleClass="form-label"/>
+
+    <TextArea promptText="Nhập mô tả giao dịch"
+              prefRowCount="3"
+              wrapText="true"/>
+
+    <HBox spacing="10.0"
+          alignment="CENTER_RIGHT">
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Button text="Hủy"
+                minWidth="90.0"
+                styleClass="filter-button"/>
+
+        <Button text="Lưu"
+                minWidth="90.0"
+                styleClass="period-button"/>
+    </HBox>
+
+</VBox>

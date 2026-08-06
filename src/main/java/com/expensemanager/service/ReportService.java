@@ -11,17 +11,11 @@ import java.util.Map;
 
 /** Lớp quản lý báo cáo. */
 public class ReportService{
-    private final StatisticsService statsService;
-
-    /** Khởi tạo. */
-    public ReportService() {
-        statsService = new StatisticsService();
-    }
 
     /** Tạo bản báo cáo. */
     public ReportData createReport(LocalDate startDate, LocalDate endDate) {
         ValidationService.validateDateRange(startDate, endDate);
-        List<Transaction> transactions = statsService
+        List<Transaction> transactions = ExpenseManager.getInstance().getStatisticsService()
                 .getTransactionsInPeriod(ExpenseManager.
                         getInstance().getTransactions(), startDate, endDate);
         ReportData report = new ReportData();
@@ -39,40 +33,40 @@ public class ReportService{
     /** Điền thông tin tổng quan của báo cáo. */
     public void fillSummary(ReportData report, List<Transaction> transactions) {
         report.setTotalIncome(
-                statsService.calculateTotalIncome(transactions));
+                ExpenseManager.getInstance().getStatisticsService().calculateTotalIncome(transactions));
         report.setTotalExpense(
-                statsService.calculateTotalExpense(transactions));
+                ExpenseManager.getInstance().getStatisticsService().calculateTotalExpense(transactions));
         report.setNetSaving(
-                statsService.calculateNetSaving(transactions));
+                ExpenseManager.getInstance().getStatisticsService().calculateNetSaving(transactions));
     }
 
     /** Điền thống kê theo danh mục. */
     public void fillCategoryStatistics(ReportData report, List<Transaction> transactions) {
         report.setIncomeByCategory(
-                statsService.calculateIncomeByCategory(transactions));
+                ExpenseManager.getInstance().getStatisticsService().calculateIncomeByCategory(transactions));
         report.setExpenseByCategory(
-                statsService.calculateExpenseByCategory(transactions));
+                ExpenseManager.getInstance().getStatisticsService().calculateExpenseByCategory(transactions));
     }
 
     /** Điền thống kê theo ví. */
     public void fillWalletStatistics(ReportData report, List<Transaction> transactions) {
         report.setIncomeByWallet(
-                statsService.calculateIncomeByWallet(transactions));
+                ExpenseManager.getInstance().getStatisticsService().calculateIncomeByWallet(transactions));
         report.setExpenseByWallet(
-                statsService.calculateExpenseByWallet(transactions));
+                ExpenseManager.getInstance().getStatisticsService().calculateExpenseByWallet(transactions));
     }
 
     /** Điền thống kê theo tháng. */
     public void fillMonthlyStatistics(ReportData report, List<Transaction> transactions) {
         report.setIncomeByMonth(
-                statsService.calculateIncomeByMonth(transactions));
+                ExpenseManager.getInstance().getStatisticsService().calculateIncomeByMonth(transactions));
         report.setExpenseByMonth(
-                statsService.calculateExpenseByMonth(transactions));
+                ExpenseManager.getInstance().getStatisticsService().calculateExpenseByMonth(transactions));
     }
 
     /** Điền thống kê các giao dịch. */
     public void fillTransactionStatistics(ReportData report, List<Transaction> transactions) {
         report.setTotalTransactions(
-                statsService.countTransactions(transactions));
+                ExpenseManager.getInstance().getStatisticsService().countTransactions(transactions));
     }
 }

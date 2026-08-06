@@ -49,9 +49,6 @@ public abstract class Transaction {
     }
 
     public void setId(String id) {
-        if (id == null || id.isBlank()) {
-            throw new EmptyFieldException(FieldType.ID);
-        }
         this.id = id;
     }
 
@@ -60,9 +57,6 @@ public abstract class Transaction {
     }
 
     public void setAmount(double amount) {
-        if (amount <= 0) {
-            throw new NegativeValueException(FieldType.AMOUNT);
-        }
         this.amount = amount;
     }
 
@@ -71,9 +65,6 @@ public abstract class Transaction {
     }
 
     public void setDate(LocalDate date) {
-        if (date == null) {
-            throw new EmptyFieldException(FieldType.DATE);
-        }
         this.date = date;
     }
 
@@ -90,9 +81,6 @@ public abstract class Transaction {
     }
 
     public void setCategory(Category category) {
-        if (category == null) {
-            throw new EmptyFieldException(FieldType.CATEGORY);
-        }
         this.category = category;
     }
 
@@ -101,9 +89,6 @@ public abstract class Transaction {
     }
 
     public void setWallet(Wallet wallet) {
-        if (wallet == null) {
-            throw new EmptyFieldException(FieldType.WALLET);
-        }
         this.wallet = wallet;
     }
 }

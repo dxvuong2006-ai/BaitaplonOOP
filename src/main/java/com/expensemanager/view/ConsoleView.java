@@ -2,10 +2,10 @@ package com.expensemanager.view;
 
 import com.expensemanager.service.ExpenseManager;
 import com.expensemanager.model.wallet.Wallet;
-import com.expensemanager.factory.WalletFactory;
+import com.expensemanager.factory.model.WalletFactory;
 import com.expensemanager.model.enums.WalletType;
 import com.expensemanager.model.category.Category;
-import com.expensemanager.factory.TransactionFactory;
+import com.expensemanager.factory.model.TransactionFactory;
 import com.expensemanager.model.enums.TransactionType;
 import com.expensemanager.model.transaction.Transaction;
 import com.expensemanager.model.budget.Budget;

@@ -1,4 +1,4 @@
-package com.expensemanager.factory;
+package com.expensemanager.factory.model;
 
 import com.expensemanager.exception.EmptyFieldException; // Thêm import để bắt lỗi null
 import com.expensemanager.exception.InvalidFormatException;

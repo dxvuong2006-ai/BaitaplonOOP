@@ -39,7 +39,6 @@ public class PolymorphicAdapter<T> implements JsonSerializer<T>, JsonDeserialize
     private static final String CLASS_META_KEY = "type";
 
     private final Map<String, Class<? extends T>> registry;
-
     /**
      * @param registry ánh xạ "tên lớp con" -> Class tương ứng, VD:
      *                 Map.of("CashWallet", CashWallet.class,

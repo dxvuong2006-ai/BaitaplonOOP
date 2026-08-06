@@ -1,4 +1,4 @@
-package com.expensemanager.factory;
+package com.expensemanager.factory.model;
 
 import com.expensemanager.exception.EmptyFieldException;
 import com.expensemanager.exception.InvalidFormatException;
@@ -39,7 +39,6 @@ public class WalletFactory {
             case EWALLET:
                 // Truyền extraFee vào làm feePercent
                 return new EWallet(id, name, balance, extraFee);
-
             default:
                 // 3. Khởi tạo ngoại lệ đúng chuẩn (FieldType + Giá trị bị sai)
                 throw new InvalidFormatException(FieldType.WALLETTYPE, String.valueOf(type));

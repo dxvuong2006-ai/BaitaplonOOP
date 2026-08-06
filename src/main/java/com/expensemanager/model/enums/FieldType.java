@@ -21,5 +21,6 @@ public enum FieldType {
     STORAGETYPE,
     REGISTRY,
     TRANSACTION,
-    BUDGET
+    BUDGET,
+    REPORTTYPE
 }

@@ -10,6 +10,7 @@ import com.expensemanager.model.enums.FieldType;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.time.temporal.IsoFields;
+import java.util.zip.DataFormatException;
 
 /** Kiểm tra ngày tháng. */
 public class DateUtils {
@@ -30,13 +31,13 @@ public class DateUtils {
         if (dateStr == null || dateStr.trim().isEmpty()) {
             throw new EmptyFieldException(FieldType.DATE);
         }
-        dateStr = dateStr.trim();
         try {
             dateStr = dateStr.trim();
             return LocalDate.parse(dateStr, FORMATTER);
         } catch (DateTimeParseException e) {
             throw new InvalidFormatException(FieldType.DATE, "Ngày không hợp lệ");
         }
+
     }
 
     /** Kiểm tra chuỗi có phải là ngày hợp lệ không. */
@@ -44,7 +45,7 @@ public class DateUtils {
         try {
             parseDate(dateStr);
             return true;
-        } catch (InvalidFormatException e) {
+        } catch (DateTimeParseException e) {
             return false;
         }
     }

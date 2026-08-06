@@ -11,7 +11,7 @@ public class InsufficientFundsException extends ExpenseManagerException {
     public InsufficientFundsException(double currentBalance,
                                       double requiredAmount) {
 
-        super("Số dư hiện tại không đủ để hoàn tất giao dịch.");
+        super("Số dư của ví không đủ để thực hiện giao dịch.");
 
         this.currentBalance = currentBalance;
         this.requiredAmount = requiredAmount;

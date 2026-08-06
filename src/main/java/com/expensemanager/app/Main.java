@@ -3,15 +3,17 @@ package com.expensemanager.app;
 import com.expensemanager.view.ConsoleView;
 
 /**
- * Điểm khởi đầu (entry point) của toàn bộ ứng dụng.
- * Tuỳ chỉnh dòng gọi bên dưới để chạy phiên bản Console hoặc GUI.
+ * Điểm khởi đầu của toàn bộ ứng dụng.
+ * Có thể chuyển giữa chế độ Console và giao diện JavaFX.
  */
 public class Main {
+
     public static void main(String[] args) {
-        // Chế độ dòng lệnh (Tuần 1-2)
+
+        // Chế độ dòng lệnh:
         // new ConsoleView().start();
 
-        // Chế độ giao diện đồ hoạ (Tuần 3)
-       AppLauncher.main(args);
+        // Chế độ giao diện JavaFX:
+        AppLauncher.main(args);
     }
 }

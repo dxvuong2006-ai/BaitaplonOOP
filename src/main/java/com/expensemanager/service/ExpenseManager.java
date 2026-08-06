@@ -1,45 +1,47 @@
 package com.expensemanager.service;
 
+import com.expensemanager.model.enums.TransactionType;
 import com.expensemanager.model.transaction.Transaction;
 import com.expensemanager.model.wallet.Wallet;
 import com.expensemanager.model.budget.Budget;
 import com.expensemanager.model.category.Category;
 import com.expensemanager.utils.CurrencyUtils;
 import com.expensemanager.model.enums.FieldType;
+import com.expensemanager.service.BudgetService;
+import com.expensemanager.service.CategoryService;
+import com.expensemanager.service.WalletService;
+import com.expensemanager.service.TransactionService;
+import com.expensemanager.service.StatisticsService;
+import com.expensemanager.model.report.ReportData;
 
 import com.expensemanager.exception.DuplicateEntityException;
 import com.expensemanager.exception.EmptyFieldException;
 import com.expensemanager.exception.InvalidFormatException;
 import com.expensemanager.exception.InsufficientFundsException;
+import org.apache.poi.sl.usermodel.TextRun;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.time.YearMonth;
+import java.util.*;
 
 /** Lớp xử lý nghiệp vụ của dự án. */
 public class ExpenseManager {
     private static ExpenseManager instance;
 
-    private final List<Transaction> transactions;
-    private final List<Wallet> wallets;
-    private final List<Category> categories;
-    private final List<Budget> budgets;
-
-    private final StatisticsService statisticsService;
+    private final WalletService walletService;
+    private final TransactionService transactionService;
+    private final CategoryService categoryService;
     private final BudgetService budgetService;
+    private final StatisticsService statisticsService;
     private final ReportService reportService;
 
     /** Phương thức khởi tạo của EM. */
     private ExpenseManager() {
-        transactions = new ArrayList<>();
-        wallets = new ArrayList<>();
-        categories = new ArrayList<>();
-        budgets = new ArrayList<>();
-
-        statisticsService = new StatisticsService();
+        walletService = new WalletService();
+        categoryService = new CategoryService();
         budgetService = new BudgetService();
+        transactionService = new TransactionService(budgetService);
+        statisticsService = new StatisticsService();
         reportService = new ReportService();
     }
 
@@ -51,97 +53,162 @@ public class ExpenseManager {
         return instance;
     }
 
-    /** Tạo thêm 1 giao dịch. */
-    public void addTransaction(Transaction transaction) {
-        if (transaction == null || transaction.getWallet() == null) {
-            throw new EmptyFieldException(FieldType.WALLET);
-        }
-        Wallet wallet = transaction.getWallet();
-        double signedAmount = transaction.getSignedAmount();
-        if (signedAmount < 0) {
-            ValidationService.validateWithdraw(wallet, -signedAmount);
-            wallet.withdraw(-signedAmount);
-            Budget budget = findBudgetByCategory(transaction.getCategory());
-            if (budget != null) {
-                budgetService.validateBudgetLimit(budget);
-            }
-        } else {
-            wallet.deposit(signedAmount);
-        }
-        transactions.add(transaction);
+    public TransactionService getTransactionService() {
+        return transactionService;
     }
 
-    /** Trả về danh sách các giao dịch. */
-    public List<Transaction> getTransactions() {
-        return Collections.unmodifiableList(transactions);
+    public WalletService getWalletService() {
+        return walletService;
+    }
+
+    public CategoryService getCategoryService() {
+        return categoryService;
+    }
+
+    public BudgetService getBudgetService() {
+        return budgetService;
+    }
+
+    public StatisticsService getStatisticsService() {
+        return statisticsService;
+    }
+
+    public ReportService getReportService() {
+        return reportService;
+    }
+
+    // Giao dịch.
+    /** Thêm giao dịch. */
+    public void addTransaction(Transaction transaction) {
+        transactionService.addTransaction(transaction);
     }
 
     /** Xóa giao dịch. */
     public void removeTransaction(Transaction transaction) {
-        if (transaction == null) {
-            throw new EmptyFieldException(FieldType.ID);
-        }
-        if (!transactions.contains(transaction)) {
-            return;
-        }
-        Wallet wallet = transaction.getWallet();
-        double signedAmount = transaction.getSignedAmount();
-        if (signedAmount < 0) {
-            wallet.deposit(-signedAmount);
-        } else {
-            ValidationService.validateWithdraw(wallet, signedAmount);
-            wallet.withdraw(signedAmount);
-        }
-        transactions.remove(transaction);
+        transactionService.removeTransaction(transaction);
+    }
+
+    /** Chỉnh sửa giao dịch. */
+    public void updateTransaction(Transaction oldTransaction, Transaction newTransaction) {
+        transactionService.updateTransaction(oldTransaction, newTransaction);
+    }
+
+    /** Trả về danh sách giao dịch. */
+    public List<Transaction> getTransactions() {
+        return transactionService.getTransactions();
     }
 
     /** Tìm giao dịch bằng ID. */
     public Transaction findTransactionById(String id) {
-        if (id == null || id.trim().isEmpty()) {
-            return null;
-        }
-        for (Transaction transaction : transactions) {
-            if (transaction.getId().equals(id)) {
-                return transaction;
-            }
-        }
-        return null;
+        return transactionService.findTransactionById(id);
     }
 
-    /** Tạo loại ví mới. */
-    public void addWallet (Wallet wallet) {
-        if (wallet == null) {
-            throw new EmptyFieldException(FieldType.WALLET);
-        }
-        ValidationService
-                .validateWalletName(wallets, wallet.getName());
-        wallets.add(wallet);
+    /** Tìm giao dịch bằng ví. */
+    public List<Transaction> findTransactionByWallet(Wallet wallet) {
+        return transactionService.findTransactionByWallet(wallet);
+    }
+
+    /** Tìm giao dịch bằng danh mục. */
+    public List<Transaction> findTransactionByCategory(Category category) {
+        return transactionService.findTransactionByCategory(category);
+    }
+
+    /** Tìm giao dịch theo loại. */
+    public List<Transaction> findTransactionByType(TransactionType type) {
+        return transactionService.findTransactionByType(type);
+    }
+
+    // Ví.
+    /** Thêm ví. */
+    public void addWallet(Wallet wallet) {
+        walletService.addWallet(wallet);
     }
 
     /** Xóa ví. */
     public void removeWallet(Wallet wallet) {
-        if (wallet == null) {
-            throw new EmptyFieldException(FieldType.WALLET);
-        }
-        wallets.remove(wallet);
+        walletService.removeWallet(wallet);
     }
 
-    /** Tìm kiếm ví bằng tên. */
+    /** Chỉnh sửa ví. */
+    public void updateWallet(Wallet oldwallet, Wallet newWallet) {
+        walletService.updateWallet(oldwallet, newWallet);
+    }
+
+    /** Tìm ví theo ID. */
+    public Wallet findWalletById(String id) {
+        return walletService.findWalletById(id);
+    }
+
+    /** Tìm ví theo tên */
     public Wallet findWalletByName(String name) {
-        if (name == null || name.trim().isEmpty()) {
-            return null;
-        }
-        for (Wallet wallet : wallets) {
-            if (wallet.getName().equalsIgnoreCase(name.trim())) {
-                return wallet;
-            }
-        }
-        return null;
+        return walletService.findWalletByName(name);
     }
 
     /** Trả về danh sách ví. */
     public List<Wallet> getWallets() {
-        return Collections.unmodifiableList(wallets);
+        return walletService.getWallets();
+    }
+
+    // Danh mục.
+    /** Thêm danh mục. */
+    public void addCategory(Category category) {
+        categoryService.addCategory(category);
+    }
+
+    /** Xóa danh mục. */
+    public void removeCategory(Category category) {
+        categoryService.removeCategory(category);
+    }
+
+    /** Cập nhật danh mục. */
+    public void updateCategory(Category oldCategory, Category newCategory) {
+        categoryService.updateCategory(oldCategory, newCategory);
+    }
+
+    /** Tìm danh mục bằng ID. */
+    public Category findCategoryById(String id) {
+        return categoryService.findCategoryById(id);
+    }
+
+    /** Tìm kiếm danh mục bằng tên. */
+    public Category findCategoryByName(String name) {
+        return categoryService.findCategoryByName(name);
+    }
+
+    /** Trả về danh sách danh mục. */
+    public List<Category> getCategories() {
+        return categoryService.getCategories();
+    }
+
+    // Ngân sách.
+    /** Thêm ngân sách. */
+    public void addBudget(Budget budget) {
+        budgetService.addBudget(budget);
+    }
+
+    /** Xóa ngân sách. */
+    public void removeBudget(Budget budget) {
+        budgetService.removeBudget(budget);
+    }
+
+    /** Chỉnh sửa ngân sách. */
+    public void updateBudget(Budget oldBudget, Budget newBudget) {
+        budgetService.updateBudget(oldBudget, newBudget);
+    }
+
+    /** Tìm ngân sách bằng ID. */
+    public Budget findBudgetById(String id) {
+        return budgetService.findBudgetById(id);
+    }
+
+    /** Tìm kiếm ngân sách bằng danh mục. */
+    public Budget findBudgetByName(Category category) {
+        return budgetService.findBudgetByCategory(category);
+    }
+
+    /** Trả về danh sách ngân sách. */
+    public List<Budget> getBudgets() {
+        return budgetService.getBudgets();
     }
 
     /** Giúp hiển thị số tiền dạng chuẩn. */
@@ -149,74 +216,66 @@ public class ExpenseManager {
         return CurrencyUtils.formatVND(wallet.getBalance());
     }
 
-    /** Thêm loại. */
-    public void addCategory(Category category) {
-        if (category == null) {
-            throw new EmptyFieldException(FieldType.CATEGORY);
-        }
-        if (findCategoryByName(category.getName()) != null) {
-            throw new DuplicateEntityException("Danh mục", category.getName());
-        }
-        categories.add(category);
+    // Liên kết ReportService.
+    /** Tạo báo cáo. */
+    public ReportData createReport(LocalDate startDate, LocalDate endDate) {
+        return reportService.createReport(startDate, endDate);
     }
 
-    /** Xóa loại. */
-    public void removeCategory(Category category) {
-        if (category == null) {
-            throw new EmptyFieldException(FieldType.CATEGORY);
-        }
-        categories.remove(category);
+    // Liên kết Statistic.
+    /** . */
+    public List<Transaction> getTransactionsInPeriod(List<Transaction> transactions,
+                                                     LocalDate startDate, LocalDate endDate) {
+        return statisticsService.getTransactionsInPeriod(transactions, startDate, endDate);
     }
 
-    /** Tìm kiếm loại theo tên. */
-    public Category findCategoryByName(String name) {
-        if (name == null || name.trim().isEmpty()) {
-            return null;
-        }
-        for (Category category : categories) {
-            if (category.getName().equalsIgnoreCase(name.trim())) {
-                return category;
-            }
-        }
-        return null;
+    /** Tổng thu. */
+    public double calculateTotalIncome(List<Transaction> transactions) {
+        return statisticsService.calculateTotalIncome(transactions);
     }
 
-    /** Trả về danh sách loại. */
-    public List<Category> getCategories() {
-        return Collections.unmodifiableList(categories);
+    /** Tổng chi. */
+    public double calculateTotalExpense(List<Transaction> transactions) {
+        return statisticsService.calculateTotalExpense(transactions);
     }
 
-    /** Thêm ngân sách. */
-    public void addBudget(Budget budget) {
-        if (budget == null) {
-            throw new EmptyFieldException(FieldType.CATEGORY);
-        }
-        budgets.add(budget);
+    /** Chênh lệch giữa tổng thu và tổng chi. */
+    public double calculateNetSaving(List<Transaction> transactions) {
+        return statisticsService.calculateNetSaving(transactions);
     }
 
-    /** Xóa ngân sách. */
-    public void removeBudget(Budget budget) {
-        if (budget == null) {
-            throw new EmptyFieldException(FieldType.CATEGORY);
-        }
-        budgets.remove(budget);
+    /** Đếm số giao dịch. */
+    public int countTransactions(List<Transaction> transactions) {
+        return statisticsService.countTransactions(transactions);
     }
 
-    /** Tìm kiếm ngân sách bằng loại. */
-    public Budget findBudgetByCategory(Category category) {
-        if (category == null) {
-            return null;
-        }
-        for (Budget budget : budgets) {
-            if (Objects.equals(budget.getCategory(), category)) {
-                return budget;
-            }
-        }
-        return null;
+    /** Thống kê chi theo từng loại giao dịch. */
+    public Map<Category, Double> calculateExpenseByCategory(List<Transaction> transactions) {
+        return statisticsService.calculateExpenseByCategory(transactions);
     }
 
-    /** Danh sách các loại ngân sách. */
-    public List<Budget> getBudgets() {
-        return Collections.unmodifiableList(budgets);
+    /** Thống kê thu theo từng loại giao dịch. */
+    public Map<Category, Double> calculateIncomeByCategory(List<Transaction> transactions) {
+        return statisticsService.calculateIncomeByCategory(transactions);
+    }
+
+    /** Thống kê chi theo loại ví. */
+    public Map<Wallet, Double> calculateExpenseByWallet(List<Transaction> transactions) {
+        return statisticsService.calculateExpenseByWallet(transactions);
+    }
+
+    /** Thống kê thu theo loại ví. */
+    public Map<Wallet, Double> calculateIncomeByWallet(List<Transaction> transactions) {
+        return statisticsService.calculateIncomeByWallet(transactions);
+    }
+
+    /** Thống kê thu theo tháng. */
+    public Map<YearMonth, Double> calculateIncomeByMonth(List<Transaction> transactions) {
+        return statisticsService.calculateIncomeByMonth(transactions);
+    }
+
+    /** Thống kê chi theo tháng. */
+    public Map<YearMonth, Double> calculateExpenseByMonth(List<Transaction> transactions) {
+        return statisticsService.calculateExpenseByMonth(transactions);
     }
 }

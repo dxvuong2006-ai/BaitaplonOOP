@@ -15,18 +15,10 @@ import java.time.LocalDate;
 /** Lớp kiểm tra dữ liệu và các quy tắc nghiệp vụ trước khi thao tác. */
 public class ValidationService {
 
-    /** Khỏi tạo. */
-    private ValidationService() {
-    }
-
     /** Kiểm tra giao dịch rút tiền(Tính thêm phí giao dịch nếu dùng ngân hàng). */
     public static void validateWithdraw(Wallet wallet, double amountToWithdraw) {
-        if (wallet == null) {
-            throw new EmptyFieldException(FieldType.WALLET);
-        }
-        if (!CurrencyUtils.isPositiveAmount(amountToWithdraw)) {
-            throw new NegativeValueException(FieldType.AMOUNT);
-        }
+        validateWallet(wallet);
+        validateAmount(amountToWithdraw);
         double totalRequired = amountToWithdraw;
 
         //Kiểm tra nếu dùng ngân hàng thì cộng thêm phí.
@@ -40,11 +32,9 @@ public class ValidationService {
         }
     }
 
-    /** Kiểm tra tên ví trước khi tạo giao dịch mới. */
+    /** Kiểm tra tên ví trước khi tạo ví mới. */
     public static void validateWalletName(List<Wallet> existingWallet, String name) {
-        if (existingWallet == null) {
-            throw new EmptyFieldException(FieldType.WALLET);
-        }
+        validateWallets(existingWallet);
         if (name == null || name.trim().isEmpty()) {
             throw new EmptyFieldException(FieldType.NAME);
         }
@@ -56,6 +46,37 @@ public class ValidationService {
             if (wallet.getName().equalsIgnoreCase(walletName)) {
                 throw new DuplicateEntityException("Ví", wallet.getName());
             }
+        }
+    }
+
+    /** Kiểm tra giao dịch có rỗng không */
+    public static void validateTransaction(Transaction transaction) {
+        if (transaction == null) {
+            throw new EmptyFieldException(FieldType.TRANSACTION);
+        }
+    }
+
+    /** Kiểm tra danh sách giao dịch có rỗng không */
+    public static void validateTransactions(List<Transaction> transactions) {
+        if (transactions == null) {
+            throw new EmptyFieldException(FieldType.TRANSACTION);
+        }
+    }
+
+    /** Kiểm tra ví có rỗng không. */
+    public static void validateWallet(Wallet wallet) {
+        if (wallet == null) {
+            throw new EmptyFieldException(FieldType.WALLET);
+        }
+        if (wallet.getName() == null || wallet.getName().trim().isEmpty()) {
+            throw new EmptyFieldException(FieldType.WALLET);
+        }
+    }
+
+    /** Kiểm tra ví có rỗng không. */
+    public static void validateWallets(List<Wallet> wallets) {
+        if (wallets == null) {
+            throw new EmptyFieldException(FieldType.WALLET);
         }
     }
 
@@ -82,7 +103,7 @@ public class ValidationService {
     /** Kiểm tra xem lượng tiền có hợp lệ không. */
     public static void validateAmount(double amount) {
         if (!CurrencyUtils.isPositiveAmount(amount)) {
-            throw new InvalidFormatException(FieldType.AMOUNT, String.valueOf(amount));
+            throw new NegativeValueException(FieldType.AMOUNT);
         }
     }
 

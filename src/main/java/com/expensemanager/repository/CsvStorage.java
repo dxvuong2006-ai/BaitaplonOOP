@@ -64,7 +64,6 @@ public class CsvStorage<T> implements Storage<T> {
         }
         return result;
     }
-
     @Override
     public void save(String filePath, List<T> data) throws IOException {
         List<String> lines = new ArrayList<>();

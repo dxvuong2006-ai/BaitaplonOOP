@@ -2,8 +2,10 @@ package com.expensemanager.service;
 
 import com.expensemanager.exception.DuplicateEntityException;
 import com.expensemanager.exception.EmptyFieldException;
+import com.expensemanager.factory.storage.CategoryStorageFactory;
 import com.expensemanager.model.category.Category;
 import com.expensemanager.model.enums.FieldType;
+import com.expensemanager.model.enums.FilePath;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,10 +13,21 @@ import java.util.List;
 
 public class CategoryService {
 
-    private final List<Category> categories;
+    private final CategoryStorageFactory storageFactory;
+    private List<Category> categories = new ArrayList<>();
 
-    public CategoryService() {
-        categories = new ArrayList<>();
+    public CategoryService(CategoryStorageFactory storageFactory) {
+        this.storageFactory = storageFactory;
+        load();
+    }
+
+    public void load() {
+        categories.clear();
+        categories.addAll(storageFactory.load(FilePath.CATEGORY));
+    }
+
+    public void save() {
+        storageFactory.save(FilePath.CATEGORY, categories);
     }
 
     /** Thêm loại. */
@@ -26,6 +39,7 @@ public class CategoryService {
             throw new DuplicateEntityException("Danh mục", category.getName());
         }
         categories.add(category);
+        save();
     }
 
     /** Xóa loại. */
@@ -34,6 +48,7 @@ public class CategoryService {
             throw new EmptyFieldException(FieldType.CATEGORY);
         }
         categories.remove(category);
+        save();
     }
 
     /** Cập nhật danh mục. */
@@ -46,12 +61,13 @@ public class CategoryService {
         }
         oldCategory.setName(newCategory.getName());
         oldCategory.setDescription(newCategory.getDescription());
+        save();
     }
 
     /** Tìm theo ID. */
     public Category findCategoryById(String id) {
         for (Category category : categories) {
-            if (category.getId() == id) {
+            if (category.getId().equals(id)) {
                 return category;
             }
         }

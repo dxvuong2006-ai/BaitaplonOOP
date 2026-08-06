@@ -13,6 +13,12 @@ import com.expensemanager.service.WalletService;
 import com.expensemanager.service.TransactionService;
 import com.expensemanager.service.StatisticsService;
 import com.expensemanager.model.report.ReportData;
+import com.expensemanager.factory.storage.WalletStorageFactory;
+import com.expensemanager.factory.storage.CategoryStorageFactory;
+import com.expensemanager.factory.storage.BudgetStorageFactory;
+import com.expensemanager.factory.storage.TransactionStorageFactory;
+
+import com.expensemanager.model.enums.StorageType;
 
 import com.expensemanager.exception.DuplicateEntityException;
 import com.expensemanager.exception.EmptyFieldException;
@@ -27,6 +33,11 @@ import java.util.*;
 public class ExpenseManager {
     private static ExpenseManager instance;
 
+    private final WalletStorageFactory walletStorageFactory;
+    private final CategoryStorageFactory categoryStorageFactory;
+    private final BudgetStorageFactory budgetStorageFactory;
+    private final TransactionStorageFactory transactionStorageFactory;
+
     private final WalletService walletService;
     private final TransactionService transactionService;
     private final CategoryService categoryService;
@@ -36,10 +47,19 @@ public class ExpenseManager {
 
     /** Phương thức khởi tạo của EM. */
     private ExpenseManager() {
-        walletService = new WalletService();
-        categoryService = new CategoryService();
-        budgetService = new BudgetService();
-        transactionService = new TransactionService(budgetService);
+        StorageType storageType = StorageType.CSV;
+
+        walletStorageFactory = new WalletStorageFactory(storageType);
+        categoryStorageFactory = new CategoryStorageFactory(storageType);
+        budgetStorageFactory = new BudgetStorageFactory(storageType);
+        transactionStorageFactory = new TransactionStorageFactory(storageType);
+
+        walletService = new WalletService(walletStorageFactory);
+        categoryService = new CategoryService(categoryStorageFactory);
+        budgetService = new BudgetService(budgetStorageFactory, categoryService);
+        transactionService = new TransactionService(budgetService, walletService,
+                categoryService, transactionStorageFactory);
+
         statisticsService = new StatisticsService();
         reportService = new ReportService();
     }

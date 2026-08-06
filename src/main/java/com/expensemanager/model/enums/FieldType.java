@@ -21,7 +21,7 @@ public enum FieldType {
     STORAGETYPE("Kiểu lưu trữ"),
     REGISTRY("Sổ đăng ký"),
     TRANSACTION("Giao dịch"),
-    BUDGET("Ngân sách");
+    BUDGET("Ngân sách"),
     REPORTTYPE("Loại báo cáo");
 
     private final String displayName;

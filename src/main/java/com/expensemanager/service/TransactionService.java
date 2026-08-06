@@ -1,16 +1,28 @@
 package com.expensemanager.service;
 
 import com.expensemanager.exception.EmptyFieldException;
+import com.expensemanager.factory.storage.TransactionStorageFactory;
+import com.expensemanager.factory.model.TransactionFactory;
 import com.expensemanager.model.budget.Budget;
+import com.expensemanager.model.enums.FilePath;
+import com.expensemanager.model.enums.StorageType;
 import com.expensemanager.model.enums.TransactionType;
+import com.expensemanager.model.transaction.Expense;
+import com.expensemanager.model.transaction.Income;
+import com.expensemanager.repository.Storage;
 import com.expensemanager.service.BudgetService;
 import com.expensemanager.model.category.Category;
 import com.expensemanager.model.enums.FieldType;
 import com.expensemanager.model.transaction.Transaction;
+import com.expensemanager.model.transaction.TransactionRecord;
 import com.expensemanager.model.wallet.Wallet;
-import org.apache.poi.ss.formula.functions.T;
+import com.expensemanager.model.enums.Period;
+import com.expensemanager.model.enums.TransactionType;
+import com.expensemanager.model.enums.FieldType;
+import com.expensemanager.model.transaction.Income;
+import com.expensemanager.model.transaction.Expense;
+import com.expensemanager.model.transaction.RecurringExpense;
 
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,12 +30,104 @@ import java.util.List;
 /** Quản lý giao dịch. */
 public class TransactionService {
 
-    private List<Transaction> transactions;
+    private List<Transaction> transactions = new ArrayList<>();
+    private TransactionStorageFactory storageFactory;
     private BudgetService budgetService;
+    private WalletService walletService;
+    private CategoryService categoryService;
 
-    public TransactionService(BudgetService budgetService) {
-        this.transactions = new ArrayList<>();
+    public TransactionService(BudgetService budgetService, WalletService walletService,
+                            CategoryService categoryService, TransactionStorageFactory storageFactory) {
+        this.storageFactory = storageFactory;
         this.budgetService = budgetService;
+        this.walletService = walletService;
+        this.categoryService = categoryService;
+        load();
+    }
+
+    public void load() {
+        transactions.clear();;
+        List<TransactionRecord> records = storageFactory.load(FilePath.TRANSACTION);
+        for (TransactionRecord record : records) {
+            try {
+                transactions.add(toTransaction(record));
+            } catch (Exception e) {
+                System.err.println("Bỏ qua giao dịch id = " + record.getId()
+                                    + " do lỗi " + e.getMessage());
+            }
+        }
+    }
+
+    public void save() {
+        List<TransactionRecord> records = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            records.add(toRecord(transaction));
+        }
+        storageFactory.save(FilePath.TRANSACTION, records);
+    }
+
+    /** Chuyển toàn bộ giao dịch thành dạng dữ liệu thô. */
+    private Transaction toTransaction(TransactionRecord record) {
+        Category category = categoryService.findCategoryById(record.getCategoryId());
+        ValidationService.validateCategory(category);
+
+        Wallet wallet = walletService.findWalletById(record.getWalletId());
+        ValidationService.validateWallet(wallet);
+
+        TransactionType type = TransactionType.valueOf(record.getType());
+
+        String source = type == TransactionType.INCOME ? record.getExtraField() : null;
+        String paymentMethod = type != TransactionType.INCOME ? record.getExtraField() : null;
+        Period period = (record.getPeriod() != null && !record.getPeriod().isBlank())
+                ? Period.valueOf(record.getPeriod())
+                : null;
+
+        return TransactionFactory.createTransaction(
+                type,
+                record.getId(),
+                record.getAmount(),
+                record.getDate(),
+                record.getNote(),
+                category,
+                wallet,
+                source,
+                paymentMethod,
+                period
+        );
+    }
+
+    /** Chuyển dữ liệu thô thành danh sách giao dịch. */
+    private TransactionRecord toRecord(Transaction transaction) {
+        return new TransactionRecord(
+                transaction.getId(),
+                transaction.getAmount(),
+                transaction.getDate(),
+                transaction.getNote(),
+                transaction.getCategory() == null ? "" : transaction.getCategory().getId(),
+                transaction.getWallet() == null ? "" : transaction.getWallet().getId(),
+                transaction.getType().name(),
+                extractExtraField(transaction),
+                extractPeriod(transaction)
+        );
+    }
+
+    /** Trích xuất trường phụ: source (của Income) hoặc paymentMethod (của Expense/RecurringExpense). */
+    private String extractExtraField(Transaction tx) {
+        if (tx instanceof Income) {
+            return ((Income) tx).getSource();
+        }
+        if (tx instanceof Expense) {
+            return ((Expense) tx).getPaymentMethod();
+        }
+        return "";
+    }
+
+    /** Trích xuất chu kỳ: Chỉ RecurringExpense mới có Period. */
+    private String extractPeriod(Transaction tx) {
+        if (tx instanceof RecurringExpense) {
+            return ((RecurringExpense) tx).getPeriod().name();
+        }
+        return "";
     }
 
     /** Thêm giao dịch. */
@@ -43,6 +147,7 @@ public class TransactionService {
             wallet.deposit(signedAmount);
         }
         transactions.add(transaction);
+        save();
     }
 
     /** Xóa giao dịch. */
@@ -60,6 +165,7 @@ public class TransactionService {
             wallet.withdraw(signedAmount);
         }
         transactions.remove(transaction);
+        save();
     }
 
     /** Chỉnh sửa lại giao dịch. */
@@ -73,6 +179,7 @@ public class TransactionService {
             addTransaction(oldTransaction);
             throw e;
         }
+        save();
     }
 
     /** Tìm giao dịch bằng ID. */

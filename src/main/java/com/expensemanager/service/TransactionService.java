@@ -105,7 +105,7 @@ public class TransactionService {
         ValidationService.validateCategory(category);
         List<Transaction> result = new ArrayList<>();
         for (Transaction transaction : transactions) {
-            if (category.equals(transaction.getCategory()))) {
+            if (category.equals(transaction.getCategory())) {
                 result.add(transaction);
             }
         }

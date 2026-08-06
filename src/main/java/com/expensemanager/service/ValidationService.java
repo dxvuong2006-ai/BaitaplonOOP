@@ -34,7 +34,7 @@ public class ValidationService {
 
     /** Kiểm tra tên ví trước khi tạo ví mới. */
     public static void validateWalletName(List<Wallet> existingWallet, String name) {
-        validateWallet(existingWallet);
+        validateWallets(existingWallet);
         if (name == null || name.trim().isEmpty()) {
             throw new EmptyFieldException(FieldType.NAME);
         }
@@ -56,12 +56,26 @@ public class ValidationService {
         }
     }
 
+    /** Kiểm tra danh sách giao dịch có rỗng không */
+    public static void validateTransactions(List<Transaction> transactions) {
+        if (transactions == null) {
+            throw new EmptyFieldException(FieldType.TRANSACTION);
+        }
+    }
+
     /** Kiểm tra ví có rỗng không. */
     public static void validateWallet(Wallet wallet) {
         if (wallet == null) {
             throw new EmptyFieldException(FieldType.WALLET);
         }
         if (wallet.getName() == null || wallet.getName().trim().isEmpty()) {
+            throw new EmptyFieldException(FieldType.WALLET);
+        }
+    }
+
+    /** Kiểm tra ví có rỗng không. */
+    public static void validateWallets(List<Wallet> wallets) {
+        if (wallets == null) {
             throw new EmptyFieldException(FieldType.WALLET);
         }
     }

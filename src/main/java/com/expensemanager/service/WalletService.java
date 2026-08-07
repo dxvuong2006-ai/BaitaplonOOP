@@ -34,6 +34,9 @@ public class WalletService {
     /** Tạo loại ví mới. */
     public void addWallet (Wallet wallet) {
         ValidationService.validateWallet(wallet);
+        if (findWalletById(wallet.getId()) != null) {
+            throw new DuplicateEntityException("Ví", "mã " + wallet.getId());
+        }
         ValidationService.validateWalletName(wallets, wallet.getName());
         wallets.add(wallet);
         save();

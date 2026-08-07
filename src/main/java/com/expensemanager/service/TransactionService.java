@@ -1,5 +1,6 @@
 package com.expensemanager.service;
 
+import com.expensemanager.exception.DuplicateEntityException;
 import com.expensemanager.exception.EmptyFieldException;
 import com.expensemanager.factory.storage.TransactionStorageFactory;
 import com.expensemanager.factory.model.TransactionFactory;
@@ -133,6 +134,9 @@ public class TransactionService {
     /** Thêm giao dịch. */
     public void addTransaction(Transaction transaction) {
         ValidationService.validateTransaction(transaction);
+        if (findTransactionById(transaction.getId()) != null) {
+            throw new DuplicateEntityException("Giao dịch", "mã " + transaction.getId());
+        }
         ValidationService.validateWallet(transaction.getWallet());
         Wallet wallet = transaction.getWallet();
         double signedAmount = transaction.getSignedAmount();

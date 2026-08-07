@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="16.0"
+      prefWidth="460.0"
+      styleClass="transaction-form-root">
+
+    <padding>
+        <Insets top="24.0"
+                right="24.0"
+                bottom="24.0"
+                left="24.0"/>
+    </padding>
+
+    <Label text="Thêm danh mục"
+           styleClass="dashboard-title"/>
+
+    <Label text="Nhập thông tin danh mục thu hoặc chi"
+           styleClass="dashboard-subtitle"/>
+
+    <Label text="Tên danh mục"
+           styleClass="form-label"/>
+
+    <TextField promptText="Ví dụ: Ăn uống, Lương, Di chuyển"/>
+
+    <Label text="Loại danh mục"
+           styleClass="form-label"/>
+
+    <ComboBox promptText="Chọn loại Thu hoặc Chi"
+              maxWidth="Infinity"/>
+
+    <Label text="Mô tả"
+           styleClass="form-label"/>
+
+    <TextArea promptText="Nhập mô tả cho danh mục"
+              prefRowCount="4"
+              wrapText="true"/>
+
+    <HBox spacing="10.0"
+          alignment="CENTER_RIGHT">
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Button text="Hủy"
+                minWidth="90.0"
+                styleClass="filter-button"/>
+
+        <Button text="Lưu"
+                minWidth="90.0"
+                styleClass="period-button"/>
+    </HBox>
+
+</VBox>

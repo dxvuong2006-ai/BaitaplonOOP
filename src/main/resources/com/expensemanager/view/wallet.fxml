@@ -11,11 +11,10 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.expensemanager.controller.WalletController"
-      styleClass="dashboard-root"
-      spacing="18.0">
+      spacing="20.0">
 
     <padding>
         <Insets top="25.0"
@@ -38,7 +37,9 @@
         <Region HBox.hgrow="ALWAYS"/>
 
         <Button text="+ Thêm ví"
+                onAction="#handleOpenWalletForm"
                 styleClass="period-button"/>
+
     </HBox>
 
     <!-- Khu vực tìm kiếm và bộ lọc -->
@@ -46,10 +47,12 @@
           alignment="CENTER_LEFT"
           styleClass="dashboard-panel">
 
-        <TextField promptText="Tìm kiếm theo tên ví..."
+        <TextField fx:id="walletSearchField"
+                   promptText="Tìm kiếm theo tên ví..."
                    prefWidth="320.0"/>
 
-        <ComboBox promptText="Loại ví"
+        <ComboBox fx:id="walletTypeFilter"
+                  promptText="Loại ví"
                   prefWidth="180.0"/>
 
         <Region HBox.hgrow="ALWAYS"/>
@@ -59,6 +62,7 @@
                 prefWidth="90.0"
                 maxWidth="90.0"
                 styleClass="filter-button"/>
+
     </HBox>
 
     <!-- Bảng danh sách ví -->
@@ -67,16 +71,20 @@
           styleClass="dashboard-panel">
 
         <HBox alignment="CENTER_LEFT">
+
             <Label text="Danh sách ví"
                    styleClass="panel-title"/>
 
             <Region HBox.hgrow="ALWAYS"/>
 
-            <Label text="0 ví"
+            <Label fx:id="walletCountLabel"
+                   text="0 ví"
                    styleClass="placeholder-text"/>
+
         </HBox>
 
-        <TableView VBox.vgrow="ALWAYS">
+        <TableView fx:id="walletTable"
+                   VBox.vgrow="ALWAYS">
 
             <placeholder>
                 <Label text="Chưa có ví nào"
@@ -84,26 +92,35 @@
             </placeholder>
 
             <columns>
-                <TableColumn text="Tên ví"
+
+                <TableColumn fx:id="nameColumn"
+                             text="Tên ví"
                              prefWidth="180.0"/>
 
-                <TableColumn text="Loại ví"
+                <TableColumn fx:id="typeColumn"
+                             text="Loại ví"
                              prefWidth="140.0"/>
 
-                <TableColumn text="Số dư"
+                <TableColumn fx:id="balanceColumn"
+                             text="Số dư"
                              prefWidth="150.0"/>
 
-                <TableColumn text="Tiền tệ"
+                <TableColumn fx:id="currencyColumn"
+                             text="Tiền tệ"
                              prefWidth="100.0"/>
 
-                <TableColumn text="Ghi chú"
+                <TableColumn fx:id="noteColumn"
+                             text="Ghi chú"
                              prefWidth="170.0"/>
 
-                <TableColumn text="Thao tác"
+                <TableColumn fx:id="actionColumn"
+                             text="Thao tác"
                              prefWidth="100.0"/>
+
             </columns>
 
         </TableView>
+
     </VBox>
 
 </VBox>

@@ -1,7 +1,7 @@
 package com.expensemanager.model.enums;
 
 public enum FilePath {
-    WALLET("/wallets"),
+    WALLET("wallets"),
     TRANSACTION("transactions"),
     CATEGORY("categories"),
     BUDGET("budgets");

@@ -32,8 +32,10 @@ public class CategoryService {
 
     /** Thêm loại. */
     public void addCategory(Category category) {
-        if (category == null) {
-            throw new EmptyFieldException(FieldType.CATEGORY);
+        ValidationService.validateCategory(category);
+        if (findCategoryById(category.getId()) != null) {
+            throw new DuplicateEntityException(
+                    "Ví", "mã " + category.getId());
         }
         if (findCategoryByName(category.getName()) != null) {
             throw new DuplicateEntityException("Danh mục", category.getName());
@@ -44,9 +46,7 @@ public class CategoryService {
 
     /** Xóa loại. */
     public void removeCategory(Category category) {
-        if (category == null) {
-            throw new EmptyFieldException(FieldType.CATEGORY);
-        }
+        ValidationService.validateCategory(category);
         categories.remove(category);
         save();
     }

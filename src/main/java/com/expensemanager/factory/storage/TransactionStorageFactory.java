@@ -41,7 +41,6 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
     }
 
     @Override
-    // Có chỉnh sửa lại m đọc lại đi.
     protected Function<TransactionRecord, String[]> getSerializer() {
         return record -> new String[]{
                 record.getId(),
@@ -57,7 +56,6 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
     }
 
     @Override
-    // Có chỉnh sửa lại m đọc lại đi.
     protected Function<String[], TransactionRecord> getDeserializer() {
         return row -> {
             // 1. Kiểm tra an toàn độ dài dòng thô

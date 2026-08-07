@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
@@ -24,62 +23,71 @@
                 left="25.0"/>
     </padding>
 
-    <!-- Tiêu đề màn hình Ngân sách -->
+    <!-- HEADER -->
     <HBox alignment="CENTER_LEFT">
 
         <VBox spacing="5.0">
+
             <Label text="Ngân sách"
                    styleClass="dashboard-title"/>
 
             <Label text="Theo dõi hạn mức chi tiêu theo từng danh mục"
                    styleClass="dashboard-subtitle"/>
+
         </VBox>
 
         <Region HBox.hgrow="ALWAYS"/>
 
         <Button text="+ Thêm ngân sách"
+                onAction="#handleOpenBudgetForm"
                 styleClass="period-button"/>
+
     </HBox>
 
-    <!-- Khu vực tìm kiếm và bộ lọc -->
+    <!-- FILTER -->
     <HBox spacing="12.0"
           alignment="CENTER_LEFT"
           styleClass="dashboard-panel">
 
-        <TextField promptText="Tìm kiếm theo danh mục..."
-                   prefWidth="340.0"/>
+        <ComboBox fx:id="categoryFilter"
+                  promptText="Danh mục"
+                  prefWidth="240.0"/>
 
-        <ComboBox promptText="Chu kỳ"
-                  prefWidth="180.0"/>
-
-        <ComboBox promptText="Trạng thái"
+        <ComboBox fx:id="periodFilter"
+                  promptText="Chu kỳ"
                   prefWidth="180.0"/>
 
         <Region HBox.hgrow="ALWAYS"/>
 
         <Button text="Đặt lại"
+                onAction="#handleResetFilters"
                 minWidth="90.0"
                 prefWidth="90.0"
                 maxWidth="90.0"
                 styleClass="filter-button"/>
+
     </HBox>
 
-    <!-- Bảng danh sách ngân sách -->
+    <!-- TABLE -->
     <VBox spacing="12.0"
           VBox.vgrow="ALWAYS"
           styleClass="dashboard-panel">
 
         <HBox alignment="CENTER_LEFT">
+
             <Label text="Danh sách ngân sách"
                    styleClass="panel-title"/>
 
             <Region HBox.hgrow="ALWAYS"/>
 
-            <Label text="0 ngân sách"
+            <Label fx:id="budgetCountLabel"
+                   text="0 ngân sách"
                    styleClass="placeholder-text"/>
+
         </HBox>
 
-        <TableView VBox.vgrow="ALWAYS">
+        <TableView fx:id="budgetTable"
+                   VBox.vgrow="ALWAYS">
 
             <placeholder>
                 <Label text="Chưa có ngân sách nào"
@@ -87,32 +95,39 @@
             </placeholder>
 
             <columns>
-                <TableColumn text="Danh mục"
+
+                <TableColumn fx:id="categoryColumn"
+                             text="Danh mục"
                              prefWidth="180.0"/>
 
-                <TableColumn text="Hạn mức"
+                <TableColumn fx:id="limitColumn"
+                             text="Hạn mức"
                              prefWidth="150.0"/>
 
-                <TableColumn text="Đã chi"
+                <TableColumn fx:id="spentColumn"
+                             text="Đã chi"
                              prefWidth="140.0"/>
 
-                <TableColumn text="Còn lại"
+                <TableColumn fx:id="remainingColumn"
+                             text="Còn lại"
                              prefWidth="140.0"/>
 
-                <TableColumn text="Chu kỳ"
+                <TableColumn fx:id="periodColumn"
+                             text="Chu kỳ"
                              prefWidth="120.0"/>
 
-                <TableColumn text="Mức sử dụng"
+                <TableColumn fx:id="usageColumn"
+                             text="Mức sử dụng"
                              prefWidth="140.0"/>
 
-                <TableColumn text="Trạng thái"
-                             prefWidth="120.0"/>
+                <TableColumn fx:id="actionColumn"
+                             text="Thao tác"
+                             prefWidth="150.0"/>
 
-                <TableColumn text="Thao tác"
-                             prefWidth="100.0"/>
             </columns>
 
         </TableView>
+
     </VBox>
 
 </VBox>

@@ -1,357 +1,593 @@
-/* =====================================================
-   SIDEBAR
-   ===================================================== */
+/* ==========================================================
+GLOBAL
+========================================================== */
+
+.root {
+    -fx-font-family: "Segoe UI";
+}
+
+
+/* ==========================================================
+SIDEBAR
+========================================================== */
 
 .sidebar {
-    -fx-background-color: #2b2d42;
+    -fx-background-color:
+            linear-gradient(
+                    to bottom,
+                    #1d2738,
+                    #202b3d,
+                    #1d2637
+            );
 }
 
-.sidebar-title {
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-padding: 0 0 20 0;
+
+/* ==========================================================
+SIDEBAR BRAND - LOGO + APP NAME
+========================================================== */
+
+/*
+ * main.fxml đã có padding cho VBox sidebar,
+ * nên KHÔNG đặt padding cho .sidebar thêm lần nữa.
+ */
+
+.sidebar-brand {
+    -fx-padding: 4px 4px 32px 4px;
+    -fx-alignment: CENTER-LEFT;
 }
+
+
+/* Expense */
+
+.sidebar-app-name {
+    -fx-text-fill: #ffffff;
+
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+}
+
+
+/* Manager */
+
+.sidebar-app-name-accent {
+    -fx-text-fill: #63d8d1;
+
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+}
+
+
+/*
+ * Giữ class cũ.
+ * Nếu FXML cũ nào còn sử dụng thì không bị mất style.
+ */
+.sidebar-title {
+    -fx-text-fill: #ffffff;
+
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+
+    -fx-padding: 6px 8px 28px 8px;
+}
+
+
+/* ==========================================================
+SIDEBAR MENU ITEM
+========================================================== */
 
 .sidebar-button {
     -fx-background-color: transparent;
-    -fx-text-fill: #edf2f4;
-    -fx-font-size: 14px;
+
+    -fx-text-fill: #edf1f7;
+
+    -fx-font-size: 15px;
+
     -fx-alignment: CENTER-LEFT;
-    -fx-padding: 10px;
+
+    -fx-padding: 14px 18px;
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-width: 0;
+
     -fx-cursor: hand;
 }
+
+
+/* Hover */
 
 .sidebar-button:hover {
-    -fx-background-color: #3d405b;
-    -fx-background-radius: 5px;
-}
+    -fx-background-color:
+            rgba(255, 255, 255, 0.08);
 
-.content-pane {
-    -fx-background-color: #f8f9fa;
-    -fx-padding: 20px;
+    -fx-text-fill: #ffffff;
 }
 
 
-/* =====================================================
-   DASHBOARD
-   ===================================================== */
+/* ==========================================================
+SIDEBAR MENU ACTIVE / FOCUS
+========================================================== */
 
-.dashboard-root {
-    -fx-background-color: #f5f7fb;
-}
+.sidebar-button:focused {
+    -fx-background-color:
+            linear-gradient(
+                    to right,
+                    rgba(48, 164, 174, 0.25),
+                    rgba(65, 123, 175, 0.17)
+            );
 
+    -fx-text-fill: #ffffff;
 
-/* Tiêu đề trang */
+    -fx-border-color:
+            transparent
+            #69e1df
+            transparent
+            transparent;
 
-.dashboard-title {
-    -fx-font-size: 26px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #1f2937;
-}
+    -fx-border-width: 0 4px 0 0;
 
-.dashboard-subtitle {
-    -fx-font-size: 13px;
-    -fx-text-fill: #6b7280;
-}
-
-
-/* Nút chọn thời gian */
-
-.period-button {
-    -fx-background-color: #ffffff;
-    -fx-text-fill: #374151;
-    -fx-font-size: 13px;
-    -fx-padding: 9px 14px;
-
-    -fx-background-radius: 8px;
-    -fx-border-radius: 8px;
-
-    -fx-border-color: #e5e7eb;
-    -fx-border-width: 1px;
-
-    -fx-cursor: hand;
-}
-
-.period-button:hover {
-    -fx-background-color: #f9fafb;
-    -fx-border-color: #c7d2fe;
-}
-
-
-/* =====================================================
-   SUMMARY CARDS
-   ===================================================== */
-
-.summary-card {
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 12px;
-
-    -fx-padding: 18px;
-
-    -fx-border-color: #edf0f5;
-    -fx-border-width: 1px;
-    -fx-border-radius: 12px;
+    -fx-border-radius: 13px;
 
     -fx-effect: dropshadow(
             gaussian,
-            rgba(15, 23, 42, 0.08),
-            10,
+            rgba(87, 218, 220, 0.16),
+            12,
+            0.15,
             0,
+            0
+    );
+}
+
+
+/* Text button */
+
+.sidebar-button .text {
+    -fx-fill: #edf1f7;
+}
+
+.sidebar-button:hover .text {
+    -fx-fill: #ffffff;
+}
+
+.sidebar-button:focused .text {
+    -fx-fill: #ffffff;
+}
+
+
+/* ==========================================================
+SIDEBAR SEPARATOR
+========================================================== */
+
+.sidebar .separator .line {
+    -fx-border-color:
+            rgba(255, 255, 255, 0.08);
+}
+
+
+/* ==========================================================
+SIDEBAR SCROLLBAR
+========================================================== */
+
+.sidebar .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.sidebar .scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+.sidebar .scroll-bar .thumb {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.18);
+
+    -fx-background-radius: 8px;
+}
+
+
+/* ==========================================================
+CONTENT BACKGROUND
+========================================================== */
+
+.content-pane {
+    -fx-background-color:
+            linear-gradient(
+                    to bottom right,
+                    #b8f4ef,
+                    #d7efff,
+                    #e2d5ff,
+                    #ffd8ef,
+                    #c4f3ed
+            );
+
+    -fx-padding: 25px;
+}
+
+
+/* ==========================================================
+PAGE
+========================================================== */
+
+.dashboard-root {
+    -fx-background-color: transparent;
+}
+
+
+/* Tiêu đề */
+
+.dashboard-title {
+    -fx-font-size: 34px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #24324d;
+}
+
+
+/* Mô tả dưới tiêu đề */
+
+.dashboard-subtitle {
+    -fx-font-size: 16px;
+
+    -fx-text-fill: #4f5d73;
+}
+
+
+/* ==========================================================
+BUTTON
+========================================================== */
+
+.period-button,
+.filter-button {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.82);
+
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+
+    -fx-padding: 10px 18px;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0, 0, 0, 0.10),
+            15,
+            0.15,
             0,
             3
     );
 }
+
+
+.period-button:hover,
+.filter-button:hover {
+    -fx-background-color: white;
+}
+
+
+/* ==========================================================
+SUMMARY CARD
+========================================================== */
+
+.summary-card {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.86);
+
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.70);
+
+    -fx-border-width: 1px;
+
+    -fx-padding: 20px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0, 0, 0, 0.12),
+            22,
+            0.20,
+            0,
+            6
+    );
+}
+
 
 .summary-card:hover {
     -fx-translate-y: -2px;
 
     -fx-effect: dropshadow(
             gaussian,
-            rgba(15, 23, 42, 0.14),
-            14,
+            rgba(0, 0, 0, 0.18),
+            28,
+            0.25,
             0,
-            0,
-            5
+            8
     );
 }
 
+
 .summary-label {
-    -fx-font-size: 12px;
+    -fx-font-size: 13px;
+
     -fx-font-weight: bold;
 }
+
 
 .summary-value {
-    -fx-font-size: 24px;
+    -fx-font-size: 30px;
+
     -fx-font-weight: bold;
-    -fx-text-fill: #111827;
+
+    -fx-text-fill: #24324d;
 }
 
+
 .summary-description {
-    -fx-font-size: 12px;
+    -fx-font-size: 13px;
+
     -fx-text-fill: #6b7280;
 }
 
 
-/* Icon trong thẻ thống kê */
+/* ==========================================================
+SUMMARY ICON
+========================================================== */
 
 .summary-icon {
-    -fx-min-width: 42px;
-    -fx-min-height: 42px;
+    -fx-pref-width: 44px;
+    -fx-pref-height: 44px;
 
-    -fx-pref-width: 42px;
-    -fx-pref-height: 42px;
+    -fx-min-width: 44px;
+    -fx-min-height: 44px;
 
-    -fx-max-width: 42px;
-    -fx-max-height: 42px;
+    -fx-max-width: 44px;
+    -fx-max-height: 44px;
 
-    -fx-background-radius: 50%;
+    -fx-background-radius: 22px;
 }
+
 
 .summary-icon-text {
     -fx-font-size: 18px;
+
     -fx-font-weight: bold;
 }
 
 
-/* Màu từng loại thống kê */
+/* ==========================================================
+SUMMARY COLORS
+========================================================== */
 
 .balance-text {
-    -fx-text-fill: #2563eb;
+    -fx-text-fill: #2f80ed;
 }
 
 .income-text {
-    -fx-text-fill: #16a36a;
+    -fx-text-fill: #00b894;
 }
 
 .expense-text {
-    -fx-text-fill: #ef4444;
+    -fx-text-fill: #ff5a5f;
 }
 
+
 .balance-icon {
-    -fx-background-color: #dbeafe;
+    -fx-background-color: #d9ebff;
 }
 
 .balance-icon .label {
-    -fx-text-fill: #2563eb;
+    -fx-text-fill: #2f80ed;
 }
 
+
 .income-icon {
-    -fx-background-color: #dcfce7;
+    -fx-background-color: #dcfff5;
 }
 
 .income-icon .label {
-    -fx-text-fill: #16a36a;
+    -fx-text-fill: #00b894;
 }
 
+
 .expense-icon {
-    -fx-background-color: #fee2e2;
+    -fx-background-color: #ffe4e7;
 }
 
 .expense-icon .label {
-    -fx-text-fill: #ef4444;
+    -fx-text-fill: #ff5a5f;
 }
 
 
-/* =====================================================
-   DASHBOARD PANELS
-   ===================================================== */
+/* ==========================================================
+DASHBOARD PANEL
+========================================================== */
 
 .dashboard-panel {
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 12px;
-    -fx-border-radius: 12px;
+    -fx-background-color:
+            rgba(255, 255, 255, 0.86);
 
-    -fx-border-color: #edf0f5;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.75);
+
     -fx-border-width: 1px;
 
-    -fx-padding: 18px;
+    -fx-padding: 20px;
 
     -fx-effect: dropshadow(
             gaussian,
-            rgba(15, 23, 42, 0.07),
-            10,
+            rgba(0, 0, 0, 0.12),
+            22,
+            0.18,
             0,
+            6
+    );
+}
+
+
+.panel-title {
+    -fx-font-size: 18px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #23324c;
+}
+
+
+/* ==========================================================
+CHART PLACEHOLDER
+========================================================== */
+
+.chart-placeholder {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.55);
+
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.60);
+
+    -fx-border-style: dashed;
+
+    -fx-min-height: 180px;
+}
+
+
+.placeholder-text {
+    -fx-text-fill: #7b8797;
+
+    -fx-font-size: 14px;
+}
+
+
+/* ==========================================================
+TABLE VIEW
+========================================================== */
+
+.table-view {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.82);
+
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.75);
+
+    -fx-border-width: 1px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0, 0, 0, 0.10),
+            16,
+            0.15,
             0,
             3
     );
 }
 
-.panel-title {
-    -fx-font-size: 15px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #1f2937;
-}
 
-.filter-button {
-    -fx-background-color: #f8fafc;
-    -fx-text-fill: #475569;
-    -fx-font-size: 12px;
-
-    -fx-padding: 7px 11px;
-
-    -fx-background-radius: 7px;
-    -fx-border-radius: 7px;
-
-    -fx-border-color: #e2e8f0;
-    -fx-border-width: 1px;
-
-    -fx-cursor: hand;
-}
-
-.filter-button:hover {
-    -fx-background-color: #eef2ff;
-    -fx-border-color: #c7d2fe;
-}
-
-
-/* Khung tạm dành cho biểu đồ */
-
-.chart-placeholder {
-    -fx-min-height: 145px;
-
-    -fx-background-color: #f8fafc;
-    -fx-background-radius: 8px;
-
-    -fx-border-color: #dbe2ea;
-    -fx-border-radius: 8px;
-    -fx-border-style: dashed;
-}
-
-.placeholder-text {
-    -fx-font-size: 13px;
-    -fx-text-fill: #94a3b8;
-}
-
-
-/* =====================================================
-   RECENT TRANSACTIONS
-   ===================================================== */
-
-.transaction-header {
-    -fx-background-color: #f8fafc;
-    -fx-background-radius: 8px 8px 0 0;
-
-    -fx-padding: 9px 12px;
-
-    -fx-border-color: transparent transparent #e5e7eb transparent;
-    -fx-border-width: 0 0 1px 0;
-}
-
-.transaction-header-label {
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #64748b;
-}
-
-.transaction-empty {
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 0 0 8px 8px;
-    -fx-min-height: 65px;
-}
-
-.empty-title {
-    -fx-font-size: 13px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #475569;
-}
-/* =====================================================
-   TRANSACTION TABLE
-   ===================================================== */
-
-.table-view {
-    -fx-background-color: transparent;
-    -fx-border-color: #e5e7eb;
-    -fx-border-radius: 8px;
-    -fx-background-radius: 8px;
-}
+/* ==========================================================
+TABLE HEADER
+========================================================== */
 
 .table-view .column-header-background {
-    -fx-background-color: #f8fafc;
-    -fx-background-radius: 8px 8px 0 0;
+    -fx-background-color:
+            rgba(247, 249, 255, 0.95);
+
+    -fx-background-radius:
+            18px 18px 0 0;
 }
+
 
 .table-view .column-header {
     -fx-background-color: transparent;
-    -fx-border-color: transparent transparent #e5e7eb transparent;
+
+    -fx-border-color:
+            transparent
+            #edf2f7
+            #e5e7eb
+            transparent;
+
+    -fx-border-width:
+            0 1px 1px 0;
 }
+
 
 .table-view .column-header .label {
-    -fx-font-size: 12px;
+    -fx-text-fill: #445066;
+
+    -fx-font-size: 13px;
+
     -fx-font-weight: bold;
-    -fx-text-fill: #475569;
 }
+
+
+/* ==========================================================
+TABLE ROW
+========================================================== */
 
 .table-row-cell {
-    -fx-background-color: #ffffff;
-    -fx-border-color: transparent transparent #f1f5f9 transparent;
+    -fx-background-color:
+            rgba(255, 255, 255, 0.82);
+
+    -fx-border-color:
+            transparent
+            transparent
+            #edf2f7
+            transparent;
 }
+
 
 .table-row-cell:hover {
-    -fx-background-color: #f8fafc;
+    -fx-background-color: #f9fbff;
 }
+
 
 .table-row-cell:selected {
-    -fx-background-color: #eef2ff;
+    -fx-background-color: #edf4ff;
 }
+
+
+/* ==========================================================
+TABLE CELL
+========================================================== */
 
 .table-cell {
-    -fx-padding: 10px 12px;
-    -fx-font-size: 12px;
+    -fx-padding: 12px;
+
     -fx-text-fill: #334155;
+
+    -fx-font-size: 13px;
 }
+
+
+/* ==========================================================
+TABLE EMPTY
+========================================================== */
 
 .table-view .placeholder .label {
-    -fx-font-size: 13px;
     -fx-text-fill: #94a3b8;
 }
-/* Đường phân cách dọc giữa các cột TableView */
-.table-view .column-header {
-    -fx-border-color: transparent #e2e8f0 #e5e7eb transparent;
-    -fx-border-width: 0 1px 1px 0;
-}
 
-.table-view .table-cell {
-    -fx-border-color: transparent #e2e8f0 #f1f5f9 transparent;
-    -fx-border-width: 0 1px 1px 0;
+
+/* ==========================================================
+EMPTY STATE
+========================================================== */
+
+.empty-title {
+    -fx-font-size: 15px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #374151;
 }

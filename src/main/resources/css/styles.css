@@ -295,3 +295,63 @@
     -fx-font-weight: bold;
     -fx-text-fill: #475569;
 }
+/* =====================================================
+   TRANSACTION TABLE
+   ===================================================== */
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 8px 8px 0 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #e5e7eb transparent;
+}
+
+.table-view .column-header .label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #475569;
+}
+
+.table-row-cell {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent transparent #f1f5f9 transparent;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #f8fafc;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #eef2ff;
+}
+
+.table-cell {
+    -fx-padding: 10px 12px;
+    -fx-font-size: 12px;
+    -fx-text-fill: #334155;
+}
+
+.table-view .placeholder .label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #94a3b8;
+}
+/* Đường phân cách dọc giữa các cột TableView */
+.table-view .column-header {
+    -fx-border-color: transparent #e2e8f0 #e5e7eb transparent;
+    -fx-border-width: 0 1px 1px 0;
+}
+
+.table-view .table-cell {
+    -fx-border-color: transparent #e2e8f0 #f1f5f9 transparent;
+    -fx-border-width: 0 1px 1px 0;
+}

@@ -59,8 +59,9 @@
                 </StackPane>
             </HBox>
 
-            <Label text="0 ₫"
-                   styleClass="summary-value"/>
+            <Label  fx:id="totalBalanceLabel"
+                    text="0 ₫"
+                    styleClass="summary-value"/>
 
             <Label text="Tổng tài sản hiện có"
                    styleClass="summary-description"/>

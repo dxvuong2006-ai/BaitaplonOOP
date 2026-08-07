@@ -1,14 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.expensemanager.controller.TransactionController"
-            prefHeight="400.0" prefWidth="600.0">
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.expensemanager.controller.TransactionController"
+      styleClass="dashboard-root"
+      spacing="18.0">
 
-</AnchorPane>
+    <padding>
+        <Insets top="25.0"
+                right="25.0"
+                bottom="25.0"
+                left="25.0"/>
+    </padding>
+
+    <!-- Tiêu đề màn hình Giao dịch -->
+    <HBox alignment="CENTER_LEFT">
+
+        <VBox spacing="5.0">
+            <Label text="Giao dịch"
+                   styleClass="dashboard-title"/>
+
+            <Label text="Quản lý toàn bộ các khoản thu và chi của bạn"
+                   styleClass="dashboard-subtitle"/>
+        </VBox>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Button text="+ Thêm giao dịch"
+                styleClass="period-button"/>
+    </HBox>
+
+    <!-- Khu vực tìm kiếm và bộ lọc -->
+    <HBox spacing="12.0"
+          alignment="CENTER_LEFT"
+          styleClass="dashboard-panel">
+
+        <TextField promptText="Tìm kiếm theo mô tả..."
+                   prefWidth="260.0"/>
+
+        <ComboBox promptText="Loại giao dịch"
+                  prefWidth="150.0"/>
+
+        <ComboBox promptText="Danh mục"
+                  prefWidth="150.0"/>
+
+        <ComboBox promptText="Ví"
+                  prefWidth="150.0"/>
+
+        <DatePicker promptText="Chọn ngày"
+                    prefWidth="150.0"/>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Button text="Đặt lại"
+                minWidth="90.0"
+                prefWidth="90.0"
+                maxWidth="90.0"
+                styleClass="filter-button"/>
+    </HBox>
+
+    <!-- Bảng danh sách giao dịch -->
+    <VBox spacing="12.0"
+          VBox.vgrow="ALWAYS"
+          styleClass="dashboard-panel">
+
+        <HBox alignment="CENTER_LEFT">
+            <Label text="Danh sách giao dịch"
+                   styleClass="panel-title"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Label text="0 giao dịch"
+                   styleClass="placeholder-text"/>
+        </HBox>
+
+        <TableView VBox.vgrow="ALWAYS">
+
+            <placeholder>
+                <Label text="Chưa có giao dịch nào"
+                       styleClass="placeholder-text"/>
+            </placeholder>
+
+            <columns>
+                <TableColumn text="Ngày"
+                             prefWidth="110.0"/>
+
+                <TableColumn text="Mô tả"
+                             prefWidth="250.0"/>
+
+                <TableColumn text="Ví"
+                             prefWidth="150.0"/>
+
+                <TableColumn text="Danh mục"
+                             prefWidth="150.0"/>
+
+                <TableColumn text="Loại"
+                             prefWidth="100.0"/>
+
+                <TableColumn text="Số tiền"
+                             prefWidth="150.0"/>
+            </columns>
+
+        </TableView>
+    </VBox>
+
+</VBox>

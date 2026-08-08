@@ -11,7 +11,7 @@ public class DuplicateEntityException extends ExpenseManagerException {
     public DuplicateEntityException(String entityType,
                                     String entityName) {
 
-        super(entityType + " \"" + entityName + "\" already exists.");
+        super(entityType + " \"" + entityName + "\" đã tồn tại.");
 
         this.entityType = entityType;
         this.entityName = entityName;

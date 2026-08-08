@@ -31,5 +31,16 @@
     "type": "EXPENSE",
     "extraField": "",
     "period": ""
+  },
+  {
+    "id": "1bd55955-20a0-44dd-9092-38512c5affda",
+    "amount": 100.0,
+    "date": "08/08/2026",
+    "note": "",
+    "categoryId": "124",
+    "walletId": "123",
+    "type": "EXPENSE",
+    "extraField": "cash",
+    "period": "MONTH"
   }
 ]

@@ -32,9 +32,6 @@ public class Expense extends Transaction {
         return paymentMethod;
     }
     public void setPaymentMethod(String paymentMethod) {
-        if (paymentMethod == null) {
-            throw new EmptyFieldException(FieldType.PAYMENTMETHOD);
-        }
         this.paymentMethod = paymentMethod;
     }
 }

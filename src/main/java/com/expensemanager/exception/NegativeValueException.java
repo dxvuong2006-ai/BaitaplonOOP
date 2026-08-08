@@ -10,7 +10,7 @@ public class NegativeValueException extends ExpenseManagerException {
     private final FieldType fieldType;
 
     public NegativeValueException(FieldType fieldType) {
-        super(fieldType + " không thể âm");
+        super(fieldType.getDisplayName() + " không thể âm");
         this.fieldType = fieldType;
     }
 

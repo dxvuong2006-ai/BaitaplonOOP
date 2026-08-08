@@ -1,29 +1,29 @@
 [
   {
     "id": "123",
-    "amount": 200.0,
+    "amount": 100.0,
     "date": "07/08/2026",
     "note": "",
-    "categoryId": "123",
+    "categoryId": "124",
     "walletId": "123",
     "type": "EXPENSE",
     "extraField": "",
     "period": ""
   },
   {
-    "id": "124",
-    "amount": 41.0,
+    "id": "125",
+    "amount": 2000.0,
     "date": "07/08/2026",
     "note": "",
     "categoryId": "123",
     "walletId": "123",
-    "type": "EXPENSE",
-    "extraField": "cash",
+    "type": "INCOME",
+    "extraField": "luong",
     "period": ""
   },
   {
-    "id": "1",
-    "amount": 260.0,
+    "id": "126",
+    "amount": 500.0,
     "date": "07/08/2026",
     "note": "",
     "categoryId": "123",

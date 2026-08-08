@@ -10,7 +10,7 @@ public class EmptyFieldException extends ExpenseManagerException {
     private final FieldType fieldType;
 
     public EmptyFieldException(FieldType fieldType) {
-        super(fieldType + " cannot be empty.");
+        super(fieldType.getDisplayName() + " không được để trống.");
         this.fieldType = fieldType;
     }
 

@@ -1,16 +1,24 @@
 package com.expensemanager.factory.storage;
 
 import com.expensemanager.factory.model.WalletFactory;
+import com.expensemanager.model.enums.StorageType;
 import com.expensemanager.model.wallet.Wallet;
 import com.expensemanager.model.wallet.BankAccount;
 import com.expensemanager.model.wallet.EWallet;
 import com.expensemanager.model.enums.WalletType;
+import com.expensemanager.repository.Storage;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 import java.util.function.Function;
 
 public class WalletStorageFactory extends AbstractStorageFactory<Wallet> {
+
+    private Storage<Wallet> storage;
+
+    public WalletStorageFactory(StorageType storageType) {
+        super(storageType);
+    }
 
     @Override
     protected TypeToken<List<Wallet>> getTypeToken() {

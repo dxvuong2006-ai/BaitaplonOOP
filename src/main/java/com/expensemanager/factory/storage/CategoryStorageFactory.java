@@ -1,12 +1,20 @@
 package com.expensemanager.factory.storage;
 
 import com.expensemanager.model.category.Category;
+import com.expensemanager.model.enums.StorageType;
+import com.expensemanager.repository.Storage;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 import java.util.function.Function;
 
 public class CategoryStorageFactory extends AbstractStorageFactory<Category> {
+
+    private Storage<Category> storage;
+
+    public CategoryStorageFactory(StorageType storageType) {
+        super(storageType);
+    }
 
     @Override
     protected TypeToken<List<Category>> getTypeToken() {

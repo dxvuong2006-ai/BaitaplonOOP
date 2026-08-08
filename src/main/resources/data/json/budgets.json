@@ -1,0 +1,8 @@
+[
+  {
+    "id": "1",
+    "categoryId": "123",
+    "limitAmount": 500.0,
+    "period": "WEEKLY"
+  }
+]

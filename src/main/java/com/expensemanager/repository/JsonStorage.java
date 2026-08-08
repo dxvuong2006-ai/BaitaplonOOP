@@ -36,9 +36,20 @@ public class JsonStorage<T> implements Storage<T> {
 
     private static Gson buildGson() {
         Map<String, Class<? extends Wallet>> walletRegistry = Map.of(
+                // 1. Tên Class Java (được sinh ra khi serialize từ PolymorphicAdapter)
                 "CashWallet", CashWallet.class,
                 "BankAccount", BankAccount.class,
-                "EWallet", EWallet.class
+                "EWallet", EWallet.class,
+
+                // 2. Tên Enum WalletType.name() (CASH, BANK, EWALLET)
+                "CASH", CashWallet.class,
+                "BANK", BankAccount.class,
+                "EWALLET", EWallet.class,
+
+                // 3. Tên hiển thị WalletType.getDisplayName() (Cash, Bank, Ewallet)
+                "Cash", CashWallet.class,
+                "Bank", BankAccount.class,
+                "Ewallet", EWallet.class
         );
 
         return new GsonBuilder()

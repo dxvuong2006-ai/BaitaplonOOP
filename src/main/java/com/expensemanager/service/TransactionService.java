@@ -150,6 +150,7 @@ public class TransactionService {
         } else {
             wallet.deposit(signedAmount);
         }
+        walletService.save();
         transactions.add(transaction);
         save();
     }
@@ -168,6 +169,7 @@ public class TransactionService {
             ValidationService.validateWithdraw(wallet, signedAmount);
             wallet.withdraw(signedAmount);
         }
+        walletService.save();
         transactions.remove(transaction);
         save();
     }

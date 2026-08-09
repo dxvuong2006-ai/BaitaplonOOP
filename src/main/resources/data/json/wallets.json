@@ -3,14 +3,14 @@
     "transactionFee": 10.0,
     "id": "123",
     "name": "123",
-    "balance": 1000.0,
+    "balance": 24990.0,
     "type": "BANK"
   },
   {
     "transactionFee": 0.0,
     "id": "124",
     "name": "124",
-    "balance": 2000.0,
+    "balance": 20000.0,
     "type": "BANK"
   }
 ]

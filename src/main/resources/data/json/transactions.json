@@ -1,13 +1,24 @@
 [
   {
-    "id": "06d56f69-9e90-4ea1-a6a7-68700642745e",
-    "amount": 499.0,
+    "id": "991d9d17-2943-401f-983a-c0dfbfd37332",
+    "amount": 5000.0,
     "date": "09/08/2026",
-    "note": "",
-    "categoryId": "123",
+    "note": "hpbd",
+    "categoryId": "124",
     "walletId": "123",
     "type": "EXPENSE",
-    "extraField": "",
+    "extraField": "Tiền mặt",
+    "period": ""
+  },
+  {
+    "id": "68ca6b4d-4604-44ab-bdca-b94457d638fc",
+    "amount": 20000.0,
+    "date": "09/08/2026",
+    "note": "",
+    "categoryId": "124",
+    "walletId": "123",
+    "type": "INCOME",
+    "extraField": "Lương",
     "period": ""
   }
 ]

@@ -37,7 +37,6 @@ public class DateUtils {
         } catch (DateTimeParseException e) {
             throw new InvalidFormatException(FieldType.DATE, "Ngày không hợp lệ");
         }
-
     }
 
     /** Kiểm tra chuỗi có phải là ngày hợp lệ không. */
@@ -51,8 +50,7 @@ public class DateUtils {
     }
 
     /** Kiểm tra xem 2 ngày có cùng trong 1 chu kỳ hay không. */
-    public static boolean isInSamePeriod(LocalDate date,
-                                         LocalDate referenceDate,
+    public static boolean isInSamePeriod(LocalDate date, LocalDate referenceDate,
                                          Period period) {
         if (date == null || referenceDate == null || period == null) {
             return false;

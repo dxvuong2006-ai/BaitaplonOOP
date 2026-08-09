@@ -20,5 +20,38 @@
     "type": "INCOME",
     "extraField": "Lương",
     "period": ""
+  },
+  {
+    "id": "931f0b48-94e7-4142-9d38-896bd27423f2",
+    "amount": 100000.0,
+    "date": "09/08/2026",
+    "note": "",
+    "categoryId": "123",
+    "walletId": "eb9d771a-e6df-4707-ae80-737a3ed38252",
+    "type": "INCOME",
+    "extraField": "luong",
+    "period": ""
+  },
+  {
+    "id": "18ff1032-376f-4da2-88b9-fc04323c282a",
+    "amount": 10000.0,
+    "date": "09/08/2026",
+    "note": "",
+    "categoryId": "124",
+    "walletId": "eb9d771a-e6df-4707-ae80-737a3ed38252",
+    "type": "EXPENSE",
+    "extraField": "cash",
+    "period": ""
+  },
+  {
+    "id": "f4bfdb64-2701-4261-a437-c8b454940ffa",
+    "amount": 1000.0,
+    "date": "09/08/2026",
+    "note": "",
+    "categoryId": "ed385397-97d6-439b-9865-8e049d2c860e",
+    "walletId": "eb9d771a-e6df-4707-ae80-737a3ed38252",
+    "type": "EXPENSE",
+    "extraField": "cash",
+    "period": "MONTH"
   }
 ]

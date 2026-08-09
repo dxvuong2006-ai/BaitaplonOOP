@@ -12,5 +12,11 @@
     "name": "124",
     "balance": 20000.0,
     "type": "BANK"
+  },
+  {
+    "id": "eb9d771a-e6df-4707-ae80-737a3ed38252",
+    "name": "đồ ăn",
+    "balance": 10000.0,
+    "type": "CASH"
   }
 ]

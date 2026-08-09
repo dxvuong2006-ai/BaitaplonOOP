@@ -1,0 +1,13 @@
+[
+  {
+    "id": "06d56f69-9e90-4ea1-a6a7-68700642745e",
+    "amount": 499.0,
+    "date": "09/08/2026",
+    "note": "",
+    "categoryId": "123",
+    "walletId": "123",
+    "type": "EXPENSE",
+    "extraField": "",
+    "period": ""
+  }
+]

@@ -59,6 +59,4 @@ public class CurrencyUtils {
     public static double roundToDong(double amount) {
         return Math.round(amount * 100.0) / 100.0;
     }
-
-    /** Chuyển đổi tỷ giá ngoại tệ. */
 }

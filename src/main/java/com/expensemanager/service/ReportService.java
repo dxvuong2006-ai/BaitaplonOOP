@@ -4,6 +4,12 @@ import com.expensemanager.model.report.ReportData;
 import com.expensemanager.model.category.Category;
 import com.expensemanager.model.transaction.Transaction;
 
+import com.expensemanager.factory.report.ReportGeneratorFactory;
+import com.expensemanager.report.ReportGenerator;
+import com.expensemanager.model.enums.ReportType;
+import java.io.File;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
@@ -68,5 +74,14 @@ public class ReportService{
     public void fillTransactionStatistics(ReportData report, List<Transaction> transactions) {
         report.setTotalTransactions(
                 ExpenseManager.getInstance().getStatisticsService().countTransactions(transactions));
+    }
+
+    /** Xuất báo cáo. */
+    public File exportReport(LocalDate startDate, LocalDate endDate,
+                             ReportType type, File outputFile) throws IOException {
+        ReportData report = createReport(startDate, endDate);
+        ReportGenerator generator = ReportGeneratorFactory.create(type);
+        generator.generateReport(report, outputFile);
+        return outputFile;
     }
 }

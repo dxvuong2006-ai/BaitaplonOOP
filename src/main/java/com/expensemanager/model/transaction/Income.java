@@ -33,9 +33,6 @@ public class Income extends Transaction {
         return source;
     }
     public void setSource(String source) {
-        if (source == null) {
-            throw new EmptyFieldException(FieldType.SOURCE);
-        }
         this.source = source;
     }
 }

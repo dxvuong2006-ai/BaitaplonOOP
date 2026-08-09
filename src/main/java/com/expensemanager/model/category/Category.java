@@ -52,9 +52,7 @@ public class Category {
      * @throws IllegalArgumentException nếu id âm
      */
     public void setId(String id) {
-        if(id==null || id.isBlank()) {
-            throw new EmptyFieldException(FieldType.ID);
-        }
+
         this.id = id;
     }
 
@@ -74,9 +72,7 @@ public class Category {
      * @throws IllegalArgumentException nếu name rỗng hoặc null
      */
     public void setName(String name) {
-        if (name == null || name.isBlank()) {
-            throw new EmptyFieldException(FieldType.NAME);
-        }
+
         this.name = name;
     }
 

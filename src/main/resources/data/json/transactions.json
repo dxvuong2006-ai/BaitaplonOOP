@@ -1,35 +1,57 @@
 [
   {
-    "id": "123",
-    "amount": 200.0,
-    "date": "07/08/2026",
-    "note": "",
-    "categoryId": "123",
+    "id": "991d9d17-2943-401f-983a-c0dfbfd37332",
+    "amount": 5000.0,
+    "date": "09/08/2026",
+    "note": "hpbd",
+    "categoryId": "124",
     "walletId": "123",
     "type": "EXPENSE",
-    "extraField": "",
+    "extraField": "Tiền mặt",
     "period": ""
   },
   {
-    "id": "124",
-    "amount": 41.0,
-    "date": "07/08/2026",
+    "id": "68ca6b4d-4604-44ab-bdca-b94457d638fc",
+    "amount": 20000.0,
+    "date": "09/08/2026",
+    "note": "",
+    "categoryId": "124",
+    "walletId": "123",
+    "type": "INCOME",
+    "extraField": "Lương",
+    "period": ""
+  },
+  {
+    "id": "931f0b48-94e7-4142-9d38-896bd27423f2",
+    "amount": 100000.0,
+    "date": "09/08/2026",
     "note": "",
     "categoryId": "123",
-    "walletId": "123",
+    "walletId": "eb9d771a-e6df-4707-ae80-737a3ed38252",
+    "type": "INCOME",
+    "extraField": "luong",
+    "period": ""
+  },
+  {
+    "id": "18ff1032-376f-4da2-88b9-fc04323c282a",
+    "amount": 10000.0,
+    "date": "09/08/2026",
+    "note": "",
+    "categoryId": "124",
+    "walletId": "eb9d771a-e6df-4707-ae80-737a3ed38252",
     "type": "EXPENSE",
     "extraField": "cash",
     "period": ""
   },
   {
-    "id": "1",
-    "amount": 260.0,
-    "date": "07/08/2026",
+    "id": "f4bfdb64-2701-4261-a437-c8b454940ffa",
+    "amount": 1000.0,
+    "date": "09/08/2026",
     "note": "",
-    "categoryId": "123",
-    "walletId": "123",
+    "categoryId": "ed385397-97d6-439b-9865-8e049d2c860e",
+    "walletId": "eb9d771a-e6df-4707-ae80-737a3ed38252",
     "type": "EXPENSE",
-    "extraField": "",
-    "period": ""
+    "extraField": "cash",
+    "period": "MONTH"
   }
 ]

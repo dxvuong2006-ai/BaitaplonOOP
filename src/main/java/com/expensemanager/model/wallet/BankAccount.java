@@ -45,24 +45,11 @@ public class BankAccount extends Wallet {
     }
 
     public void setTransactionFee(double transactionFee) {
-        if (transactionFee < 0) {
-            throw new NegativeValueException(FieldType.TRANSACTIONFEE);
-        }
         this.transactionFee = transactionFee;
     }
 
-    /**
-     * Rút tiền từ tài khoản ngân hàng.
-     * Đa hình: Số tiền bị trừ = số tiền rút + phí giao dịch cố định.
-     *
-     * @param amount số tiền cần rút (phải > 0)
-     * @throws IllegalArgumentException nếu amount <= 0 hoặc số dư không đủ (mức rút + phí)
-     */
     @Override
     public void withdraw(double amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Số tiền rút phải lớn hơn 0.");
-        }
         double totalDeduction = amount + transactionFee;
         // Dùng epsilon để tránh sai số float khi rút sát/đúng số dư hiện có
         if (totalDeduction > getBalance() + CurrencyUtils.EPSILON) {

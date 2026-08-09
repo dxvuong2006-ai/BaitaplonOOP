@@ -24,6 +24,9 @@ public enum FieldType {
     BUDGET("Ngân sách"),
     REPORTTYPE("Loại báo cáo"),
     USERID("Người dùng");
+    USERNAME("Tên đăng nhập"),
+    PASSWORD("Mật khẩu"),
+    EMAIL("Email");
 
     private final String displayName;
 

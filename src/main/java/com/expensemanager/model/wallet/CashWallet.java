@@ -25,9 +25,6 @@ public class CashWallet extends Wallet {
 
     @Override
     public void withdraw(double amount) {
-        if (amount <= 0) {
-            throw new NegativeValueException(FieldType.AMOUNT);
-        }
         if (amount > getBalance()) {
             throw new InsufficientFundsException(balance,amount);
         }

@@ -1,46 +1,13 @@
 [
   {
-    "id": "123",
-    "amount": 200.0,
-    "date": "07/08/2026",
+    "id": "06d56f69-9e90-4ea1-a6a7-68700642745e",
+    "amount": 499.0,
+    "date": "09/08/2026",
     "note": "",
     "categoryId": "123",
     "walletId": "123",
     "type": "EXPENSE",
     "extraField": "",
     "period": ""
-  },
-  {
-    "id": "124",
-    "amount": 41.0,
-    "date": "07/08/2026",
-    "note": "",
-    "categoryId": "123",
-    "walletId": "123",
-    "type": "EXPENSE",
-    "extraField": "cash",
-    "period": ""
-  },
-  {
-    "id": "1",
-    "amount": 260.0,
-    "date": "07/08/2026",
-    "note": "",
-    "categoryId": "123",
-    "walletId": "123",
-    "type": "EXPENSE",
-    "extraField": "",
-    "period": ""
-  },
-  {
-    "id": "1bd55955-20a0-44dd-9092-38512c5affda",
-    "amount": 100.0,
-    "date": "08/08/2026",
-    "note": "",
-    "categoryId": "124",
-    "walletId": "123",
-    "type": "EXPENSE",
-    "extraField": "cash",
-    "period": "MONTH"
   }
 ]

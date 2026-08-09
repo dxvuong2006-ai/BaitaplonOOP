@@ -142,11 +142,11 @@ public class TransactionService {
         double signedAmount = transaction.getSignedAmount();
         if (signedAmount < 0) {
             ValidationService.validateWithdraw(wallet, -signedAmount);
-            wallet.withdraw(-signedAmount);
             Budget budget = budgetService.findBudgetByCategory(transaction.getCategory());
             if (budget != null) {
-                budgetService.validateBudgetLimit(budget);
+                budgetService.validateBudgetLimit(budget, -signedAmount);
             }
+            wallet.withdraw(-signedAmount);
         } else {
             wallet.deposit(signedAmount);
         }

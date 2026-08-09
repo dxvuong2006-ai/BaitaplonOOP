@@ -167,9 +167,9 @@ public class BudgetService {
     }
 
     /** Kiểm tra ngân sách có bị vượt không. */
-    public void validateBudgetLimit(Budget budget) {
+    public void validateBudgetLimit(Budget budget, double pendingAmount) {
         ValidationService.validateBudget(budget);
-        double spent = calculateTotalSpentAmount(budget);
+        double spent = calculateTotalSpentAmount(budget) + pendingAmount;
         if (budget.isExceeded(spent)) {
             throw new BudgetExceededException(budget.getLimitAmount(), spent);
         }

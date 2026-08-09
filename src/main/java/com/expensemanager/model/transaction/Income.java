@@ -14,8 +14,9 @@ public class Income extends Transaction {
         super();
     }
 
-    public Income(String id,double amount, LocalDate date, String note, Category category, Wallet wallet,String source) {
-        super(id, amount, date, note, category, wallet);
+    public Income(String id, double amount, LocalDate date, String note, Category category,
+                  Wallet wallet, String source, int userId) {
+        super(id, amount, date, note, category, wallet, userId);
         setSource(source);
     }
 

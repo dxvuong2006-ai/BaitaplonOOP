@@ -13,8 +13,9 @@ public class Expense extends Transaction {
         super();
     }
 
-    public Expense(String id, double amount, LocalDate date, String note, Category category, Wallet wallet, String paymentMethod) {
-        super(id, amount, date, note, category, wallet);
+    public Expense(String id, double amount, LocalDate date, String note, Category category,
+                   Wallet wallet, String paymentMethod, int userId) {
+        super(id, amount, date, note, category, wallet, userId);
         setPaymentMethod(paymentMethod);
     }
 

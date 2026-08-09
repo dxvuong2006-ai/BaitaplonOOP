@@ -1,4 +1,4 @@
-package com.expensemanager.model.user;
+package com.expensemanager.model.User;
 
 import java.util.Objects;
 

@@ -15,8 +15,9 @@ import java.util.Objects;
 public class Budget {
     private String id;
     private Category category;
-    private double limitAmount; 
+    private double limitAmount;
     private Period period;
+    private int userId;
 
     public Budget() {}
 
@@ -27,12 +28,14 @@ public class Budget {
      * @param category    danh mục áp dụng ngân sách (có thể null nếu áp dụng cho tổng ngân sách)
      * @param limitAmount hạn mức chi tiêu tối đa (>= 0)
      * @param period      chu kỳ áp dụng (DAILY, WEEKLY, MONTH, YEARLY)
+     * @param userId      id của người dùng sở hữu ngân sách, phải > 0
      */
-    public Budget(String id, Category category, double limitAmount, Period period) {
+    public Budget(String id, Category category, double limitAmount, Period period, int userId) {
         setId(id);
         setLimitAmount(limitAmount);
         this.category = category;
         this.period = period;
+        setUserId(userId);
     }
 
     public String getId() {
@@ -65,6 +68,17 @@ public class Budget {
 
     public void setPeriod(Period period) {
         this.period = period;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        if (userId <= 0) {
+            throw new EmptyFieldException(FieldType.USERID);
+        }
+        this.userId = userId;
     }
 
     /**
@@ -108,6 +122,7 @@ public class Budget {
                 ", category=" + (category != null ? category.getName() : "Tất cả") +
                 ", limitAmount=" + limitAmount +
                 ", period=" + period +
+                ", userId=" + userId +
                 '}';
     }
 }

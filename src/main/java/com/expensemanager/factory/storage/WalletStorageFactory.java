@@ -27,7 +27,7 @@ public class WalletStorageFactory extends AbstractStorageFactory<Wallet> {
 
     @Override
     protected String[] getCsvHeader() {
-        return new String[]{"id", "name", "balance", "type", "extraFee"};
+        return new String[]{"id", "name", "balance", "type", "extraFee", "userId"};
     }
 
     @Override
@@ -37,7 +37,8 @@ public class WalletStorageFactory extends AbstractStorageFactory<Wallet> {
                 wallet.getName(),
                 String.valueOf(wallet.getBalance()),
                 wallet.getType().name(),
-                String.valueOf(extractWalletExtraFee(wallet))
+                String.valueOf(extractWalletExtraFee(wallet)),
+                String.valueOf(wallet.getUserId())
         };
     }
 
@@ -49,8 +50,9 @@ public class WalletStorageFactory extends AbstractStorageFactory<Wallet> {
             double balance = Double.parseDouble(row[2]);
             WalletType type = WalletType.valueOf(row[3]);
             double extraFee = row.length > 4 ? Double.parseDouble(row[4]) : 0.0;
+            int userId = row.length > 5 ? Integer.parseInt(row[5]) : 0;
 
-            return WalletFactory.createWallet(id, name, balance, type, extraFee);
+            return WalletFactory.createWallet(id, name, balance, type, extraFee, userId);
         };
     }
 

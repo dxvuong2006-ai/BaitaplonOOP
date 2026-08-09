@@ -504,6 +504,7 @@ public class ConsoleView {
             Category category = readExistingCategory("Nhập tên danh mục: ");
             Wallet wallet = readExistingWallet("Nhập tên ví: ");
             String paymentMethod = readLineAllowEmpty("Nhập phương thức thanh toán (có thể để trống): ");
+            int userId = manager.getCurrentUserId();
 
             Transaction transaction = TransactionFactory.createTransaction(
                     TransactionType.EXPENSE,
@@ -515,7 +516,8 @@ public class ConsoleView {
                     wallet,
                     null,
                     paymentMethod,
-                    null
+                    null,
+                    userId
             );
 
             manager.addTransaction(transaction);
@@ -546,6 +548,7 @@ public class ConsoleView {
             Category category = readExistingCategory("Nhập tên danh mục: ");
             Wallet wallet = readExistingWallet("Nhập tên ví: ");
             String source = readLineAllowEmpty("Nhập nguồn thu (có thể để trống): ");
+            int userId = manager.getCurrentUserId();
 
             Transaction transaction = TransactionFactory.createTransaction(
                     TransactionType.INCOME,
@@ -557,7 +560,8 @@ public class ConsoleView {
                     wallet,
                     source,
                     null,
-                    null
+                    null,
+                    userId
             );
 
             manager.addTransaction(transaction);
@@ -672,18 +676,19 @@ public class ConsoleView {
             String note = readLineAllowEmpty("Ghi chú mới (có thể để trống): ");
             Category category = readExistingCategory("Danh mục mới: ");
             Wallet wallet = readExistingWallet("Ví mới: ");
+            int userId = manager.getCurrentUserId();
 
             Transaction newTransaction;
             if (oldTransaction.getType() == TransactionType.EXPENSE) {
                 String paymentMethod = readLineAllowEmpty("Phương thức thanh toán mới (có thể để trống): ");
                 newTransaction = TransactionFactory.createTransaction(
                         TransactionType.EXPENSE, oldTransaction.getId(), amount, date, note,
-                        category, wallet, null, paymentMethod, null);
+                        category, wallet, null, paymentMethod, null, userId);
             } else {
                 String source = readLineAllowEmpty("Nguồn thu mới (có thể để trống): ");
                 newTransaction = TransactionFactory.createTransaction(
                         TransactionType.INCOME, oldTransaction.getId(), amount, date, note,
-                        category, wallet, source, null, null);
+                        category, wallet, source, null, null, userId);
             }
 
             manager.updateTransaction(oldTransaction, newTransaction);
@@ -713,8 +718,9 @@ public class ConsoleView {
             } else if (type == WalletType.EWALLET) {
                 extraFee = readNonNegativeAmount("Nhập tỉ lệ phí giao dịch (%, để trống = 0): ");
             }
+            int userId = manager.getCurrentUserId();
 
-            Wallet wallet = WalletFactory.createWallet(id, name, balance, type, extraFee);
+            Wallet wallet = WalletFactory.createWallet(id, name, balance, type, extraFee, userId);
             manager.addWallet(wallet);
             System.out.println("Thêm ví thành công.");
         } catch (CancelInputException e) {
@@ -785,10 +791,11 @@ public class ConsoleView {
         try {
             Wallet oldWallet = readExistingWallet("Nhập tên ví cần sửa: ");
             String newName = readRequiredName("Nhập tên ví mới: ", FieldType.NAME, 100);
+            int userId = manager.getCurrentUserId();
             // updateWallet chỉ hỗ trợ đổi tên; tạo 1 ví tạm cùng loại/balance
             // chỉ để mang tên mới sang, không dùng để lưu trữ thật.
             Wallet placeholder = WalletFactory.createWallet(
-                    oldWallet.getId(), newName, 0, oldWallet.getType(), 0);
+                    oldWallet.getId(), newName, 0, oldWallet.getType(), 0, userId);
             manager.updateWallet(oldWallet, placeholder);
             System.out.println("Sửa tên ví thành công.");
         } catch (CancelInputException e) {
@@ -825,8 +832,9 @@ public class ConsoleView {
             String id = readNewCategoryId("Nhập mã danh mục: ");
             String name = readRequiredCategoryName("Nhập tên danh mục: ", FieldType.NAME, 100);
             String description = readLineAllowEmpty("Nhập mô tả (có thể để trống): ");
+            int userId = manager.getCurrentUserId();
 
-            Category category = new Category(id, name, description);
+            Category category = new Category(id, name, description, userId);
             manager.addCategory(category);
             System.out.println("Thêm danh mục thành công.");
         } catch (CancelInputException e) {
@@ -875,8 +883,9 @@ public class ConsoleView {
             Category oldCategory = readExistingCategory("Nhập tên danh mục cần sửa: ");
             String newName = readRequiredName("Nhập tên mới: ", FieldType.NAME, 100);
             String newDescription = readLineAllowEmpty("Nhập mô tả mới (có thể để trống): ");
+            int userId = manager.getCurrentUserId();
 
-            Category placeholder = new Category(oldCategory.getId(), newName, newDescription);
+            Category placeholder = new Category(oldCategory.getId(), newName, newDescription, userId);
             manager.updateCategory(oldCategory, placeholder);
             System.out.println("Sửa danh mục thành công.");
         } catch (CancelInputException e) {
@@ -985,8 +994,9 @@ public class ConsoleView {
      */
     private void printBudgetLine(Budget budget) {
         try {
-            double usagePercent = manager.getBudgetService().getUsagePercentage(budget);
-            double remaining = manager.getBudgetService().getRemainingBudget(budget);
+            int userId = manager.getCurrentUserId();
+            double usagePercent = manager.getBudgetService().getUsagePercentage(budget, userId);
+            double remaining = manager.getBudgetService().getRemainingBudget(budget, userId);
             System.out.println(
                     "Mã: " + budget.getId()
                             + " | Danh mục: " + (budget.getCategory() != null
@@ -1010,10 +1020,11 @@ public class ConsoleView {
         }
         System.out.println("\n-- Thêm ngân sách -- (gõ \"#\" để hủy)");
         try {
+            int userId = manager.getCurrentUserId();
             int id = readNonNegativeInt("Nhập mã ngân sách (số nguyên): ");
             Category category = readExistingCategory("Nhập tên danh mục áp dụng: ");
 
-            if (manager.getBudgetService().findBudgetByCategory(category) != null) {
+            if (manager.getBudgetService().findBudgetByCategory(category, userId) != null) {
                 printOperationError("Danh mục \"" + category.getName() + "\" đã có ngân sách, hãy dùng chức năng sửa.");
                 return;
             }
@@ -1022,7 +1033,7 @@ public class ConsoleView {
             Period period = readPeriod();
 
             String budgetId = Integer.toString(id);
-            Budget budget = new Budget(budgetId, category, limitAmount, period);
+            Budget budget = new Budget(budgetId, category, limitAmount, period, userId);
             manager.addBudget(budget);
             System.out.println("Thêm ngân sách thành công.");
         } catch (CancelInputException e) {
@@ -1038,8 +1049,9 @@ public class ConsoleView {
      */
     private Budget readExistingBudgetByCategory(String prompt) {
         while (true) {
+            int userId = manager.getCurrentUserId();
             Category category = readExistingCategory(prompt);
-            Budget budget = manager.getBudgetService().findBudgetByCategory(category);
+            Budget budget = manager.getBudgetService().findBudgetByCategory(category, userId);
             if (budget == null) {
                 printFieldError("Danh mục \"" + category.getName() + "\" chưa có ngân sách nào.");
                 continue;
@@ -1062,8 +1074,9 @@ public class ConsoleView {
             Category newCategory = readExistingCategory("Nhập danh mục mới (có thể giữ nguyên tên cũ): ");
             double newLimit = readAmount("Nhập hạn mức mới: ");
             Period newPeriod = readPeriod();
+            int userId = manager.getCurrentUserId();
 
-            Budget placeholder = new Budget(oldBudget.getId(), newCategory, newLimit, newPeriod);
+            Budget placeholder = new Budget(oldBudget.getId(), newCategory, newLimit, newPeriod, userId);
             manager.updateBudget(oldBudget, placeholder);
             System.out.println("Sửa ngân sách thành công.");
         } catch (CancelInputException e) {

@@ -36,7 +36,8 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
                 "walletId",
                 "type",
                 "extraField",
-                "period"
+                "period",
+                "userId"
         };
     }
 
@@ -51,7 +52,8 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
                 record.getWalletId() == null ? "" : record.getWalletId(),
                 record.getType(),
                 record.getExtraField() == null ? "" : record.getExtraField(),
-                record.getPeriod() == null ? "" : record.getPeriod()
+                record.getPeriod() == null ? "" : record.getPeriod(),
+                String.valueOf(record.getUserId())
         };
     }
 
@@ -81,9 +83,10 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
             String type = row.length > 6 ? row[6].trim() : "";
             String extraField = row.length > 7 ? row[7].trim() : "";
             String period = row.length > 8 ? row[8].trim() : "";
+            int userId = row.length > 9 ? Integer.parseInt(row[9].trim()) : 0;
 
             return new TransactionRecord(id, amount, date, note, categoryId,
-                    walletId, type, extraField, period);
+                    walletId, type, extraField, period, userId);
         };
     }
 

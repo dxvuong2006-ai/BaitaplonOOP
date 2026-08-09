@@ -30,16 +30,14 @@ public final class TransactionFactory {
             Wallet wallet,
             String source,
             String paymentMethod,
-            Period period
+            Period period,
+            int userId
     ) throws InvalidFormatException {
-
         // 1. Chặn lỗi NullPointerException trước khi vào switch-case
         if (type == null) {
             throw new EmptyFieldException(FieldType.TRANSACTIONTYPE);
         }
-
         switch (type) {
-
             case INCOME:
                 return new Income(
                         id,
@@ -48,9 +46,9 @@ public final class TransactionFactory {
                         note,
                         category,
                         wallet,
-                        source
+                        source,
+                        userId
                 );
-
             case EXPENSE:
                 return new Expense(
                         id,
@@ -59,9 +57,9 @@ public final class TransactionFactory {
                         note,
                         category,
                         wallet,
-                        paymentMethod
+                        paymentMethod,
+                        userId
                 );
-
             case RECURRING_EXPENSE:
                 return new RecurringExpense(
                         id,
@@ -71,9 +69,9 @@ public final class TransactionFactory {
                         category,
                         wallet,
                         paymentMethod,
-                        period
+                        period,
+                        userId
                 );
-
             default:
                 // 2. Ném ra ngoại lệ chuẩn với FieldType và giá trị gây lỗi
                 throw new InvalidFormatException(FieldType.TRANSACTIONTYPE, String.valueOf(type));

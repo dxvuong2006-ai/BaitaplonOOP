@@ -49,6 +49,22 @@ public class ValidationService {
         }
     }
 
+    /** Kiểm tra tên danh mục trước khi tạo danh mục mới. */
+    public static void validateCategoryName(List<Category> existingCate, String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new EmptyFieldException(FieldType.NAME);
+        }
+        String cateName = name.trim();
+        for (Category category : existingCate) {
+            if (category == null) {
+                continue;
+            }
+            if (category.getName().equalsIgnoreCase(cateName)) {
+                throw new DuplicateEntityException("Ví", category.getName());
+            }
+        }
+    }
+
     /** Kiểm tra giao dịch có rỗng không */
     public static void validateTransaction(Transaction transaction) {
         if (transaction == null) {

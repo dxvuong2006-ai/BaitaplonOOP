@@ -23,15 +23,18 @@ public class UserStorageFactory extends AbstractStorageFactory<User> {
 
     @Override
     protected String[] getCsvHeader() {
-        return new String[] {"id", "username", "passwordHash", "salt", "email"};
+        return new String[] {"id", "username", "passwordHash", "salt", "email", "userId"};
     }
 
     @Override
     protected Function<User, String[]> getSerializer() {
         return user -> new String[] {
-                user.getId(), user.getUsername(), user.getPasswordHash(),
+                user.getId(),
+                user.getUsername(),
+                user.getPasswordHash(),
                 user.getSalt() != null ? user.getSalt() : "",
-                user.getEmail() != null ? user.getEmail() : ""
+                user.getEmail() != null ? user.getEmail() : "",
+                String.valueOf(user.getUserId())
         };
     }
 
@@ -43,7 +46,8 @@ public class UserStorageFactory extends AbstractStorageFactory<User> {
             String passwordHash = row[2];
             String salt = row.length > 3 ? row[3] : "";
             String email = row.length > 4 ? row[4] : "";
-            return UserFactory.reconstructUser(id, username, passwordHash, salt, email);
+            int userId = row.length > 5 ? Integer.parseInt(row[5]) : 0;
+            return UserFactory.reconstructUser(id, username, passwordHash, salt, email, userId);
         };
     }
 }

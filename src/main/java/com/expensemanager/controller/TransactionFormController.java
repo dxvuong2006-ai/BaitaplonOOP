@@ -10,7 +10,8 @@ import com.expensemanager.model.transaction.RecurringExpense;
 import com.expensemanager.model.transaction.Transaction;
 import com.expensemanager.model.wallet.Wallet;
 import com.expensemanager.service.ExpenseManager;
-
+import java.time.LocalDate;
+import java.util.UUID;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -22,191 +23,92 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-import java.time.LocalDate;
-import java.util.UUID;
-
-/**
- * Controller điều khiển form thêm / sửa giao dịch.
- */
+/** Controller điều khiển form thêm / sửa giao dịch. */
 public class TransactionFormController {
 
-    @FXML
-    private Label formTitleLabel;
+    @FXML private Label formTitleLabel;
 
-    @FXML
-    private Label formSubtitleLabel;
+    @FXML private Label formSubtitleLabel;
 
-    @FXML
-    private ComboBox<TransactionType> transactionTypeComboBox;
+    @FXML private ComboBox<TransactionType> transactionTypeComboBox;
 
-    @FXML
-    private TextField amountField;
+    @FXML private TextField amountField;
 
-    @FXML
-    private DatePicker datePicker;
+    @FXML private DatePicker datePicker;
 
-    @FXML
-    private ComboBox<Wallet> walletComboBox;
+    @FXML private ComboBox<Wallet> walletComboBox;
 
-    @FXML
-    private ComboBox<Category> categoryComboBox;
+    @FXML private ComboBox<Category> categoryComboBox;
 
-    @FXML
-    private VBox incomeFieldsBox;
+    @FXML private VBox incomeFieldsBox;
 
-    @FXML
-    private VBox paymentFieldsBox;
+    @FXML private VBox paymentFieldsBox;
 
-    @FXML
-    private VBox periodFieldsBox;
+    @FXML private VBox periodFieldsBox;
 
-    @FXML
-    private TextField sourceField;
+    @FXML private TextField sourceField;
 
-    @FXML
-    private TextField paymentMethodField;
+    @FXML private TextField paymentMethodField;
 
-    @FXML
-    private ComboBox<Period> periodComboBox;
+    @FXML private ComboBox<Period> periodComboBox;
 
-    @FXML
-    private TextArea noteArea;
+    @FXML private TextArea noteArea;
 
-    private final ExpenseManager manager =
-            ExpenseManager.getInstance();
+    private final ExpenseManager manager = ExpenseManager.getInstance();
 
-    /**
-     * null = Thêm.
-     * Có giá trị = Sửa.
-     */
+    /** null = Thêm. Có giá trị = Sửa. */
     private Transaction editingTransaction;
 
-    /**
-     * Khởi tạo form.
-     */
+    /** Khởi tạo form. */
     @FXML
     private void initialize() {
+        transactionTypeComboBox.getItems().setAll(TransactionType.values());
+        walletComboBox.getItems().setAll(manager.getWallets());
+        categoryComboBox.getItems().setAll(manager.getCategories());
+        periodComboBox.getItems().setAll(Period.values());
 
-        /*
-         * Load loại giao dịch.
-         */
-        transactionTypeComboBox
-                .getItems()
-                .setAll(TransactionType.values());
-
-        /*
-         * Load ví.
-         */
-        walletComboBox
-                .getItems()
-                .setAll(manager.getWallets());
-
-        /*
-         * Load danh mục.
-         */
-        categoryComboBox
-                .getItems()
-                .setAll(manager.getCategories());
-
-        /*
-         * Load chu kỳ.
-         */
-        periodComboBox
-                .getItems()
-                .setAll(Period.values());
-
-        /*
-         * Hiển thị tên Wallet thay vì object mặc định.
-         */
         walletComboBox.setConverter(
                 new StringConverter<>() {
-
                     @Override
                     public String toString(Wallet wallet) {
-
-                        if (wallet == null) {
-                            return "";
-                        }
-
-                        return wallet.getName();
+                        return wallet == null ? "" : wallet.getName();
                     }
 
                     @Override
                     public Wallet fromString(String string) {
                         return null;
                     }
-                }
-        );
+                });
 
-        /*
-         * Hiển thị tên Category.
-         */
         categoryComboBox.setConverter(
                 new StringConverter<>() {
-
                     @Override
                     public String toString(Category category) {
-
-                        if (category == null) {
-                            return "";
-                        }
-
-                        return category.getName();
+                        return category == null ? "" : category.getName();
                     }
 
                     @Override
                     public Category fromString(String string) {
                         return null;
                     }
-                }
-        );
+                });
 
-        /*
-         * Ngày mặc định.
-         */
-        datePicker.setValue(
-                LocalDate.now()
-        );
+        datePicker.setValue(LocalDate.now());
+        transactionTypeComboBox.setValue(TransactionType.INCOME);
 
-        /*
-         * Loại mặc định.
-         */
-        transactionTypeComboBox.setValue(
-                TransactionType.INCOME
-        );
-
-        /*
-         * Khi đổi loại giao dịch,
-         * đổi các field tương ứng.
-         */
         transactionTypeComboBox
                 .valueProperty()
-                .addListener(
-                        (observable, oldValue, newValue) ->
-                                updateDynamicFields(newValue)
-                );
+                .addListener((observable, oldValue, newValue) -> updateDynamicFields(newValue));
 
-        updateDynamicFields(
-                TransactionType.INCOME
-        );
+        updateDynamicFields(TransactionType.INCOME);
     }
 
-    /**
-     * Ẩn / hiện field theo loại giao dịch.
-     */
-    private void updateDynamicFields(
-            TransactionType type
-    ) {
-
-        boolean income =
-                type == TransactionType.INCOME;
-
+    /** Ẩn / hiện field theo loại giao dịch. */
+    private void updateDynamicFields(TransactionType type) {
+        boolean income = (type == TransactionType.INCOME);
         boolean expense =
-                type == TransactionType.EXPENSE
-                        || type == TransactionType.RECURRING_EXPENSE;
-
-        boolean recurring =
-                type == TransactionType.RECURRING_EXPENSE;
+                (type == TransactionType.EXPENSE || type == TransactionType.RECURRING_EXPENSE);
+        boolean recurring = (type == TransactionType.RECURRING_EXPENSE);
 
         incomeFieldsBox.setVisible(income);
         incomeFieldsBox.setManaged(income);
@@ -218,394 +120,163 @@ public class TransactionFormController {
         periodFieldsBox.setManaged(recurring);
     }
 
-    /**
-     * Nhận Transaction đang sửa.
-     */
-    public void setEditingTransaction(
-            Transaction transaction
-    ) {
+    /** Nhận Transaction đang sửa. */
+    public void setEditingTransaction(Transaction transaction) {
+        this.editingTransaction = transaction;
 
-        this.editingTransaction =
-                transaction;
+        formTitleLabel.setText("Sửa giao dịch");
+        formSubtitleLabel.setText("Cập nhật thông tin giao dịch");
 
-        formTitleLabel.setText(
-                "Sửa giao dịch"
-        );
+        transactionTypeComboBox.setValue(transaction.getType());
+        amountField.setText(String.valueOf(transaction.getAmount()));
+        datePicker.setValue(transaction.getDate());
+        walletComboBox.setValue(transaction.getWallet());
+        categoryComboBox.setValue(transaction.getCategory());
 
-        formSubtitleLabel.setText(
-                "Cập nhật thông tin giao dịch"
-        );
+        String note = transaction.getNote();
+        noteArea.setText(note == null ? "" : note);
 
-        transactionTypeComboBox.setValue(
-                transaction.getType()
-        );
-
-        amountField.setText(
-                String.valueOf(
-                        transaction.getAmount()
-                )
-        );
-
-        datePicker.setValue(
-                transaction.getDate()
-        );
-
-        walletComboBox.setValue(
-                transaction.getWallet()
-        );
-
-        categoryComboBox.setValue(
-                transaction.getCategory()
-        );
-
-        String note =
-                transaction.getNote();
-
-        noteArea.setText(
-                note == null
-                        ? ""
-                        : note
-        );
-
-        /*
-         * Income.
-         */
         if (transaction instanceof Income income) {
-
-            String source =
-                    income.getSource();
-
-            sourceField.setText(
-                    source == null
-                            ? ""
-                            : source
-            );
+            String source = income.getSource();
+            sourceField.setText(source == null ? "" : source);
         }
 
-        /*
-         * Expense và RecurringExpense.
-         */
         if (transaction instanceof Expense expense) {
-
-            String paymentMethod =
-                    expense.getPaymentMethod();
-
-            paymentMethodField.setText(
-                    paymentMethod == null
-                            ? ""
-                            : paymentMethod
-            );
+            String paymentMethod = expense.getPaymentMethod();
+            paymentMethodField.setText(paymentMethod == null ? "" : paymentMethod);
         }
 
-        /*
-         * RecurringExpense.
-         */
         if (transaction instanceof RecurringExpense recurringExpense) {
-
-            periodComboBox.setValue(
-                    recurringExpense.getPeriod()
-            );
+            periodComboBox.setValue(recurringExpense.getPeriod());
         }
 
-        updateDynamicFields(
-                transaction.getType()
-        );
+        updateDynamicFields(transaction.getType());
     }
 
-    /**
-     * Lưu giao dịch.
-     */
+    /** Lưu giao dịch. */
     @FXML
     private void handleSave() {
-
         try {
-
-            TransactionType type =
-                    transactionTypeComboBox.getValue();
+            TransactionType type = transactionTypeComboBox.getValue();
 
             if (type == null) {
-
-                showError(
-                        "Vui lòng chọn loại giao dịch."
-                );
-
+                showError("Vui lòng chọn loại giao dịch.");
                 return;
             }
 
-            double amount =
-                    parseAmount(
-                            amountField.getText()
-                    );
+            double amount = parseAmount(amountField.getText());
 
             if (amount <= 0) {
-
-                showError(
-                        "Số tiền phải lớn hơn 0."
-                );
-
+                showError("Số tiền phải lớn hơn 0.");
                 return;
             }
 
-            LocalDate date =
-                    datePicker.getValue();
+            LocalDate date = datePicker.getValue();
 
             if (date == null) {
-
-                showError(
-                        "Vui lòng chọn ngày giao dịch."
-                );
-
+                showError("Vui lòng chọn ngày giao dịch.");
                 return;
             }
 
-            Wallet wallet =
-                    walletComboBox.getValue();
+            Wallet wallet = walletComboBox.getValue();
 
             if (wallet == null) {
-
-                showError(
-                        "Vui lòng chọn ví."
-                );
-
+                showError("Vui lòng chọn ví.");
                 return;
             }
 
-            Category category =
-                    categoryComboBox.getValue();
+            Category category = categoryComboBox.getValue();
 
             if (category == null) {
-
-                showError(
-                        "Vui lòng chọn danh mục."
-                );
-
+                showError("Vui lòng chọn danh mục.");
                 return;
             }
 
-            String note =
-                    noteArea
-                            .getText()
-                            .trim();
+            String note = noteArea.getText().trim();
+            String source = sourceField.getText().trim();
+            String paymentMethod = paymentMethodField.getText().trim();
+            Period period = periodComboBox.getValue();
 
-            String source =
-                    sourceField
-                            .getText()
-                            .trim();
-
-            String paymentMethod =
-                    paymentMethodField
-                            .getText()
-                            .trim();
-
-            Period period =
-                    periodComboBox.getValue();
-
-            /*
-             * Chi định kỳ cần Period.
-             */
-            if (type == TransactionType.RECURRING_EXPENSE
-                    && period == null) {
-
-                showError(
-                        "Vui lòng chọn chu kỳ."
-                );
-
+            if (type == TransactionType.RECURRING_EXPENSE && period == null) {
+                showError("Vui lòng chọn chu kỳ.");
                 return;
             }
 
-            String id;
+            String id =
+                    (editingTransaction == null)
+                            ? UUID.randomUUID().toString()
+                            : editingTransaction.getId();
 
-            if (editingTransaction == null) {
+            int userId = manager.getCurrentUserId();
 
-                id =
-                        UUID.randomUUID()
-                                .toString();
-
-            } else {
-
-                /*
-                 * Giữ nguyên ID khi sửa.
-                 */
-                id =
-                        editingTransaction.getId();
-            }
-
-            /*
-             * Factory backend hiện có.
-             */
             Transaction transaction =
                     TransactionFactory.createTransaction(
-                            type,
-                            id,
-                            amount,
-                            date,
-                            note,
-                            category,
-                            wallet,
-                            source,
-                            paymentMethod,
-                            period
-                    );
+                            type, id, amount, date, note, category, wallet, source, paymentMethod, period, userId);
 
-            /*
-             * ========================
-             * THÊM
-             * ========================
-             */
             if (editingTransaction == null) {
-
-                manager.addTransaction(
-                        transaction
-                );
-
-                showSuccess(
-                        "Đã thêm giao dịch thành công."
-                );
-            }
-
-            /*
-             * ========================
-             * SỬA
-             * ========================
-             */
-            else {
-
-                manager.updateTransaction(
-                        editingTransaction,
-                        transaction
-                );
-
-                showSuccess(
-                        "Đã cập nhật giao dịch thành công."
-                );
+                manager.addTransaction(transaction);
+                showSuccess("Đã thêm giao dịch thành công.");
+            } else {
+                manager.updateTransaction(editingTransaction, transaction);
+                showSuccess("Đã cập nhật giao dịch thành công.");
             }
 
             closeForm();
 
         } catch (Exception e) {
+            String message = e.getMessage();
 
-            String message =
-                    e.getMessage();
-
-            if (message == null
-                    || message.isBlank()) {
-
-                if (editingTransaction == null) {
-
-                    message =
-                            "Không thể thêm giao dịch.";
-
-                } else {
-
-                    message =
-                            "Không thể cập nhật giao dịch.";
-                }
+            if (message == null || message.isBlank()) {
+                message =
+                        (editingTransaction == null)
+                                ? "Không thể thêm giao dịch."
+                                : "Không thể cập nhật giao dịch.";
             }
 
-            showError(
-                    message
-            );
+            showError(message);
         }
     }
 
-    /**
-     * Chuyển số tiền nhập thành double.
-     */
-    private double parseAmount(
-            String value
-    ) {
-
-        if (value == null
-                || value.trim().isEmpty()) {
-
-            throw new IllegalArgumentException(
-                    "Số tiền không được để trống."
-            );
+    /** Chuyển số tiền nhập thành double. */
+    private double parseAmount(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            throw new IllegalArgumentException("Số tiền không được để trống.");
         }
 
         try {
-
-            return Double.parseDouble(
-                    value.trim()
-            );
-
+            return Double.parseDouble(value.trim());
         } catch (NumberFormatException e) {
-
-            throw new IllegalArgumentException(
-                    "Số tiền phải là một số hợp lệ."
-            );
+            throw new IllegalArgumentException("Số tiền phải là một số hợp lệ.");
         }
     }
 
-    /**
-     * Hủy.
-     */
+    /** Hủy. */
     @FXML
     private void handleCancel() {
-
         closeForm();
     }
 
-    /**
-     * Đóng popup.
-     */
+    /** Đóng popup. */
     private void closeForm() {
-
-        Stage stage =
-                (Stage) amountField
-                        .getScene()
-                        .getWindow();
-
+        Stage stage = (Stage) amountField.getScene().getWindow();
         stage.close();
     }
 
-    /**
-     * Lỗi.
-     */
-    private void showError(
-            String message
-    ) {
-
-        Alert alert =
-                new Alert(
-                        Alert.AlertType.ERROR
-                );
-
-        alert.setTitle(
-                "Dữ liệu không hợp lệ"
-        );
-
+    /** Lỗi. */
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Dữ liệu không hợp lệ");
         alert.setHeaderText(null);
-
-        alert.setContentText(
-                message
-        );
-
+        alert.setContentText(message);
         alert.showAndWait();
     }
 
-    /**
-     * Thành công.
-     */
-    private void showSuccess(
-            String message
-    ) {
-
-        Alert alert =
-                new Alert(
-                        Alert.AlertType.INFORMATION
-                );
-
-        alert.setTitle(
-                "Thành công"
-        );
-
+    /** Thành công. */
+    private void showSuccess(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Thành công");
         alert.setHeaderText(null);
-
-        alert.setContentText(
-                message
-        );
-
+        alert.setContentText(message);
         alert.showAndWait();
     }
 }

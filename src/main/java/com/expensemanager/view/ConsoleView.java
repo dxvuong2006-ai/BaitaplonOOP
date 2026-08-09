@@ -153,6 +153,50 @@ public class ConsoleView {
     }
 
     /**
+     * Đọc chuỗi bắt buộc, giới hạn độ dài tối đa. Dùng cho tên ví.
+     */
+    private String readRequiredWalletName(String prompt, FieldType fieldType, int maxLength) {
+        while (true) {
+            System.out.print(prompt);
+            String raw = scanner.nextLine();
+            checkCancel(raw);
+            ValidationResult<String> result = InputValidationService.validateName(raw, fieldType, maxLength);
+            if (result.hasError()) {
+                printFieldError(result.getMessage());
+                continue;
+            }
+            String name = result.getValue();
+            if (manager.findWalletByName(name) != null) {
+                printFieldError("Tên ví \"" + name + "\" đã tồn tại.");
+                continue;
+            }
+            return name;
+        }
+    }
+
+    /**
+     * Đọc chuỗi bắt buộc, giới hạn độ dài tối đa. Dùng cho tên danh mục.
+     */
+    private String readRequiredCategoryName(String prompt, FieldType fieldType, int maxLength) {
+        while (true) {
+            System.out.print(prompt);
+            String raw = scanner.nextLine();
+            checkCancel(raw);
+            ValidationResult<String> result = InputValidationService.validateName(raw, fieldType, maxLength);
+            if (result.hasError()) {
+                printFieldError(result.getMessage());
+                continue;
+            }
+            String name = result.getValue();
+            if (manager.findCategoryByName(name) != null) {
+                printFieldError("Tên danh mục \"" + name + "\" đã tồn tại.");
+                continue;
+            }
+            return name;
+        }
+    }
+
+    /**
      * Đọc số tiền hợp lệ (>0, đúng định dạng tiền tệ) từ bàn phím.
      * Lặp lại chỉ tại trường này nếu người dùng gõ sai, không ảnh hưởng
      * các trường đã nhập trước đó.
@@ -168,6 +212,78 @@ public class ConsoleView {
                 continue;
             }
             return result.getValue();
+        }
+    }
+
+    /**
+     * Đọc mã ví mới, lặp lại tại chỗ nếu mã rỗng hoặc đã tồn tại trong
+     * danh sách ví hiện có. Giúp báo lỗi trùng ID ngay khi vừa nhập,
+     * thay vì đợi đến khi submit toàn bộ form rồi mới bị Service từ chối.
+     */
+    private String readNewWalletId(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String raw = scanner.nextLine();
+            checkCancel(raw);
+            ValidationResult<String> result = InputValidationService.validateRequired(raw, FieldType.ID);
+            if (result.hasError()) {
+                printFieldError(result.getMessage());
+                continue;
+            }
+            String id = result.getValue();
+            if (manager.findWalletById(id) != null) {
+                printFieldError("Mã ví \"" + id + "\" đã tồn tại.");
+                continue;
+            }
+            return id;
+        }
+    }
+
+    /**
+     * Đọc mã danh mục mới, lặp lại tại chỗ nếu mã rỗng hoặc đã tồn tại
+     * trong danh sách danh mục hiện có. Giúp báo lỗi trùng ID ngay khi
+     * vừa nhập, thay vì đợi đến khi submit toàn bộ form.
+     */
+    private String readNewCategoryId(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String raw = scanner.nextLine();
+            checkCancel(raw);
+            ValidationResult<String> result = InputValidationService.validateRequired(raw, FieldType.ID);
+            if (result.hasError()) {
+                printFieldError(result.getMessage());
+                continue;
+            }
+            String id = result.getValue();
+            if (manager.findCategoryById(id) != null) {
+                printFieldError("Mã danh mục \"" + id + "\" đã tồn tại.");
+                continue;
+            }
+            return id;
+        }
+    }
+
+    /**
+     * Đọc mã giao dịch mới, lặp lại tại chỗ nếu mã rỗng hoặc đã tồn tại
+     * trong danh sách danh mục hiện có. Giúp báo lỗi trùng ID ngay khi
+     * vừa nhập, thay vì đợi đến khi submit toàn bộ form.
+     */
+    private String readNewTransactionId(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String raw = scanner.nextLine();
+            checkCancel(raw);
+            ValidationResult<String> result = InputValidationService.validateRequired(raw, FieldType.ID);
+            if (result.hasError()) {
+                printFieldError(result.getMessage());
+                continue;
+            }
+            String id = result.getValue();
+            if (manager.findTransactionById(id) != null) {
+                printFieldError("Mã giao dịch \"" + id + "\" đã tồn tại.");
+                continue;
+            }
+            return id;
         }
     }
 
@@ -381,7 +497,7 @@ public class ConsoleView {
 
         System.out.println("\n-- Thêm khoản chi -- (gõ \"#\" ở bất kỳ đâu để hủy)");
         try {
-            String id = readRequiredString("Nhập mã giao dịch: ", FieldType.ID);
+            String id = readNewTransactionId("Nhập mã giao dịch: ");
             double amount = readAmount("Nhập số tiền chi: ");
             LocalDate date = readDate("Nhập ngày (dd/MM/yyyy, để trống = hôm nay): ");
             String note = readLineAllowEmpty("Nhập ghi chú (có thể để trống): ");
@@ -423,7 +539,7 @@ public class ConsoleView {
 
         System.out.println("\n-- Thêm khoản thu -- (gõ \"#\" ở bất kỳ đâu để hủy)");
         try {
-            String id = readRequiredString("Nhập mã giao dịch: ", FieldType.ID);
+            String id = readNewTransactionId("Nhập mã giao dịch: ");
             double amount = readAmount("Nhập số tiền thu: ");
             LocalDate date = readDate("Nhập ngày (dd/MM/yyyy, để trống = hôm nay): ");
             String note = readLineAllowEmpty("Nhập ghi chú (có thể để trống): ");
@@ -586,8 +702,8 @@ public class ConsoleView {
     private void handleAddWallet() {
         System.out.println("\n-- Thêm ví -- (gõ \"#\" để hủy)");
         try {
-            String id = readRequiredString("Nhập mã ví: ", FieldType.ID);
-            String name = readRequiredName("Nhập tên ví: ", FieldType.NAME, 100);
+            String id = readNewWalletId("Nhập mã ví: ");
+            String name = readRequiredWalletName("Nhập tên ví: ", FieldType.NAME, 100);
             double balance = readAmount("Nhập số dư ban đầu: ");
             WalletType type = readWalletType();
 
@@ -706,8 +822,8 @@ public class ConsoleView {
     private void handleAddCategory() {
         System.out.println("\n-- Thêm danh mục -- (gõ \"#\" để hủy)");
         try {
-            String id = readRequiredString("Nhập mã danh mục: ", FieldType.ID);
-            String name = readRequiredName("Nhập tên danh mục: ", FieldType.NAME, 100);
+            String id = readNewCategoryId("Nhập mã danh mục: ");
+            String name = readRequiredCategoryName("Nhập tên danh mục: ", FieldType.NAME, 100);
             String description = readLineAllowEmpty("Nhập mô tả (có thể để trống): ");
 
             Category category = new Category(id, name, description);

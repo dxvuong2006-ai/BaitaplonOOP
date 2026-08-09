@@ -22,7 +22,7 @@ public enum FieldType {
     REGISTRY("Sổ đăng ký"),
     TRANSACTION("Giao dịch"),
     BUDGET("Ngân sách"),
-    REPORTTYPE("Kiểu báo cáo");
+    REPORTTYPE("Loại báo cáo");
 
     private final String displayName;
 

@@ -1,5 +1,6 @@
 package com.expensemanager.service;
 
+import com.expensemanager.model.enums.ReportType;
 import com.expensemanager.model.enums.TransactionType;
 import com.expensemanager.model.transaction.Transaction;
 import com.expensemanager.model.wallet.Wallet;
@@ -13,13 +14,20 @@ import com.expensemanager.service.WalletService;
 import com.expensemanager.service.TransactionService;
 import com.expensemanager.service.StatisticsService;
 import com.expensemanager.model.report.ReportData;
+import com.expensemanager.factory.storage.WalletStorageFactory;
+import com.expensemanager.factory.storage.CategoryStorageFactory;
+import com.expensemanager.factory.storage.BudgetStorageFactory;
+import com.expensemanager.factory.storage.TransactionStorageFactory;
+
+import com.expensemanager.model.enums.StorageType;
 
 import com.expensemanager.exception.DuplicateEntityException;
 import com.expensemanager.exception.EmptyFieldException;
 import com.expensemanager.exception.InvalidFormatException;
 import com.expensemanager.exception.InsufficientFundsException;
-import org.apache.poi.sl.usermodel.TextRun;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.*;
@@ -27,6 +35,11 @@ import java.util.*;
 /** Lớp xử lý nghiệp vụ của dự án. */
 public class ExpenseManager {
     private static ExpenseManager instance;
+
+    private final WalletStorageFactory walletStorageFactory;
+    private final CategoryStorageFactory categoryStorageFactory;
+    private final BudgetStorageFactory budgetStorageFactory;
+    private final TransactionStorageFactory transactionStorageFactory;
 
     private final WalletService walletService;
     private final TransactionService transactionService;
@@ -37,10 +50,19 @@ public class ExpenseManager {
 
     /** Phương thức khởi tạo của EM. */
     private ExpenseManager() {
-        walletService = new WalletService();
-        categoryService = new CategoryService();
-        budgetService = new BudgetService();
-        transactionService = new TransactionService(budgetService);
+        StorageType storageType = StorageType.JSON;
+
+        walletStorageFactory = new WalletStorageFactory(storageType);
+        categoryStorageFactory = new CategoryStorageFactory(storageType);
+        budgetStorageFactory = new BudgetStorageFactory(storageType);
+        transactionStorageFactory = new TransactionStorageFactory(storageType);
+
+        walletService = new WalletService(walletStorageFactory);
+        categoryService = new CategoryService(categoryStorageFactory);
+        budgetService = new BudgetService(budgetStorageFactory, categoryService);
+        transactionService = new TransactionService(budgetService, walletService,
+                categoryService, transactionStorageFactory);
+
         statisticsService = new StatisticsService();
         reportService = new ReportService();
     }
@@ -220,6 +242,12 @@ public class ExpenseManager {
     /** Tạo báo cáo. */
     public ReportData createReport(LocalDate startDate, LocalDate endDate) {
         return reportService.createReport(startDate, endDate);
+    }
+
+    /** Xuất báo cáo. */
+    public File exportReport(LocalDate startDate, LocalDate endDate,
+                             ReportType type, File outputFile) throws IOException {
+        return reportService.exportReport(startDate, endDate, type, outputFile);
     }
 
     // Liên kết Statistic.

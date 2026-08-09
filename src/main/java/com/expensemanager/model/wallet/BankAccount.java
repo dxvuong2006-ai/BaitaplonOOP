@@ -20,9 +20,10 @@ public class BankAccount extends Wallet {
      * @param id      định danh ví
      * @param name    tên tài khoản/ngân hàng, không được rỗng
      * @param balance số dư ban đầu (>= 0)
+     * @param userId  id của người dùng sở hữu ví, phải > 0
      */
-    public BankAccount(String id, String name, double balance) {
-        this(id, name, balance, 0.0);
+    public BankAccount(String id, String name, double balance, int userId) {
+        this(id, name, balance, 0.0, userId);
     }
 
     /**
@@ -32,9 +33,10 @@ public class BankAccount extends Wallet {
      * @param name           tên tài khoản/ngân hàng, không được rỗng
      * @param balance        số dư ban đầu (>= 0)
      * @param transactionFee phí giao dịch cố định (>= 0)
+     * @param userId         id của người dùng sở hữu ví, phải > 0
      */
-    public BankAccount(String id, String name, double balance, double transactionFee) {
-        super(id, name, balance, WalletType.BANK);
+    public BankAccount(String id, String name, double balance, double transactionFee, int userId) {
+        super(id, name, balance, WalletType.BANK, userId);
         setTransactionFee(transactionFee);
     }
 

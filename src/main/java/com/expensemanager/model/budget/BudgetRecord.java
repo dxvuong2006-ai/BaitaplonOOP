@@ -7,16 +7,18 @@ public class BudgetRecord {
     private String categoryId;
     private double limitAmount;
     private String period;
+    private int userId;
 
     /** Constructor. */
     public BudgetRecord() {}
 
     /** Constructor. */
-    public BudgetRecord(String id, String categoryId, double limitAmount, String period) {
+    public BudgetRecord(String id, String categoryId, double limitAmount, String period, int userId) {
         this.id = id;
         this.categoryId = categoryId;
         this.limitAmount = limitAmount;
         this.period = period;
+        this.userId = userId;
     }
 
     public String getId() {
@@ -49,6 +51,14 @@ public class BudgetRecord {
 
     public void setPeriod(String period) {
         this.period = period;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
 }

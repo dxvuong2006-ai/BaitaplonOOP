@@ -16,18 +16,13 @@ public class CashWallet extends Wallet {
      * @param id      định danh ví, phải >= 0
      * @param name    tên ví, không được rỗng
      * @param balance số dư ban đầu, phải >= 0
-     * @throws IllegalArgumentException nếu id âm, name rỗng/null, hoặc balance âm
+     * @param userId  id của người dùng sở hữu ví, phải > 0
+     * @throws IllegalArgumentException nếu id âm, name rỗng/null, balance âm, hoặc userId không hợp lệ
      */
-    public CashWallet(String id, String name, double balance) {
-        super(id, name, balance, WalletType.CASH);
+    public CashWallet(String id, String name, double balance, int userId) {   // sửa: +userId
+        super(id, name, balance, WalletType.CASH, userId);                     // sửa: +userId
     }
 
-    /**
-     * Rút tiền từ ví tiền mặt. Không cho rút vượt quá số dư hiện có.
-     *
-     * @param amount số tiền cần rút, phải > 0
-     * @throws IllegalArgumentException nếu amount <= 0, hoặc amount vượt quá số dư hiện có
-     */
     @Override
     public void withdraw(double amount) {
         if (amount <= 0) {

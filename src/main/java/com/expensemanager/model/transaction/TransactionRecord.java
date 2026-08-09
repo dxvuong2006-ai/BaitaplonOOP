@@ -1,7 +1,5 @@
 package com.expensemanager.model.transaction;
 
-import org.apache.poi.ss.formula.functions.T;
-
 import java.time.LocalDate;
 
 /** Lớp dữ liệu thô đại diện cho 1 transaction. */
@@ -15,6 +13,7 @@ public class TransactionRecord {
     private String type;
     private String extraField;
     private String period;
+    private int userId;
 
     /** Constructor. */
     public TransactionRecord(){}
@@ -22,7 +21,7 @@ public class TransactionRecord {
     /** Constructor. */
     public TransactionRecord(String id, double amount, LocalDate date, String note,
                              String categoryId, String walletId, String type,
-                             String extraField, String period) {
+                             String extraField, String period, int userId) {
         this.id = id;
         this.amount = amount;
         this.date = date;
@@ -32,6 +31,7 @@ public class TransactionRecord {
         this.type = type;
         this.extraField = extraField;
         this.period = period;
+        this.userId = userId;
     }
 
     public String getId() {
@@ -104,5 +104,13 @@ public class TransactionRecord {
 
     public void setPeriod(String period) {
         this.period = period;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

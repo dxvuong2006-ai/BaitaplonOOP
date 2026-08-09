@@ -2,11 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
@@ -24,81 +22,79 @@
                 left="25.0"/>
     </padding>
 
-    <!-- Tiêu đề màn hình Danh mục -->
+    <!-- ============================= -->
+    <!-- HEADER -->
+    <!-- ============================= -->
+
     <HBox alignment="CENTER_LEFT">
 
         <VBox spacing="5.0">
+
             <Label text="Danh mục"
                    styleClass="dashboard-title"/>
 
-            <Label text="Quản lý các nhóm thu và chi trong hệ thống"
+            <Label text="Quản lý các danh mục thu và chi trong hệ thống"
                    styleClass="dashboard-subtitle"/>
+
         </VBox>
 
         <Region HBox.hgrow="ALWAYS"/>
 
         <Button text="+ Thêm danh mục"
+                onAction="#handleOpenCategoryForm"
                 styleClass="period-button"/>
+
     </HBox>
 
-    <!-- Khu vực tìm kiếm và bộ lọc -->
-    <HBox spacing="12.0"
-          alignment="CENTER_LEFT"
-          styleClass="dashboard-panel">
+    <!-- ============================= -->
+    <!-- DANH SÁCH DANH MỤC -->
+    <!-- ============================= -->
 
-        <TextField promptText="Tìm kiếm theo tên danh mục..."
-                   prefWidth="360.0"/>
-
-        <ComboBox promptText="Loại danh mục"
-                  prefWidth="200.0"/>
-
-        <Region HBox.hgrow="ALWAYS"/>
-
-        <Button text="Đặt lại"
-                minWidth="90.0"
-                prefWidth="90.0"
-                maxWidth="90.0"
-                styleClass="filter-button"/>
-    </HBox>
-
-    <!-- Bảng danh sách danh mục -->
     <VBox spacing="12.0"
           VBox.vgrow="ALWAYS"
           styleClass="dashboard-panel">
 
         <HBox alignment="CENTER_LEFT">
+
             <Label text="Danh sách danh mục"
                    styleClass="panel-title"/>
 
             <Region HBox.hgrow="ALWAYS"/>
 
-            <Label text="0 danh mục"
+            <Label fx:id="categoryCountLabel"
+                   text="0 danh mục"
                    styleClass="placeholder-text"/>
+
         </HBox>
 
-        <TableView VBox.vgrow="ALWAYS">
+        <TableView fx:id="categoryTable"
+                   VBox.vgrow="ALWAYS">
 
             <placeholder>
+
                 <Label text="Chưa có danh mục nào"
                        styleClass="placeholder-text"/>
+
             </placeholder>
+
             <columns>
-                <TableColumn text="Tên danh mục"
-                             prefWidth="220.0"/>
 
-                <TableColumn text="Loại"
-                             prefWidth="150.0"/>
-
-                <TableColumn text="Mô tả"
+                <TableColumn fx:id="nameColumn"
+                             text="Tên danh mục"
                              prefWidth="260.0"/>
 
-                <TableColumn text="Trạng thái"
-                             prefWidth="140.0"/>
+                <TableColumn fx:id="descriptionColumn"
+                             text="Mô tả"
+                             prefWidth="560.0"/>
 
-                <TableColumn text="Thao tác"
-                             prefWidth="110.0"/>
+                <TableColumn fx:id="actionColumn"
+                             text="Thao tác"
+                             prefWidth="180.0"/>
+
             </columns>
+
         </TableView>
+
     </VBox>
 
 </VBox>

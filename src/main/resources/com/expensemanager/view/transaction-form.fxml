@@ -5,18 +5,17 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.expensemanager.controller.TransactionFormController"
       spacing="16.0"
-      prefWidth="480.0"
+      prefWidth="500.0"
       styleClass="transaction-form-root">
 
     <padding>
@@ -26,57 +25,117 @@
                 left="24.0"/>
     </padding>
 
-    <Label text="Thêm giao dịch"
+    <!-- Tiêu đề -->
+
+    <Label fx:id="formTitleLabel"
+           text="Thêm giao dịch"
            styleClass="dashboard-title"/>
 
-    <Label text="Nhập thông tin khoản thu hoặc chi"
+    <Label fx:id="formSubtitleLabel"
+           text="Nhập thông tin khoản thu hoặc chi"
            styleClass="dashboard-subtitle"/>
+
+    <!-- Loại giao dịch -->
 
     <Label text="Loại giao dịch"
            styleClass="form-label"/>
 
-    <HBox spacing="20.0">
-        <fx:define>
-            <ToggleGroup fx:id="transactionTypeGroup"/>
-        </fx:define>
+    <ComboBox fx:id="transactionTypeComboBox"
+              promptText="Chọn loại giao dịch"
+              maxWidth="Infinity"/>
 
-        <RadioButton text="Thu"
-                     toggleGroup="$transactionTypeGroup"
-                     selected="true"/>
-
-        <RadioButton text="Chi"
-                     toggleGroup="$transactionTypeGroup"/>
-    </HBox>
+    <!-- Số tiền -->
 
     <Label text="Số tiền"
            styleClass="form-label"/>
 
-    <TextField promptText="Nhập số tiền"/>
+    <TextField fx:id="amountField"
+               promptText="Nhập số tiền"/>
+
+    <!-- Ngày -->
 
     <Label text="Ngày giao dịch"
            styleClass="form-label"/>
 
-    <DatePicker promptText="Chọn ngày"
+    <DatePicker fx:id="datePicker"
+                promptText="Chọn ngày"
                 maxWidth="Infinity"/>
+
+    <!-- Ví -->
 
     <Label text="Ví"
            styleClass="form-label"/>
 
-    <ComboBox promptText="Chọn ví"
+    <ComboBox fx:id="walletComboBox"
+              promptText="Chọn ví"
               maxWidth="Infinity"/>
+
+    <!-- Danh mục -->
 
     <Label text="Danh mục"
            styleClass="form-label"/>
 
-    <ComboBox promptText="Chọn danh mục"
+    <ComboBox fx:id="categoryComboBox"
+              promptText="Chọn danh mục"
               maxWidth="Infinity"/>
+
+    <!-- ============================= -->
+    <!-- THU NHẬP -->
+    <!-- ============================= -->
+
+    <VBox fx:id="incomeFieldsBox"
+          spacing="8.0">
+
+        <Label text="Nguồn thu"
+               styleClass="form-label"/>
+
+        <TextField fx:id="sourceField"
+                   promptText="Ví dụ: Lương, Thưởng..."/>
+
+    </VBox>
+
+    <!-- ============================= -->
+    <!-- CHI TIÊU -->
+    <!-- ============================= -->
+
+    <VBox fx:id="paymentFieldsBox"
+          spacing="8.0">
+
+        <Label text="Phương thức thanh toán"
+               styleClass="form-label"/>
+
+        <TextField fx:id="paymentMethodField"
+                   promptText="Ví dụ: Tiền mặt, Chuyển khoản..."/>
+
+    </VBox>
+
+    <!-- ============================= -->
+    <!-- CHI ĐỊNH KỲ -->
+    <!-- ============================= -->
+
+    <VBox fx:id="periodFieldsBox"
+          spacing="8.0">
+
+        <Label text="Chu kỳ"
+               styleClass="form-label"/>
+
+        <ComboBox fx:id="periodComboBox"
+                  promptText="Chọn chu kỳ"
+                  maxWidth="Infinity"/>
+
+    </VBox>
+
+    <!-- Mô tả -->
 
     <Label text="Mô tả"
            styleClass="form-label"/>
 
-    <TextArea promptText="Nhập mô tả giao dịch"
+    <TextArea fx:id="noteArea"
+              promptText="Nhập mô tả giao dịch"
               prefRowCount="3"
               wrapText="true"/>
+
+    <!-- Buttons -->
 
     <HBox spacing="10.0"
           alignment="CENTER_RIGHT">
@@ -85,11 +144,14 @@
 
         <Button text="Hủy"
                 minWidth="90.0"
+                onAction="#handleCancel"
                 styleClass="filter-button"/>
 
         <Button text="Lưu"
                 minWidth="90.0"
+                onAction="#handleSave"
                 styleClass="period-button"/>
+
     </HBox>
 
 </VBox>

@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
@@ -21,211 +26,285 @@
                 left="25.0"/>
     </padding>
 
-    <!-- Phần tiêu đề Dashboard -->
+    <!-- ============================= -->
+    <!-- HEADER -->
+    <!-- ============================= -->
+
     <HBox alignment="CENTER_LEFT">
 
         <VBox spacing="5.0">
+
             <Label text="Tổng quan"
                    styleClass="dashboard-title"/>
 
             <Label text="Cái nhìn tổng thể về tình hình tài chính của bạn"
                    styleClass="dashboard-subtitle"/>
+
         </VBox>
 
         <Region HBox.hgrow="ALWAYS"/>
 
-        <Button text="Tháng 07/2026"
-                styleClass="period-button"/>
+        <Label fx:id="currentPeriodLabel"
+               text="Tháng hiện tại"
+               styleClass="period-button"/>
+
     </HBox>
 
-    <!-- Ba thẻ thống kê -->
+    <!-- ============================= -->
+    <!-- SUMMARY CARDS -->
+    <!-- ============================= -->
+
     <HBox spacing="15.0">
 
         <!-- Tổng số dư -->
+
         <VBox spacing="8.0"
               maxWidth="Infinity"
               HBox.hgrow="ALWAYS"
               styleClass="summary-card">
 
             <HBox alignment="CENTER_LEFT">
+
                 <Label text="TỔNG SỐ DƯ"
                        styleClass="summary-label balance-text"/>
 
                 <Region HBox.hgrow="ALWAYS"/>
 
                 <StackPane styleClass="summary-icon balance-icon">
+
                     <Label text="₫"
                            styleClass="summary-icon-text"/>
+
                 </StackPane>
+
             </HBox>
 
-            <Label  fx:id="totalBalanceLabel"
-                    text="0 ₫"
-                    styleClass="summary-value"/>
+            <Label fx:id="totalBalanceLabel"
+                   text="0 đ"
+                   styleClass="summary-value"/>
 
             <Label text="Tổng tài sản hiện có"
                    styleClass="summary-description"/>
+
         </VBox>
 
         <!-- Tổng thu -->
+
         <VBox spacing="8.0"
               maxWidth="Infinity"
               HBox.hgrow="ALWAYS"
               styleClass="summary-card">
 
             <HBox alignment="CENTER_LEFT">
+
                 <Label text="TỔNG THU"
                        styleClass="summary-label income-text"/>
 
                 <Region HBox.hgrow="ALWAYS"/>
 
                 <StackPane styleClass="summary-icon income-icon">
+
                     <Label text="↑"
                            styleClass="summary-icon-text"/>
+
                 </StackPane>
+
             </HBox>
 
-            <Label text="0 ₫"
+            <Label fx:id="totalIncomeLabel"
+                   text="0 đ"
                    styleClass="summary-value"/>
 
-            <Label text="↑ Thu nhập trong tháng"
+            <Label text="Thu nhập trong tháng"
                    styleClass="summary-description income-text"/>
+
         </VBox>
 
         <!-- Tổng chi -->
+
         <VBox spacing="8.0"
               maxWidth="Infinity"
               HBox.hgrow="ALWAYS"
               styleClass="summary-card">
 
             <HBox alignment="CENTER_LEFT">
+
                 <Label text="TỔNG CHI"
                        styleClass="summary-label expense-text"/>
 
                 <Region HBox.hgrow="ALWAYS"/>
 
                 <StackPane styleClass="summary-icon expense-icon">
+
                     <Label text="↓"
                            styleClass="summary-icon-text"/>
+
                 </StackPane>
+
             </HBox>
 
-            <Label text="0 ₫"
+            <Label fx:id="totalExpenseLabel"
+                   text="0 đ"
                    styleClass="summary-value"/>
 
-            <Label text="↓ Chi tiêu trong tháng"
+            <Label text="Chi tiêu trong tháng"
                    styleClass="summary-description expense-text"/>
+
+        </VBox>
+
+        <!-- Tiết kiệm ròng -->
+
+        <VBox spacing="8.0"
+              maxWidth="Infinity"
+              HBox.hgrow="ALWAYS"
+              styleClass="summary-card">
+
+            <HBox alignment="CENTER_LEFT">
+
+                <Label text="TIẾT KIỆM RÒNG"
+                       styleClass="summary-label"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <StackPane styleClass="summary-icon">
+
+                    <Label text="="
+                           styleClass="summary-icon-text"/>
+
+                </StackPane>
+
+            </HBox>
+
+            <Label fx:id="netSavingLabel"
+                   text="0 đ"
+                   styleClass="summary-value"/>
+
+            <Label fx:id="transactionCountLabel"
+                   text="0 giao dịch trong tháng"
+                   styleClass="summary-description"/>
+
         </VBox>
 
     </HBox>
 
-    <!-- Hàng hai biểu đồ -->
-    <HBox spacing="15.0"
-          prefHeight="225.0">
+    <!-- ============================= -->
+    <!-- CHARTS -->
+    <!-- ============================= -->
 
-        <!-- Biểu đồ thu chi -->
+    <HBox spacing="15.0"
+          prefHeight="300.0">
+
+        <!-- Thu / Chi theo tháng -->
+
         <VBox spacing="12.0"
               maxWidth="Infinity"
               HBox.hgrow="ALWAYS"
               styleClass="dashboard-panel">
 
             <HBox alignment="CENTER_LEFT">
-                <Label text="Biểu đồ thu chi"
+
+                <Label text="Thu và chi theo tháng"
                        styleClass="panel-title"/>
 
                 <Region HBox.hgrow="ALWAYS"/>
 
-                <Button text="7 ngày qua"
-                        styleClass="filter-button"/>
+                <Label text="6 tháng gần nhất"
+                       styleClass="placeholder-text"/>
+
             </HBox>
 
-            <StackPane VBox.vgrow="ALWAYS"
-                       styleClass="chart-placeholder">
+            <BarChart fx:id="incomeExpenseChart"
+                      animated="false"
+                      legendVisible="true"
+                      VBox.vgrow="ALWAYS">
 
-                <Label text="Biểu đồ thu và chi sẽ hiển thị tại đây"
-                       styleClass="placeholder-text"/>
-            </StackPane>
+                <xAxis>
+                    <CategoryAxis label="Tháng"/>
+                </xAxis>
+
+                <yAxis>
+                    <NumberAxis label="Số tiền"/>
+                </yAxis>
+
+            </BarChart>
 
         </VBox>
 
-        <!-- Biểu đồ danh mục -->
-        <VBox prefWidth="300.0"
+        <!-- Chi theo danh mục -->
+
+        <VBox prefWidth="350.0"
               spacing="12.0"
               styleClass="dashboard-panel">
 
             <Label text="Chi tiêu theo danh mục"
                    styleClass="panel-title"/>
 
-            <StackPane VBox.vgrow="ALWAYS"
-                       styleClass="chart-placeholder">
-
-                <Label text="Biểu đồ tròn sẽ hiển thị tại đây"
-                       styleClass="placeholder-text"/>
-            </StackPane>
+            <PieChart fx:id="expenseCategoryChart"
+                      animated="false"
+                      legendVisible="true"
+                      VBox.vgrow="ALWAYS"/>
 
         </VBox>
 
     </HBox>
 
-    <!-- Giao dịch gần đây -->
+    <!-- ============================= -->
+    <!-- RECENT TRANSACTIONS -->
+    <!-- ============================= -->
+
     <VBox spacing="10.0"
-          prefHeight="220.0"
+          prefHeight="250.0"
           styleClass="dashboard-panel">
 
         <HBox alignment="CENTER_LEFT">
+
             <Label text="Giao dịch gần đây"
                    styleClass="panel-title"/>
 
             <Region HBox.hgrow="ALWAYS"/>
 
-            <Button text="Xem tất cả →"
-                    styleClass="filter-button"/>
+            <Label text="5 giao dịch mới nhất"
+                   styleClass="placeholder-text"/>
+
         </HBox>
 
-        <!-- Tiêu đề các cột -->
-        <HBox alignment="CENTER_LEFT"
-              styleClass="transaction-header">
+        <TableView fx:id="recentTransactionTable"
+                   VBox.vgrow="ALWAYS">
 
-            <Label text="Ngày"
-                   prefWidth="110.0"
-                   styleClass="transaction-header-label"/>
-
-            <Label text="Mô tả"
-                   prefWidth="230.0"
-                   styleClass="transaction-header-label"/>
-
-            <Label text="Ví"
-                   prefWidth="130.0"
-                   styleClass="transaction-header-label"/>
-
-            <Label text="Danh mục"
-                   prefWidth="140.0"
-                   styleClass="transaction-header-label"/>
-
-            <Label text="Loại"
-                   prefWidth="90.0"
-                   styleClass="transaction-header-label"/>
-
-            <Label text="Số tiền"
-                   prefWidth="140.0"
-                   styleClass="transaction-header-label"/>
-        </HBox>
-
-        <!-- Trạng thái chưa có dữ liệu -->
-        <StackPane VBox.vgrow="ALWAYS"
-                   styleClass="transaction-empty">
-
-            <VBox alignment="CENTER"
-                  spacing="5.0">
-
+            <placeholder>
                 <Label text="Chưa có giao dịch nào"
-                       styleClass="empty-title"/>
-
-                <Label text="Các giao dịch mới nhất sẽ hiển thị tại đây"
                        styleClass="placeholder-text"/>
-            </VBox>
+            </placeholder>
 
-        </StackPane>
+            <columns>
+
+                <TableColumn fx:id="recentDateColumn"
+                             text="Ngày"
+                             prefWidth="110.0"/>
+
+                <TableColumn fx:id="recentNoteColumn"
+                             text="Mô tả"
+                             prefWidth="220.0"/>
+
+                <TableColumn fx:id="recentWalletColumn"
+                             text="Ví"
+                             prefWidth="150.0"/>
+
+                <TableColumn fx:id="recentCategoryColumn"
+                             text="Danh mục"
+                             prefWidth="150.0"/>
+
+                <TableColumn fx:id="recentTypeColumn"
+                             text="Loại"
+                             prefWidth="140.0"/>
+
+                <TableColumn fx:id="recentAmountColumn"
+                             text="Số tiền"
+                             prefWidth="150.0"/>
+
+            </columns>
+
+        </TableView>
 
     </VBox>
 

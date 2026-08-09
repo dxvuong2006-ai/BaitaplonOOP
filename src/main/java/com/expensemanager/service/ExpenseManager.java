@@ -1,5 +1,6 @@
 package com.expensemanager.service;
 
+import com.expensemanager.model.enums.ReportType;
 import com.expensemanager.model.enums.TransactionType;
 import com.expensemanager.model.transaction.Transaction;
 import com.expensemanager.model.wallet.Wallet;
@@ -24,8 +25,9 @@ import com.expensemanager.exception.DuplicateEntityException;
 import com.expensemanager.exception.EmptyFieldException;
 import com.expensemanager.exception.InvalidFormatException;
 import com.expensemanager.exception.InsufficientFundsException;
-import org.apache.poi.sl.usermodel.TextRun;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.*;
@@ -240,6 +242,12 @@ public class ExpenseManager {
     /** Tạo báo cáo. */
     public ReportData createReport(LocalDate startDate, LocalDate endDate) {
         return reportService.createReport(startDate, endDate);
+    }
+
+    /** Xuất báo cáo. */
+    public File exportReport(LocalDate startDate, LocalDate endDate,
+                             ReportType type, File outputFile) throws IOException {
+        return reportService.exportReport(startDate, endDate, type, outputFile);
     }
 
     // Liên kết Statistic.

@@ -16,12 +16,6 @@ public class User {
     private String email;
 
     public User(String id, String username, String passwordHash, String salt, String email, int userId) {
-        if (username == null || username.isBlank()) {
-            throw new IllegalArgumentException("Username không được để trống.");
-        }
-        if (passwordHash == null || passwordHash.isBlank()) {
-            throw new IllegalArgumentException("passwordHash không được để trống.");
-        }
         this.id = id;
         this.username = username;
         this.passwordHash = passwordHash;

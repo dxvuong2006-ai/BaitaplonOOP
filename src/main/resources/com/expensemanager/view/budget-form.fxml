@@ -12,58 +12,80 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.expensemanager.controller.BudgetFormController"
-      spacing="16.0"
-      prefWidth="450.0"
-      styleClass="transaction-form-root">
+      spacing="12.0"
+      prefWidth="520.0"
+      styleClass="budget-form-root">
 
     <padding>
-        <Insets top="24.0"
-                right="24.0"
-                bottom="24.0"
-                left="24.0"/>
+        <Insets top="28.0"
+                right="30.0"
+                bottom="28.0"
+                left="30.0"/>
     </padding>
 
-    <Label fx:id="titleLabel"
-           text="Thêm ngân sách"
-           styleClass="dashboard-title"/>
+    <!-- HEADER -->
+    <VBox spacing="4.0">
 
-    <Label text="Thiết lập hạn mức cho từng danh mục"
-           styleClass="dashboard-subtitle"/>
+        <Label fx:id="titleLabel"
+               text="Thêm ngân sách"
+               styleClass="budget-form-title"/>
 
+        <Label text="Thiết lập hạn mức cho từng danh mục"
+               styleClass="budget-form-subtitle"/>
+
+    </VBox>
+
+    <!-- DANH MỤC -->
     <Label text="Danh mục"
-           styleClass="form-label"/>
+           styleClass="budget-form-label"/>
 
     <ComboBox fx:id="categoryComboBox"
               promptText="Chọn danh mục"
-              maxWidth="Infinity"/>
+              maxWidth="Infinity"
+              minHeight="46.0"
+              prefHeight="46.0"
+              styleClass="budget-form-combo"/>
 
+    <!-- HẠN MỨC -->
     <Label text="Hạn mức"
-           styleClass="form-label"/>
+           styleClass="budget-form-label"/>
 
     <TextField fx:id="limitField"
-               promptText="Ví dụ: 5000000"/>
+               promptText="Ví dụ: 5000000"
+               minHeight="46.0"
+               prefHeight="46.0"
+               styleClass="budget-form-input"/>
 
+    <!-- CHU KỲ -->
     <Label text="Chu kỳ"
-           styleClass="form-label"/>
+           styleClass="budget-form-label"/>
 
     <ComboBox fx:id="periodComboBox"
               promptText="Chọn chu kỳ"
-              maxWidth="Infinity"/>
+              maxWidth="Infinity"
+              minHeight="46.0"
+              prefHeight="46.0"
+              styleClass="budget-form-combo"/>
 
-    <HBox spacing="10.0"
+    <!-- ACTION BUTTONS -->
+    <HBox spacing="12.0"
           alignment="CENTER_RIGHT">
 
         <Region HBox.hgrow="ALWAYS"/>
 
         <Button text="Hủy"
                 onAction="#handleCancel"
-                minWidth="90.0"
-                styleClass="filter-button"/>
+                minWidth="105.0"
+                minHeight="44.0"
+                prefHeight="44.0"
+                styleClass="budget-form-cancel-button"/>
 
         <Button text="Lưu"
                 onAction="#handleSave"
-                minWidth="90.0"
-                styleClass="period-button"/>
+                minWidth="115.0"
+                minHeight="44.0"
+                prefHeight="44.0"
+                styleClass="budget-form-save-button"/>
 
     </HBox>
 

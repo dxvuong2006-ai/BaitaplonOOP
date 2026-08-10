@@ -1,0 +1,18 @@
+[
+  {
+    "id": "a0b8ac36-6b1b-494f-aa96-8ee91c0b586c",
+    "userId": 1,
+    "username": "cuong123",
+    "passwordHash": "co4PiHj6EP9oSanuOaFDnlPCQ9qGJlpmqnLqNC7Ep60\u003d",
+    "salt": "ae5izF6gjpnO3yR74kXl8A\u003d\u003d",
+    "email": ""
+  },
+  {
+    "id": "56abcdbe-f49e-4cd0-bdf6-24655df0d38f",
+    "userId": 2,
+    "username": "cuong124",
+    "passwordHash": "/voIKyzbS1WtSLzwVEO8z7xwpDHj9mSWOOhsoyv+ZhQ\u003d",
+    "salt": "82pR3VtcSFWc37L/18p6fw\u003d\u003d",
+    "email": ""
+  }
+]

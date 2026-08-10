@@ -22,7 +22,7 @@ public class BudgetStorageFactory extends AbstractStorageFactory<BudgetRecord> {
 
     @Override
     protected String[] getCsvHeader() {
-        return new String[]{"id", "categoryId", "limitAmount", "period"};
+        return new String[]{"id", "categoryId", "limitAmount", "period", "userId"};
     }
 
     @Override
@@ -31,7 +31,8 @@ public class BudgetStorageFactory extends AbstractStorageFactory<BudgetRecord> {
                 record.getId(),
                 record.getCategoryId() == null ? "" : record.getCategoryId(),
                 String.valueOf(record.getLimitAmount()),
-                record.getPeriod()
+                record.getPeriod(),
+                String.valueOf(record.getUserId())
         };
     }
 
@@ -42,8 +43,9 @@ public class BudgetStorageFactory extends AbstractStorageFactory<BudgetRecord> {
             String categoryId = row.length > 1 ? row[1] : "";
             double limitAmount = row.length > 2 ? Double.parseDouble(row[2]) : 0.0;
             String period = row.length > 3 ? row[3] : "";
+            int userId = row.length > 4 ? Integer.parseInt(row[4]) : 0;
 
-            return new BudgetRecord(id, categoryId, limitAmount, period);
+            return new BudgetRecord(id, categoryId, limitAmount, period, userId);
         };
     }
 }

@@ -31,43 +31,47 @@ public class CategoryService {
     }
 
     /** Thêm loại. */
-    public void addCategory(Category category) {
+    public void addCategory(Category category, int userId) {
         ValidationService.validateCategory(category);
-        if (findCategoryById(category.getId()) != null) {
+        category.setUserId(userId);
+        if (findCategoryById(category.getId(), userId) != null) {
             throw new DuplicateEntityException(
-                    "Ví", "mã " + category.getId());
+                    "Danh mục", "mã " + category.getId());
         }
-        if (findCategoryByName(category.getName()) != null) {
-            throw new DuplicateEntityException("Danh mục", category.getName());
-        }
+        ValidationService.validateCategoryName(getCategories(userId), category.getName());
         categories.add(category);
         save();
     }
 
     /** Xóa loại. */
-    public void removeCategory(Category category) {
+    public void removeCategory(Category category, int userId) {
         ValidationService.validateCategory(category);
-        categories.remove(category);
+        Category existing = findCategoryById(category.getId(), userId);
+        ValidationService.validateCategory(existing);
+        categories.remove(existing);
         save();
     }
 
     /** Cập nhật danh mục. */
-    public void updateCategory(Category oldCategory, Category newCategory) {
+    public void updateCategory(Category oldCategory, Category newCategory, int userId) {
         ValidationService.validateCategory(oldCategory);
         ValidationService.validateCategory(newCategory);
-        Category existed = findCategoryByName(newCategory.getName());
-        if (existed != null && existed != oldCategory) {
+        Category existingOld = findCategoryById(oldCategory.getId(), userId);
+        ValidationService.validateCategory(existingOld);
+        Category existing = findCategoryByName(newCategory.getName(), userId);
+        if (existing != null && existing != oldCategory) {
             throw new DuplicateEntityException("Danh mục", newCategory.getName());
         }
         oldCategory.setName(newCategory.getName());
         oldCategory.setDescription(newCategory.getDescription());
+        oldCategory.setUserId(newCategory.getUserId());
         save();
     }
 
     /** Tìm theo ID. */
-    public Category findCategoryById(String id) {
+    public Category findCategoryById(String id, int userId) {
         for (Category category : categories) {
-            if (category.getId().equals(id)) {
+            if (category.getId().equals(id) && category.getUserId() == userId) {
                 return category;
             }
         }
@@ -75,12 +79,12 @@ public class CategoryService {
     }
 
     /** Tìm kiếm loại theo tên. */
-    public Category findCategoryByName(String name) {
+    public Category findCategoryByName(String name, int userId) {
         if (name == null || name.trim().isEmpty()) {
             return null;
         }
-        for (Category category : categories) {
-            if (category.getName().equalsIgnoreCase(name.trim())) {
+        for (Category category : getCategories(userId)) {
+            if (category.getName().equalsIgnoreCase(name.trim()) && category.getUserId() == userId) {
                 return category;
             }
         }
@@ -88,7 +92,9 @@ public class CategoryService {
     }
 
     /** Trả về danh sách loại. */
-    public List<Category> getCategories() {
-        return Collections.unmodifiableList(categories);
+    public List<Category> getCategories(int userId) {
+        return categories.stream()
+                .filter(category -> category.getUserId() == userId)
+                .toList();
     }
 }

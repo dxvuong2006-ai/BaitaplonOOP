@@ -13,5 +13,12 @@
     "balance": 200000.0,
     "type": "BANK",
     "userId": 1
+  },
+  {
+    "id": "dee27cc4-7c72-4608-a2a7-e85cf29e454c",
+    "name": "di cho",
+    "balance": 495000.0,
+    "type": "CASH",
+    "userId": 3
   }
 ]

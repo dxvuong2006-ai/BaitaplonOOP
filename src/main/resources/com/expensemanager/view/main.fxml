@@ -5,7 +5,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -13,54 +12,56 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.expensemanager.controller.MainController"
             stylesheets="@../../../css/styles.css"
-            prefHeight="600.0"
-            prefWidth="900.0">
+            prefWidth="1200.0"
+            prefHeight="760.0">
 
     <!-- ================================================= -->
-    <!-- THANH ĐIỀU HƯỚNG BÊN TRÁI -->
+    <!-- SIDEBAR -->
     <!-- ================================================= -->
 
     <left>
 
         <VBox fx:id="sidebar"
               styleClass="sidebar"
-              spacing="10.0"
+              spacing="8.0"
               prefWidth="260.0"
               minWidth="260.0"
               maxWidth="260.0">
 
             <padding>
-                <Insets top="18.0"
+                <Insets top="12.0"
                         right="16.0"
                         bottom="22.0"
                         left="16.0"/>
             </padding>
 
+
             <!-- ========================================= -->
-            <!-- LOGO ỨNG DỤNG -->
+            <!-- LOGO -->
             <!-- ========================================= -->
 
             <VBox alignment="CENTER"
+                  prefHeight="175.0"
+                  minHeight="175.0"
+                  maxHeight="175.0"
                   styleClass="sidebar-brand">
 
-                <ImageView fitWidth="220.0"
-                           fitHeight="125.0"
+                <ImageView fitWidth="245.0"
+                           fitHeight="155.0"
                            preserveRatio="true"
                            smooth="true">
 
                     <image>
-                        <Image url="@../../../images/logo.png"/>
+                        <Image url="@../../../images/logo2.png"/>
                     </image>
 
                 </ImageView>
 
             </VBox>
 
-            <!-- Khoảng cách giữa logo và menu -->
-            <Region prefHeight="14.0"/>
 
             <!-- ========================================= -->
-            <!-- NAVIGATION -->
+            <!-- MENU -->
             <!-- ========================================= -->
 
             <Button fx:id="btnDashboard"
@@ -103,8 +104,9 @@
 
     </left>
 
+
     <!-- ================================================= -->
-    <!-- NỘI DUNG CHÍNH -->
+    <!-- MAIN CONTENT -->
     <!-- ================================================= -->
 
     <center>

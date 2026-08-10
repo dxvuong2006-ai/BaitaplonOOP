@@ -4,57 +4,136 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/17"
+<AnchorPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.expensemanager.controller.RegisterController"
-            prefWidth="600.0" prefHeight="500.0">
+            stylesheets="@../../../css/styles.css"
+            styleClass="auth-root"
+            prefWidth="760.0"
+            prefHeight="720.0">
 
-    <VBox alignment="CENTER" spacing="12.0" prefWidth="360.0"
-          AnchorPane.leftAnchor="120.0"
-          AnchorPane.rightAnchor="120.0"
-          AnchorPane.topAnchor="35.0"
-          AnchorPane.bottomAnchor="35.0">
+    <!-- Khung ngoài -->
+    <VBox alignment="CENTER"
+          AnchorPane.topAnchor="0.0"
+          AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0">
 
-        <Label text="QUẢN LÝ CHI TIÊU CÁ NHÂN"
-               style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        <!-- Card đăng ký -->
+        <VBox alignment="CENTER"
+              spacing="12.0"
+              prefWidth="440.0"
+              maxWidth="440.0"
+              styleClass="auth-card">
 
-        <Label text="Tạo tài khoản mới"
-               style="-fx-font-size: 18px;"/>
+            <!-- Logo -->
+            <ImageView fitWidth="210.0"
+                       fitHeight="95.0"
+                       preserveRatio="true"
+                       smooth="true">
 
-        <TextField fx:id="usernameField"
-                   promptText="Tên đăng nhập"
-                   prefHeight="40.0"/>
+                <image>
+                    <Image url="@../../../images/logo2.png"/>
+                </image>
 
-        <TextField fx:id="emailField"
-                   promptText="Email (không bắt buộc)"
-                   prefHeight="40.0"/>
+            </ImageView>
 
-        <PasswordField fx:id="passwordField"
-                       promptText="Mật khẩu (ít nhất 6 ký tự)"
-                       prefHeight="40.0"/>
+            <!-- Tiêu đề -->
+            <Label text="Tạo tài khoản"
+                   styleClass="auth-title"/>
 
-        <PasswordField fx:id="confirmPasswordField"
-                       promptText="Nhập lại mật khẩu"
-                       prefHeight="40.0"/>
+            <Label text="Bắt đầu quản lý chi tiêu của bạn"
+                   styleClass="auth-subtitle"/>
 
-        <Label fx:id="errorLabel"
-               wrapText="true"
-               prefWidth="360.0"
-               style="-fx-text-fill: #d32f2f;"/>
+            <!-- Username -->
+            <VBox spacing="6.0"
+                  maxWidth="Infinity">
 
-        <Button text="ĐĂNG KÝ"
-                onAction="#handleRegister"
-                prefWidth="360.0"
-                prefHeight="42.0"
-                defaultButton="true"/>
+                <Label text="Tên đăng nhập"
+                       styleClass="auth-field-label"/>
 
-        <Button text="Quay lại đăng nhập"
-                onAction="#handleBackToLogin"
-                prefWidth="360.0"
-                prefHeight="40.0"/>
+                <TextField fx:id="usernameField"
+                           promptText="Nhập tên đăng nhập"
+                           prefHeight="46.0"
+                           maxWidth="Infinity"
+                           styleClass="auth-input"/>
+
+            </VBox>
+
+            <!-- Email -->
+            <VBox spacing="6.0"
+                  maxWidth="Infinity">
+
+                <Label text="Email"
+                       styleClass="auth-field-label"/>
+
+                <TextField fx:id="emailField"
+                           promptText="Email (không bắt buộc)"
+                           prefHeight="46.0"
+                           maxWidth="Infinity"
+                           styleClass="auth-input"/>
+
+            </VBox>
+
+            <!-- Password -->
+            <VBox spacing="6.0"
+                  maxWidth="Infinity">
+
+                <Label text="Mật khẩu"
+                       styleClass="auth-field-label"/>
+
+                <PasswordField fx:id="passwordField"
+                               promptText="Mật khẩu (ít nhất 6 ký tự)"
+                               prefHeight="46.0"
+                               maxWidth="Infinity"
+                               styleClass="auth-input"/>
+
+            </VBox>
+
+            <!-- Confirm password -->
+            <VBox spacing="6.0"
+                  maxWidth="Infinity">
+
+                <Label text="Nhập lại mật khẩu"
+                       styleClass="auth-field-label"/>
+
+                <PasswordField fx:id="confirmPasswordField"
+                               promptText="Nhập lại mật khẩu"
+                               prefHeight="46.0"
+                               maxWidth="Infinity"
+                               styleClass="auth-input"/>
+
+            </VBox>
+
+            <!-- Lỗi -->
+            <Label fx:id="errorLabel"
+                   text=""
+                   wrapText="true"
+                   maxWidth="Infinity"
+                   styleClass="auth-error"/>
+
+            <!-- Đăng ký -->
+            <Button text="ĐĂNG KÝ"
+                    onAction="#handleRegister"
+                    defaultButton="true"
+                    prefHeight="48.0"
+                    maxWidth="Infinity"
+                    styleClass="auth-primary-button"/>
+
+            <!-- Quay lại -->
+            <Button text="← Quay lại đăng nhập"
+                    onAction="#handleBackToLogin"
+                    prefHeight="44.0"
+                    maxWidth="Infinity"
+                    styleClass="auth-secondary-button"/>
+
+        </VBox>
 
     </VBox>
+
 </AnchorPane>

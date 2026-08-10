@@ -2,9 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -31,10 +34,9 @@
             <padding>
                 <Insets top="12.0"
                         right="16.0"
-                        bottom="22.0"
+                        bottom="18.0"
                         left="16.0"/>
             </padding>
-
 
             <!-- ========================================= -->
             <!-- LOGO -->
@@ -58,7 +60,6 @@
                 </ImageView>
 
             </VBox>
-
 
             <!-- ========================================= -->
             <!-- MENU -->
@@ -100,10 +101,55 @@
                     onAction="#handleShowReport"
                     maxWidth="Infinity"/>
 
+            <!-- ========================================= -->
+            <!-- ĐẨY USER CARD XUỐNG CUỐI SIDEBAR -->
+            <!-- ========================================= -->
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <!-- ========================================= -->
+            <!-- CURRENT USER -->
+            <!-- ========================================= -->
+
+            <HBox alignment="CENTER_LEFT"
+                  spacing="12.0"
+                  styleClass="sidebar-user-card">
+
+                <!-- AVATAR -->
+
+                <StackPane minWidth="46.0"
+                           prefWidth="46.0"
+                           maxWidth="46.0"
+                           minHeight="46.0"
+                           prefHeight="46.0"
+                           maxHeight="46.0"
+                           styleClass="sidebar-user-avatar">
+
+                    <Label fx:id="sidebarAvatarLabel"
+                           text="U"
+                           styleClass="sidebar-user-avatar-text"/>
+
+                </StackPane>
+
+                <!-- USER INFO -->
+
+                <VBox spacing="3.0"
+                      alignment="CENTER_LEFT">
+
+                    <Label fx:id="sidebarUsernameLabel"
+                           text="Người dùng"
+                           styleClass="sidebar-user-name"/>
+
+                    <Label text="Đang đăng nhập"
+                           styleClass="sidebar-user-status"/>
+
+                </VBox>
+
+            </HBox>
+
         </VBox>
 
     </left>
-
 
     <!-- ================================================= -->
     <!-- MAIN CONTENT -->

@@ -2407,3 +2407,82 @@ AUTH SECONDARY BUTTON
 .budget-form-save-button:pressed {
     -fx-translate-y: 0px;
 }
+
+/* ==========================================================
+   SIDEBAR - CURRENT USER
+   ========================================================== */
+
+.sidebar-user-card {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.07);
+
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.08);
+
+    -fx-border-width: 1px;
+
+    -fx-padding: 13px 14px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0, 0, 0, 0.16),
+            14,
+            0.12,
+            0,
+            4
+    );
+}
+
+
+/* AVATAR */
+
+.sidebar-user-avatar {
+    -fx-background-color:
+            linear-gradient(
+                    to bottom right,
+                    #20c7c7,
+                    #3b82f6,
+                    #8055f5
+            );
+
+    -fx-background-radius: 23px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(59, 130, 246, 0.30),
+            12,
+            0.18,
+            0,
+            3
+    );
+}
+
+
+.sidebar-user-avatar-text {
+    -fx-text-fill: #ffffff;
+
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+
+/* USERNAME */
+
+.sidebar-user-name {
+    -fx-text-fill: #ffffff;
+
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+
+/* STATUS */
+
+.sidebar-user-status {
+    -fx-text-fill: #9fb0c6;
+
+    -fx-font-size: 12px;
+}

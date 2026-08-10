@@ -1,40 +1,82 @@
 package com.expensemanager.controller;
 
+import com.expensemanager.model.user.User;
+import com.expensemanager.service.ExpenseManager;
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-import java.io.IOException;
 
 /**
  * Controller điều khiển khung sườn chính của ứng dụng (main.fxml).
- * Chịu trách nhiệm duy nhất: nhận sự kiện bấm nút trên thanh điều hướng,
- * rồi nạp (load) đúng màn hình con tương ứng vào vùng nội dung trung tâm.
+ * Chịu trách nhiệm điều hướng màn hình và hiển thị
+ * thông tin tài khoản đang đăng nhập trên sidebar.
  */
 public class MainController {
 
-    // @FXML cho phép JavaFX tự động "tiêm" (inject) đối tượng StackPane
-    // có fx:id="contentPane" khai báo trong main.fxml vào đúng biến này.
     @FXML
     private StackPane contentPane;
 
     @FXML
+    private Label sidebarUsernameLabel;
+
+    @FXML
+    private Label sidebarAvatarLabel;
+
+    private final ExpenseManager expenseManager = ExpenseManager.getInstance();
+
+    @FXML
     private void initialize() {
+        loadCurrentUser();
         loadView("dashboard.fxml");
     }
 
     /**
-     * Hàm dùng chung để nạp 1 file FXML bất kỳ vào vùng nội dung chính.
-     * Tách riêng thành 1 hàm để tránh lặp code ở mỗi handleShowXXX().
+     * Hiển thị tài khoản đang đăng nhập trên sidebar.
+     */
+    private void loadCurrentUser() {
+        User currentUser = expenseManager.getCurrentUser();
+
+        if (currentUser == null) {
+            sidebarUsernameLabel.setText("Khách");
+            sidebarAvatarLabel.setText("?");
+            return;
+        }
+
+        String username = currentUser.getUsername();
+
+        if (username == null || username.isBlank()) {
+            sidebarUsernameLabel.setText("Người dùng");
+            sidebarAvatarLabel.setText("U");
+            return;
+        }
+
+        sidebarUsernameLabel.setText(username);
+
+        String firstLetter =
+                username.substring(0, 1).toUpperCase();
+
+        sidebarAvatarLabel.setText(firstLetter);
+    }
+
+    /**
+     * Hàm dùng chung để nạp một file FXML
+     * vào vùng nội dung chính.
      */
     private void loadView(String fxmlFile) {
         try {
-            Parent view = FXMLLoader.load(getClass().getResource("/com/expensemanager/view/" + fxmlFile));
+            Parent view =
+                    FXMLLoader.load(
+                            getClass().getResource(
+                                    "/com/expensemanager/view/" + fxmlFile));
+
             contentPane.getChildren().setAll(view);
+
         } catch (IOException e) {
-            // Bắt lỗi tại đây để nếu file FXML bị thiếu/sai đường dẫn,
-            // ứng dụng không bị sập đột ngột (crash), mà chỉ báo lỗi ra console.
-            System.out.println("Không thể tải giao diện: " + fxmlFile);
+            System.out.println(
+                    "Không thể tải giao diện: " + fxmlFile);
             e.printStackTrace();
         }
     }

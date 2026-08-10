@@ -1,11 +1,11 @@
 package com.expensemanager.model.transaction;
 
-import com.expensemanager.model.category.Category;
-import com.expensemanager.model.enums.TransactionType;
-import com.expensemanager.model.enums.FieldType;
-import com.expensemanager.model.wallet.Wallet;
-import com.expensemanager.exception.NegativeValueException;
 import com.expensemanager.exception.EmptyFieldException;
+import com.expensemanager.exception.NegativeValueException;
+import com.expensemanager.model.category.Category;
+import com.expensemanager.model.enums.FieldType;
+import com.expensemanager.model.enums.TransactionType;
+import com.expensemanager.model.wallet.Wallet;
 import java.time.LocalDate;
 
 /**
@@ -23,11 +23,10 @@ public abstract class Transaction {
     private Category category;
     private int userId;
 
-    /**
-     * Constructor rỗng phục vụ cho các thư viện Serialize/Deserialize (JSON, XML).
-     */
+    /** Constructor rỗng phục vụ cho các thư viện Serialize/Deserialize (JSON, XML). */
     public Transaction() {}
 
+    /** Khởi tạo một giao dịch. */
     public Transaction(String id, double amount, LocalDate date, String note,
                        Category category, Wallet wallet, int userId) {
         setId(id);
@@ -41,17 +40,18 @@ public abstract class Transaction {
 
     // --- PHƯƠNG THỨC TRỪU TƯỢNG ---
 
-    /**
-     * Trả về loại giao dịch (Thu hoặc Chi).
-     * @return TransactionType
-     */
+    /** Trả về loại giao dịch (Thu hoặc Chi). */
     public abstract TransactionType getType();
+
+    /** Trả về số tiền có dấu, dương nếu là thu, âm nếu là chi. */
     public abstract double getSignedAmount();
 
+    /** Lấy định danh giao dịch. */
     public String getId() {
         return id;
     }
 
+    /** Gán lại định danh cho giao dịch. */
     public void setId(String id) {
         if (id == null || id.isBlank()) {
             throw new EmptyFieldException(FieldType.ID);
@@ -59,10 +59,12 @@ public abstract class Transaction {
         this.id = id;
     }
 
+    /** Lấy số tiền giao dịch. */
     public double getAmount() {
         return amount;
     }
 
+    /** Gán lại số tiền giao dịch. */
     public void setAmount(double amount) {
         if (amount <= 0) {
             throw new NegativeValueException(FieldType.AMOUNT);
@@ -70,10 +72,12 @@ public abstract class Transaction {
         this.amount = amount;
     }
 
+    /** Lấy ngày giao dịch. */
     public LocalDate getDate() {
         return date;
     }
 
+    /** Gán lại ngày giao dịch. */
     public void setDate(LocalDate date) {
         if (date == null) {
             throw new EmptyFieldException(FieldType.DATE);
@@ -81,18 +85,22 @@ public abstract class Transaction {
         this.date = date;
     }
 
+    /** Lấy ghi chú của giao dịch. */
     public String getNote() {
         return note;
     }
 
+    /** Gán lại ghi chú cho giao dịch. */
     public void setNote(String note) {
         this.note = note;
     }
 
+    /** Lấy danh mục áp dụng cho giao dịch. */
     public Category getCategory() {
         return category;
     }
 
+    /** Gán lại danh mục cho giao dịch. */
     public void setCategory(Category category) {
         if (category == null) {
             throw new EmptyFieldException(FieldType.CATEGORY);
@@ -100,10 +108,12 @@ public abstract class Transaction {
         this.category = category;
     }
 
+    /** Lấy ví thực hiện giao dịch. */
     public Wallet getWallet() {
         return wallet;
     }
 
+    /** Gán lại ví thực hiện giao dịch. */
     public void setWallet(Wallet wallet) {
         if (wallet == null) {
             throw new EmptyFieldException(FieldType.WALLET);
@@ -111,10 +121,12 @@ public abstract class Transaction {
         this.wallet = wallet;
     }
 
+    /** Lấy id của người dùng sở hữu giao dịch. */
     public int getUserId() {
         return userId;
     }
 
+    /** Gán lại chủ sở hữu cho giao dịch. */
     public void setUserId(int userId) {
         if (userId <= 0) {
             throw new EmptyFieldException(FieldType.USERID);

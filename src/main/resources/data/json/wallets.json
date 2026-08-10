@@ -20,5 +20,13 @@
     "balance": 495000.0,
     "type": "CASH",
     "userId": 3
+  },
+  {
+    "feePercent": 1000.0,
+    "id": "db3038a2-d61c-4731-ac6d-f6e63bc0dc34",
+    "name": "acs",
+    "balance": 100000.0,
+    "type": "EWALLET",
+    "userId": 1
   }
 ]

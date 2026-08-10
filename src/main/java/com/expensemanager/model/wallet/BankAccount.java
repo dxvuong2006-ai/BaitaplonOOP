@@ -32,18 +32,12 @@ public class BankAccount extends Wallet {
 
     /** Gán lại phí giao dịch cố định. */
     public void setTransactionFee(double transactionFee) {
-        if (transactionFee < 0) {
-            throw new NegativeValueException(FieldType.TRANSACTIONFEE);
-        }
         this.transactionFee = transactionFee;
     }
 
     /** Rút tiền từ tài khoản ngân hàng, số tiền bị trừ gồm cả phí giao dịch cố định. */
     @Override
     public void withdraw(double amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Số tiền rút phải lớn hơn 0.");
-        }
         double totalDeduction = amount + transactionFee;
         // Dùng epsilon để tránh sai số float khi rút sát/đúng số dư hiện có
         if (totalDeduction > getBalance() + CurrencyUtils.EPSILON) {

@@ -30,17 +30,11 @@ public class RecurringExpense extends Expense {
 
     /** Gán lại chu kỳ lặp lại. */
     public void setPeriod(Period period) {
-        if (period == null) {
-            throw new EmptyFieldException(FieldType.PERIOD);
-        }
         this.period = period;
     }
 
     /** Tính toán ngày đến hạn của chu kỳ tiếp theo. */
     public LocalDate nextDueDate() {
-        if (getDate() == null || this.period == null) {
-            return null;
-        }
         switch (this.period) {
             case DAILY:
                 return getDate().plusDays(1);

@@ -1,16 +1,17 @@
 [
   {
-    "transactionFee": 10.0,
-    "id": "123",
-    "name": "123",
-    "balance": 1000.0,
-    "type": "BANK"
+    "id": "9e20be30-01cc-42ee-82fa-e420248f45a7",
+    "name": "cuong",
+    "balance": 50000.0,
+    "type": "CASH",
+    "userId": 1
   },
   {
     "transactionFee": 0.0,
-    "id": "124",
-    "name": "124",
-    "balance": 2000.0,
-    "type": "BANK"
+    "id": "cbe1a0b3-9804-450c-89d8-8c03f4ce89c6",
+    "name": "ucong",
+    "balance": 200000.0,
+    "type": "BANK",
+    "userId": 1
   }
 ]

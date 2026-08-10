@@ -5,7 +5,8 @@ public enum FilePath {
     WALLET("wallets"),
     TRANSACTION("transactions"),
     CATEGORY("categories"),
-    BUDGET("budgets");
+    BUDGET("budgets"),
+    USER("users");
 
     private final String basePath;
     private final String resource;

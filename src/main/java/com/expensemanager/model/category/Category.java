@@ -35,9 +35,7 @@ public class Category {
 
     /** Gán lại định danh cho danh mục. */
     public void setId(String id) {
-        if (id == null || id.isBlank()) {
-            throw new EmptyFieldException(FieldType.ID);
-        }
+
         this.id = id;
     }
 
@@ -48,9 +46,7 @@ public class Category {
 
     /** Đổi tên danh mục. */
     public void setName(String name) {
-        if (name == null || name.isBlank()) {
-            throw new EmptyFieldException(FieldType.NAME);
-        }
+
         this.name = name;
     }
 

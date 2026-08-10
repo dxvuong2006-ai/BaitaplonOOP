@@ -69,10 +69,12 @@ public class TransactionService {
 
     /** Chuyển toàn bộ giao dịch thành dạng dữ liệu thô. */
     private Transaction toTransaction(TransactionRecord record) {
-        Category category = categoryService.findCategoryById(record.getCategoryId());
+        Category category = categoryService.findCategoryById(record.getCategoryId(),
+                record.getUserId());
         ValidationService.validateCategory(category);
 
-        Wallet wallet = walletService.findWalletById(record.getWalletId());
+        Wallet wallet = walletService.findWalletById(record.getWalletId(),
+                record.getUserId());
         ValidationService.validateWallet(wallet);
 
         TransactionType type = TransactionType.valueOf(record.getType());
@@ -93,7 +95,8 @@ public class TransactionService {
                 wallet,
                 source,
                 paymentMethod,
-                period
+                period,
+                record.getUserId()
         );
     }
 
@@ -108,7 +111,8 @@ public class TransactionService {
                 transaction.getWallet() == null ? "" : transaction.getWallet().getId(),
                 transaction.getType().name(),
                 extractExtraField(transaction),
-                extractPeriod(transaction)
+                extractPeriod(transaction),
+                transaction.getUserId()
         );
     }
 
@@ -132,9 +136,9 @@ public class TransactionService {
     }
 
     /** Thêm giao dịch. */
-    public void addTransaction(Transaction transaction) {
+    public void addTransaction(Transaction transaction, int userId) {
         ValidationService.validateTransaction(transaction);
-        if (findTransactionById(transaction.getId()) != null) {
+        if (findTransactionById(transaction.getId(), userId) != null) {
             throw new DuplicateEntityException("Giao dịch", "mã " + transaction.getId());
         }
         ValidationService.validateWallet(transaction.getWallet());
@@ -142,20 +146,21 @@ public class TransactionService {
         double signedAmount = transaction.getSignedAmount();
         if (signedAmount < 0) {
             ValidationService.validateWithdraw(wallet, -signedAmount);
-            wallet.withdraw(-signedAmount);
-            Budget budget = budgetService.findBudgetByCategory(transaction.getCategory());
+            Budget budget = budgetService.findBudgetByCategory(transaction.getCategory(), userId);
             if (budget != null) {
-                budgetService.validateBudgetLimit(budget);
+                budgetService.validateBudgetLimit(budget, -signedAmount, userId);
             }
+            wallet.withdraw(-signedAmount);
         } else {
             wallet.deposit(signedAmount);
         }
+        walletService.save();
         transactions.add(transaction);
         save();
     }
 
     /** Xóa giao dịch. */
-    public void removeTransaction(Transaction transaction) {
+    public void removeTransaction(Transaction transaction, int userId) {
         ValidationService.validateTransaction(transaction);
         if (!transactions.contains(transaction)) {
             return;
@@ -168,31 +173,32 @@ public class TransactionService {
             ValidationService.validateWithdraw(wallet, signedAmount);
             wallet.withdraw(signedAmount);
         }
-        transactions.remove(transaction);
+        walletService.save();
+        transactions.remove(findTransactionById(transaction.getId(), userId));
         save();
     }
 
     /** Chỉnh sửa lại giao dịch. */
-    public void updateTransaction(Transaction oldTransaction, Transaction newTransaction) {
+    public void updateTransaction(Transaction oldTransaction, Transaction newTransaction, int userId) {
         ValidationService.validateTransaction(oldTransaction);
         ValidationService.validateTransaction(newTransaction);
-        removeTransaction(oldTransaction);
+        removeTransaction(oldTransaction, userId);
         try {
-            addTransaction(newTransaction);
+            addTransaction(newTransaction, userId);
         } catch (RuntimeException e) {
-            addTransaction(oldTransaction);
+            addTransaction(oldTransaction, userId);
             throw e;
         }
         save();
     }
 
     /** Tìm giao dịch bằng ID. */
-    public Transaction findTransactionById(String id) {
+    public Transaction findTransactionById(String id, int userId) {
         if (id == null || id.trim().isEmpty()) {
             throw new EmptyFieldException(FieldType.ID);
         }
-        for (Transaction transaction : transactions) {
-            if (transaction.getId().equals(id)) {
+        for (Transaction transaction : getTransactions(userId)) {
+            if (transaction.getId().equals(id) && transaction.getUserId() == userId) {
                 return transaction;
             }
         }
@@ -200,10 +206,10 @@ public class TransactionService {
     }
 
     /** Tìm giao dịch theo ví. */
-    public List<Transaction> findTransactionByWallet(Wallet wallet) {
+    public List<Transaction> findTransactionByWallet(Wallet wallet, int userId) {
         ValidationService.validateWallet(wallet);
         List<Transaction> result = new ArrayList<>();
-        for (Transaction transaction : transactions) {
+        for (Transaction transaction : getTransactions(userId)) {
             if (wallet.equals(transaction.getWallet())) {
                 result.add(transaction);
             }
@@ -212,10 +218,10 @@ public class TransactionService {
     }
 
     /** Tìm giao dịch theo danh mục. */
-    public List<Transaction> findTransactionByCategory(Category category) {
+    public List<Transaction> findTransactionByCategory(Category category, int userId) {
         ValidationService.validateCategory(category);
         List<Transaction> result = new ArrayList<>();
-        for (Transaction transaction : transactions) {
+        for (Transaction transaction : getTransactions(userId)) {
             if (category.equals(transaction.getCategory())) {
                 result.add(transaction);
             }
@@ -224,12 +230,12 @@ public class TransactionService {
     }
 
     /** Tìm giao dịch theo loại. */
-    public List<Transaction> findTransactionByType(TransactionType type) {
+    public List<Transaction> findTransactionByType(TransactionType type, int userId) {
         if (type == null) {
             throw new EmptyFieldException(FieldType.TRANSACTIONTYPE);
         }
         List<Transaction> result = new ArrayList<>();
-        for (Transaction transaction : transactions) {
+        for (Transaction transaction : getTransactions(userId)) {
             if (type.equals(transaction.getType())) {
                 result.add(transaction);
             }
@@ -238,7 +244,9 @@ public class TransactionService {
     }
 
     /** Trả về danh sách các giao dịch. */
-    public List<Transaction> getTransactions() {
-        return Collections.unmodifiableList(transactions);
+    public List<Transaction> getTransactions(int userId) {
+        return transactions.stream()
+                .filter(transaction -> transaction.getUserId() == userId)
+                .toList();
     }
 }

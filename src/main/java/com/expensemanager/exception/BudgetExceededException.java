@@ -1,17 +1,16 @@
 package com.expensemanager.exception;
 
-/**
- * Thrown when a budget limit is exceeded.
- */
+/** Thrown when a budget limit is exceeded. */
 public class BudgetExceededException extends ExpenseManagerException {
 
     private final double budgetLimit;
     private final double currentSpent;
 
+    /** Khởi tạo đối tượng. */
     public BudgetExceededException(double budgetLimit,
                                    double currentSpent) {
 
-        super("Vượt quá ngân sách cho phép");
+        super(String.format("Đã vượt quá ngân sách %.2f", currentSpent - budgetLimit));
 
         this.budgetLimit = budgetLimit;
         this.currentSpent = currentSpent;

@@ -55,9 +55,6 @@ public class Budget {
      * @throws EmptyFieldException nếu id null
      */
     public void setId(String id) {
-        if (id == null) {
-            throw new EmptyFieldException(FieldType.ID);
-        }
         this.id = id;
     }
 
@@ -77,9 +74,6 @@ public class Budget {
      * @throws EmptyFieldException nếu category null
      */
     public void setCategory(Category category) {
-        if (category == null) {
-            throw new EmptyFieldException(FieldType.CATEGORY);
-        }
         this.category = category;
     }
 
@@ -99,9 +93,6 @@ public class Budget {
      * @throws NegativeValueException nếu limitAmount âm
      */
     public void setLimitAmount(double limitAmount) {
-        if (limitAmount < 0) {
-            throw new NegativeValueException(FieldType.LIMITAMOUNT);
-        }
         this.limitAmount = limitAmount;
     }
 
@@ -121,9 +112,6 @@ public class Budget {
      * @throws EmptyFieldException nếu period null
      */
     public void setPeriod(Period period) {
-        if (period == null) {
-            throw new EmptyFieldException(FieldType.PERIOD);
-        }
         this.period = period;
     }
 

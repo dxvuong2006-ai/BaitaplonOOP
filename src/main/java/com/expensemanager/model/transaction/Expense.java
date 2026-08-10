@@ -42,9 +42,6 @@ public class Expense extends Transaction {
 
     /** Gán lại phương thức thanh toán. */
     public void setPaymentMethod(String paymentMethod) {
-        if (paymentMethod == null) {
-            throw new EmptyFieldException(FieldType.PAYMENTMETHOD);
-        }
         this.paymentMethod = paymentMethod;
     }
 }

@@ -16,9 +16,6 @@ public class CashWallet extends Wallet {
     /** Rút tiền từ ví tiền mặt, không cho rút vượt quá số dư hiện có. */
     @Override
     public void withdraw(double amount) {
-        if (amount <= 0) {
-            throw new NegativeValueException(FieldType.AMOUNT);
-        }
         if (amount > getBalance()) {
             throw new InsufficientFundsException(balance, amount);
         }

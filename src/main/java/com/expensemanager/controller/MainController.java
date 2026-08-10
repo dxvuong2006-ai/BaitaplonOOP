@@ -63,4 +63,9 @@ public class MainController {
     private void handleShowBudget() {
         loadView("budget.fxml");
     }
+
+    @FXML
+    private void handleShowReport() {
+        loadView("report.fxml");
+    }
 }

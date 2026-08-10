@@ -1,4 +1,4 @@
-package com.expensemanager.model.User;
+package com.expensemanager.model.user;
 
 import java.util.Objects;
 
@@ -9,24 +9,19 @@ import java.util.Objects;
 public class User {
 
     private String id;
+    private int userId;
     private String username;
     private String passwordHash;
     private String salt;
     private String email;
 
-    /** Khởi tạo một tài khoản người dùng. */
-    public User(String id, String username, String passwordHash, String salt, String email) {
-        if (username == null || username.isBlank()) {
-            throw new IllegalArgumentException("Username không được để trống.");
-        }
-        if (passwordHash == null || passwordHash.isBlank()) {
-            throw new IllegalArgumentException("passwordHash không được để trống.");
-        }
+    public User(String id, String username, String passwordHash, String salt, String email, int userId) {
         this.id = id;
         this.username = username;
         this.passwordHash = passwordHash;
         this.salt = salt;
         this.email = email;
+        this.userId = userId;
     }
 
     /** Lấy định danh của người dùng. */

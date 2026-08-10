@@ -1,41 +1,51 @@
 package com.expensemanager.factory.storage;
 
 import com.expensemanager.model.budget.Budget;
+import com.expensemanager.model.enums.StorageType;
+import com.expensemanager.repository.Storage;
 import com.google.gson.reflect.TypeToken;
+import com.expensemanager.model.budget.BudgetRecord;
 
 import java.util.List;
 import java.util.function.Function;
 
-public class BudgetStorageFactory extends AbstractStorageFactory<Budget> {
+public class BudgetStorageFactory extends AbstractStorageFactory<BudgetRecord> {
+
+    public BudgetStorageFactory(StorageType storageType) {
+        super(storageType);
+    }
 
     @Override
-    protected TypeToken<List<Budget>> getTypeToken() {
-        return new TypeToken<List<Budget>>() {};
+    protected TypeToken<List<BudgetRecord>> getTypeToken() {
+        return new TypeToken<List<BudgetRecord>>() {};
     }
 
     @Override
     protected String[] getCsvHeader() {
-        return new String[]{"id", "categoryId", "limitAmount", "period"};
+        return new String[]{"id", "categoryId", "limitAmount", "period", "userId"};
     }
 
     @Override
-    protected Function<Budget, String[]> getSerializer() {
-        return budget -> new String[]{
-                budget.getId(),
-                budget.getCategory() != null ? budget.getCategory().getId() : "",
-                String.valueOf(budget.getLimitAmount()),
-                budget.getPeriod().name()
+    protected Function<BudgetRecord, String[]> getSerializer() {
+        return record -> new String[]{
+                record.getId(),
+                record.getCategoryId() == null ? "" : record.getCategoryId(),
+                String.valueOf(record.getLimitAmount()),
+                record.getPeriod(),
+                String.valueOf(record.getUserId())
         };
     }
 
     @Override
-    protected Function<String[], Budget> getDeserializer() {
+    protected Function<String[], BudgetRecord> getDeserializer() {
         return row -> {
-            // Budget chứa tham chiếu tới Category, do đó việc mapping
-            // phải được thực hiện ở tầng Service (như ExpenseManager)
-            throw new UnsupportedOperationException(
-                    "Budget deserializer must be handled by ExpenseManager/BudgetService."
-            );
+            String id = row[0];
+            String categoryId = row.length > 1 ? row[1] : "";
+            double limitAmount = row.length > 2 ? Double.parseDouble(row[2]) : 0.0;
+            String period = row.length > 3 ? row[3] : "";
+            int userId = row.length > 4 ? Integer.parseInt(row[4]) : 0;
+
+            return new BudgetRecord(id, categoryId, limitAmount, period, userId);
         };
     }
 }

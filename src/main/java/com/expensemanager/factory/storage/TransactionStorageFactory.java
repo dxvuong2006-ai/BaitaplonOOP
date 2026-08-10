@@ -1,19 +1,28 @@
 package com.expensemanager.factory.storage;
 
+import com.expensemanager.model.enums.StorageType;
 import com.expensemanager.model.transaction.Expense;
 import com.expensemanager.model.transaction.Income;
 import com.expensemanager.model.transaction.RecurringExpense;
 import com.expensemanager.model.transaction.Transaction;
+import com.expensemanager.repository.Storage;
 import com.google.gson.reflect.TypeToken;
+import com.expensemanager.utils.DateUtils;
+import com.expensemanager.model.transaction.TransactionRecord;
 
 import java.util.List;
+import java.time.LocalDate;
 import java.util.function.Function;
 
-public class TransactionStorageFactory extends AbstractStorageFactory<Transaction> {
+public class TransactionStorageFactory extends AbstractStorageFactory<TransactionRecord> {
+
+    public TransactionStorageFactory(StorageType storageType) {
+        super(storageType);
+    }
 
     @Override
-    protected TypeToken<List<Transaction>> getTypeToken() {
-        return new TypeToken<List<Transaction>>() {};
+    protected TypeToken<List<TransactionRecord>> getTypeToken() {
+        return new TypeToken<List<TransactionRecord>>() {};
     }
 
     @Override
@@ -27,56 +36,77 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
                 "walletId",
                 "type",
                 "extraField",
-                "period"
+                "period",
+                "userId"
         };
     }
 
     @Override
-    protected Function<Transaction, String[]> getSerializer() {
-        return tx -> new String[]{
-                tx.getId(),
-                String.valueOf(tx.getAmount()),
-                tx.getDate().toString(),
-                tx.getNote(),
-                tx.getCategory() == null ? "" : tx.getCategory().getId(),
-                tx.getWallet() == null ? "" : tx.getWallet().getId(),
-                tx.getType().name(),
-                extractExtraField(tx),
-                extractPeriod(tx)
+    protected Function<TransactionRecord, String[]> getSerializer() {
+        return record -> new String[]{
+                record.getId(),
+                String.valueOf(record.getAmount()),
+                DateUtils.formatDate(record.getDate()),
+                record.getNote() == null ? "" : record.getNote(),
+                record.getCategoryId() == null ? "" : record.getCategoryId(),
+                record.getWalletId() == null ? "" : record.getWalletId(),
+                record.getType(),
+                record.getExtraField() == null ? "" : record.getExtraField(),
+                record.getPeriod() == null ? "" : record.getPeriod(),
+                String.valueOf(record.getUserId())
         };
     }
 
     @Override
-    protected Function<String[], Transaction> getDeserializer() {
+    protected Function<String[], TransactionRecord> getDeserializer() {
         return row -> {
-            // Tầng Repository chỉ đọc String thuần túy.
-            // Việc map Category ID và Wallet ID thành Object thật phải do ExpenseManager đảm nhiệm.
-            throw new UnsupportedOperationException(
-                    "Transaction deserializer must be handled by ExpenseManager/TransactionService."
-            );
+            // 1. Kiểm tra an toàn độ dài dòng thô
+            if (row == null || row.length < 3) {
+                return null;
+            }
+
+            String id = row[0].trim();
+
+            // 2. Parse số tiền an toàn (loại bỏ khoảng trắng)
+            double amount = 0.0;
+            try {
+                amount = Double.parseDouble(row[1].trim());
+            } catch (NumberFormatException ignored) {}
+
+            // 3. Parse ngày an toàn (Xử lý dứt điểm lỗi crash)
+            LocalDate date = parseDateSafely(row[2]);
+
+            // 4. Lấy các trường còn lại với trim()
+            String note = row.length > 3 ? row[3].trim() : "";
+            String categoryId = row.length > 4 ? row[4].trim() : "";
+            String walletId = row.length > 5 ? row[5].trim() : "";
+            String type = row.length > 6 ? row[6].trim() : "";
+            String extraField = row.length > 7 ? row[7].trim() : "";
+            String period = row.length > 8 ? row[8].trim() : "";
+            int userId = row.length > 9 ? Integer.parseInt(row[9].trim()) : 0;
+
+            return new TransactionRecord(id, amount, date, note, categoryId,
+                    walletId, type, extraField, period, userId);
         };
     }
 
-    /**
-     * Trích xuất trường phụ: source (của Income) hoặc paymentMethod (của Expense)
-     */
-    private String extractExtraField(Transaction tx) {
-        if (tx instanceof Income) {
-            return ((Income) tx).getSource();
+    // tạm đi
+    private LocalDate parseDateSafely(String rawDate) {
+        if (rawDate == null || rawDate.isBlank()) {
+            return LocalDate.now();
         }
-        if (tx instanceof Expense) {
-            return ((Expense) tx).getPaymentMethod();
-        }
-        return "";
-    }
 
-    /**
-     * Trích xuất chu kỳ: Chỉ RecurringExpense mới có Period
-     */
-    private String extractPeriod(Transaction tx) {
-        if (tx instanceof RecurringExpense) {
-            return ((RecurringExpense) tx).getPeriod().name();
+        String cleanDate = rawDate.trim();
+        try {
+            return DateUtils.parseDate(cleanDate);
+        } catch (Exception e) {
+            try {
+                // Thử parse chuẩn ISO (yyyy-MM-dd) nếu DateUtils thất bại
+                return LocalDate.parse(cleanDate);
+            } catch (Exception ex) {
+                // Giá trị mặc định an toàn để không crash luồng đọc
+                return LocalDate.now();
+            }
         }
-        return "";
     }
 }

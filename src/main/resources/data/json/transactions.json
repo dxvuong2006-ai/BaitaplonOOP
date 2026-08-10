@@ -1,0 +1,14 @@
+[
+  {
+    "id": "a7997eab-26f6-48ff-88b8-98957f401b2b",
+    "amount": 50000.0,
+    "date": "10/08/2026",
+    "note": "",
+    "categoryId": "3a3ad980-a07b-4c5f-a19d-384740696d24",
+    "walletId": "9e20be30-01cc-42ee-82fa-e420248f45a7",
+    "type": "EXPENSE",
+    "extraField": "cash",
+    "period": "",
+    "userId": 1
+  }
+]

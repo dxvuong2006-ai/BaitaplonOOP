@@ -1,9 +1,9 @@
 package com.expensemanager.model.wallet;
 
-import com.expensemanager.model.enums.WalletType;
-import com.expensemanager.model.enums.FieldType;
-import com.expensemanager.exception.NegativeValueException;
 import com.expensemanager.exception.EmptyFieldException;
+import com.expensemanager.exception.NegativeValueException;
+import com.expensemanager.model.enums.FieldType;
+import com.expensemanager.model.enums.WalletType;
 
 /**
  * Lớp trừu tượng đại diện cho một ví tiền trong hệ thống quản lý chi tiêu.
@@ -15,17 +15,10 @@ public abstract class Wallet {
     private String name;
     protected double balance;
     private final WalletType type;
+    private int userId;
 
-    /**
-     * Khởi tạo một ví tiền.
-     *
-     * @param id      định danh ví, phải >= 0
-     * @param name    tên ví, không được rỗng
-     * @param balance số dư ban đầu, phải >= 0
-     * @param type    loại ví, không được null
-     * @throws IllegalArgumentException nếu id âm, name rỗng/null, balance âm, hoặc type null
-     */
-    public Wallet(String id, String name, double balance, WalletType type) {
+    /** Khởi tạo một ví tiền. */
+    public Wallet(String id, String name, double balance, WalletType type, int userId) {
         if (name == null || name.isBlank()) {
             throw new EmptyFieldException(FieldType.NAME);
         }
@@ -39,23 +32,15 @@ public abstract class Wallet {
         this.name = name;
         this.balance = balance;
         this.type = type;
+        setUserId(userId);
     }
 
-    /**
-     * Lấy định danh của ví.
-     *
-     * @return id của ví
-     */
+    /** Lấy định danh của ví. */
     public String getId() {
         return id;
     }
 
-    /**
-     * Gán lại định danh cho ví.
-     *
-     * @param id định danh mới, phải >= 0
-     * @throws IllegalArgumentException nếu id âm
-     */
+    /** Gán lại định danh cho ví. */
     public void setId(String id) {
         if (id == null) {
             throw new EmptyFieldException(FieldType.ID);
@@ -63,21 +48,12 @@ public abstract class Wallet {
         this.id = id;
     }
 
-    /**
-     * Lấy tên ví.
-     *
-     * @return tên ví
-     */
+    /** Lấy tên ví. */
     public String getName() {
         return name;
     }
 
-    /**
-     * Đổi tên ví.
-     *
-     * @param name tên ví mới, không được rỗng
-     * @throws IllegalArgumentException nếu name rỗng hoặc null
-     */
+    /** Đổi tên ví. */
     public void setName(String name) {
         if (name == null || name.isBlank()) {
             throw new EmptyFieldException(FieldType.NAME);
@@ -85,22 +61,12 @@ public abstract class Wallet {
         this.name = name;
     }
 
-    /**
-     * Lấy số dư hiện có của ví.
-     *
-     * @return số dư hiện tại
-     */
+    /** Lấy số dư hiện có của ví. */
     public double getBalance() {
         return balance;
     }
 
-    /**
-     * Cập nhật số dư của ví. Dùng nội bộ bởi {@link #deposit(double)} và
-     * bởi các lớp con khi cài đặt {@link #withdraw(double)}.
-     *
-     * @param balance số dư mới, phải >= 0
-     * @throws IllegalArgumentException nếu balance âm
-     */
+    /** Cập nhật số dư của ví. */
     public void setBalance(double balance) {
         if (balance < 0) {
             throw new NegativeValueException(FieldType.BALANCE);
@@ -108,21 +74,25 @@ public abstract class Wallet {
         this.balance = balance;
     }
 
-    /**
-     * Lấy loại ví (CASH/BANK/EWALLET).
-     *
-     * @return loại ví
-     */
+    /** Lấy loại ví (CASH/BANK/EWALLET). */
     public WalletType getType() {
         return type;
     }
 
-    /**
-     * Nạp tiền vào ví.
-     *
-     * @param amount số tiền nạp, phải > 0
-     * @throws IllegalArgumentException nếu amount <= 0
-     */
+    /** Lấy id của người dùng sở hữu ví. */
+    public int getUserId() {
+        return userId;
+    }
+
+    /** Gán lại chủ sở hữu cho ví. */
+    public void setUserId(int userId) {
+        if (userId <= 0) {
+            throw new EmptyFieldException(FieldType.USERID);
+        }
+        this.userId = userId;
+    }
+
+    /** Nạp tiền vào ví. */
     public void deposit(double amount) {
         if (amount <= 0) {
             throw new NegativeValueException(FieldType.AMOUNT);
@@ -130,11 +100,6 @@ public abstract class Wallet {
         this.balance += amount;
     }
 
-    /**
-     * Rút tiền khỏi ví. Mỗi loại ví con tự định nghĩa cách xử lý riêng
-     * (ví dụ CashWallet không cho rút quá số dư, BankWallet có thể cho phép thấu chi).
-     *
-     * @param amount số tiền cần rút, phải > 0
-     */
+    /** Rút tiền khỏi ví, mỗi loại ví con tự định nghĩa cách xử lý riêng. */
     public abstract void withdraw(double amount);
 }

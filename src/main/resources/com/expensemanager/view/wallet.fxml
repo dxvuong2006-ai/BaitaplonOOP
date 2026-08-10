@@ -52,16 +52,15 @@
 
     <!-- ============================= -->
     <!-- TÌM KIẾM + BỘ LỌC -->
-    <!-- GIỐNG MÀN GIAO DỊCH -->
     <!-- ============================= -->
 
     <HBox spacing="14.0"
           alignment="CENTER_LEFT"
           styleClass="transaction-filter-panel">
 
-        <!-- Tìm kiếm -->
+        <!-- Tìm kiếm: Sửa fx:id thành searchField để khớp với Controller -->
 
-        <TextField fx:id="walletSearchField"
+        <TextField fx:id="searchField"
                    promptText="Tìm kiếm theo tên ví..."
                    prefWidth="340.0"
                    minHeight="46.0"
@@ -84,9 +83,10 @@
         <Region HBox.hgrow="ALWAYS"/>
 
 
-        <!-- Đặt lại -->
+        <!-- Đặt lại: Thêm onAction="#handleResetFilters" -->
 
         <Button text="Đặt lại"
+                onAction="#handleResetFilters"
                 minWidth="105.0"
                 prefWidth="105.0"
                 maxWidth="105.0"

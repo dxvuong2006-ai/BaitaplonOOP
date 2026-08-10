@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -124,7 +125,7 @@ public class BudgetController {
                 new StringConverter<>() {
                     @Override
                     public String toString(Category category) {
-                        return category == null ? "" : category.getName();
+                        return category == null ? "Danh mục" : category.getName();
                     }
 
                     @Override
@@ -135,6 +136,28 @@ public class BudgetController {
 
         categoryFilter.getItems().setAll(expenseManager.getCategories());
         periodFilter.getItems().setAll(Period.values());
+
+        // Cấu hình nhãn mờ hiển thị khi null
+        setupComboBoxPlaceholder(categoryFilter, "Danh mục");
+        setupComboBoxPlaceholder(periodFilter, "Chu kỳ");
+    }
+
+    /** Cấu hình hiển thị nhãn mặc định khi ComboBox có giá trị null */
+    private <T> void setupComboBoxPlaceholder(ComboBox<T> comboBox, String placeholder) {
+        if (comboBox == null) return;
+        comboBox.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(T item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(placeholder);
+                } else if (item instanceof Category) {
+                    setText(((Category) item).getName());
+                } else {
+                    setText(item.toString());
+                }
+            }
+        });
     }
 
     /** Cấu hình cột thao tác (Sửa / Xóa) cho từng dòng trong bảng. */
@@ -205,8 +228,14 @@ public class BudgetController {
     /** Xóa tất cả bộ lọc hiện tại. */
     @FXML
     private void handleResetFilters() {
-        categoryFilter.setValue(null);
-        periodFilter.setValue(null);
+        if (categoryFilter != null) {
+            categoryFilter.getSelectionModel().clearSelection();
+            categoryFilter.setValue(null);
+        }
+        if (periodFilter != null) {
+            periodFilter.getSelectionModel().clearSelection();
+            periodFilter.setValue(null);
+        }
         refreshBudgetTable();
     }
 

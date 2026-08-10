@@ -74,21 +74,16 @@ public class TransactionController {
     @FXML
     private ComboBox<Wallet> walletFilter;
 
-    private final ExpenseManager expenseManager =
-            ExpenseManager.getInstance();
+    private final ExpenseManager expenseManager = ExpenseManager.getInstance();
 
     /**
      * JavaFX tự gọi sau khi load FXML.
      */
     @FXML
     private void initialize() {
-
         setupColumns();
-
         setupActionColumn();
-
         setupFilters();
-
         refreshTransactionTable();
     }
 
@@ -96,153 +91,84 @@ public class TransactionController {
      * Setup các cột TableView.
      */
     private void setupColumns() {
-
-        dateColumn.setCellValueFactory(
-                cellData ->
-                        new SimpleStringProperty(
-                                cellData
-                                        .getValue()
-                                        .getDate()
-                                        .toString()
-                        )
+        dateColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(
+                        cellData.getValue().getDate().toString()
+                )
         );
 
-        noteColumn.setCellValueFactory(
-                cellData -> {
+        noteColumn.setCellValueFactory(cellData -> {
+            String note = cellData.getValue().getNote();
+            return new SimpleStringProperty(note == null ? "" : note);
+        });
 
-                    String note =
-                            cellData
-                                    .getValue()
-                                    .getNote();
+        walletColumn.setCellValueFactory(cellData -> {
+            Wallet wallet = cellData.getValue().getWallet();
+            return new SimpleStringProperty(wallet == null ? "" : wallet.getName());
+        });
 
-                    return new SimpleStringProperty(
-                            note == null
-                                    ? ""
-                                    : note
-                    );
-                }
+        categoryColumn.setCellValueFactory(cellData -> {
+            Category category = cellData.getValue().getCategory();
+            return new SimpleStringProperty(category == null ? "" : category.getName());
+        });
+
+        typeColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(
+                        cellData.getValue().getType().toString()
+                )
         );
 
-        walletColumn.setCellValueFactory(
-                cellData -> {
-
-                    Wallet wallet =
-                            cellData
-                                    .getValue()
-                                    .getWallet();
-
-                    return new SimpleStringProperty(
-                            wallet == null
-                                    ? ""
-                                    : wallet.getName()
-                    );
-                }
-        );
-
-        categoryColumn.setCellValueFactory(
-                cellData -> {
-
-                    Category category =
-                            cellData
-                                    .getValue()
-                                    .getCategory();
-
-                    return new SimpleStringProperty(
-                            category == null
-                                    ? ""
-                                    : category.getName()
-                    );
-                }
-        );
-
-        typeColumn.setCellValueFactory(
-                cellData ->
-                        new SimpleStringProperty(
-                                cellData
-                                        .getValue()
-                                        .getType()
-                                        .toString()
-                        )
-        );
-
-        amountColumn.setCellValueFactory(
-                cellData ->
-                        new SimpleStringProperty(
-                                formatAmount(
-                                        cellData
-                                                .getValue()
-                                                .getAmount()
-                                )
-                        )
+        amountColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(
+                        formatAmount(cellData.getValue().getAmount())
+                )
         );
     }
 
     /**
      * Format tiền VND ở tầng hiển thị.
      */
-    private String formatAmount(
-            double amount
-    ) {
-
-        NumberFormat formatter =
-                NumberFormat.getNumberInstance(
-                        new Locale("vi", "VN")
-                );
-
+    private String formatAmount(double amount) {
+        NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
         formatter.setMaximumFractionDigits(0);
-
-        return formatter.format(amount)
-                + " đ";
+        return formatter.format(amount) + " đ";
     }
 
     /**
      * Setup bộ lọc.
      */
     private void setupFilters() {
+        transactionTypeFilter.getItems().setAll(TransactionType.values());
 
-        transactionTypeFilter
-                .getItems()
-                .setAll(TransactionType.values());
-
-        categoryFilter.setConverter(
-                new StringConverter<>() {
-
-                    @Override
-                    public String toString(Category category) {
-
-                        if (category == null) {
-                            return "";
-                        }
-
-                        return category.getName();
-                    }
-
-                    @Override
-                    public Category fromString(String string) {
-                        return null;
-                    }
+        categoryFilter.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(Category category) {
+                if (category == null) {
+                    return "";
                 }
-        );
+                return category.getName();
+            }
 
-        walletFilter.setConverter(
-                new StringConverter<>() {
+            @Override
+            public Category fromString(String string) {
+                return null;
+            }
+        });
 
-                    @Override
-                    public String toString(Wallet wallet) {
-
-                        if (wallet == null) {
-                            return "";
-                        }
-
-                        return wallet.getName();
-                    }
-
-                    @Override
-                    public Wallet fromString(String string) {
-                        return null;
-                    }
+        walletFilter.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(Wallet wallet) {
+                if (wallet == null) {
+                    return "";
                 }
-        );
+                return wallet.getName();
+            }
+
+            @Override
+            public Wallet fromString(String string) {
+                return null;
+            }
+        });
 
         reloadFilterOptions();
     }
@@ -250,44 +176,33 @@ public class TransactionController {
     /**
      * Reload Wallet / Category hiện tại.
      */
+    private boolean isReloadingFilter = false;
+
     private void reloadFilterOptions() {
+        if (isReloadingFilter) return;
 
-        Category selectedCategory =
-                categoryFilter.getValue();
+        try {
+            isReloadingFilter = true;
 
-        Wallet selectedWallet =
-                walletFilter.getValue();
+            Category selectedCategory = categoryFilter.getValue();
+            Wallet selectedWallet = walletFilter.getValue();
 
-        categoryFilter
-                .getItems()
-                .setAll(
-                        expenseManager.getCategories()
-                );
+            categoryFilter.getItems().setAll(expenseManager.getCategories());
+            walletFilter.getItems().setAll(expenseManager.getWallets());
 
-        walletFilter
-                .getItems()
-                .setAll(
-                        expenseManager.getWallets()
-                );
+            if (selectedCategory != null && categoryFilter.getItems().contains(selectedCategory)) {
+                categoryFilter.setValue(selectedCategory);
+            } else {
+                categoryFilter.setValue(null);
+            }
 
-        if (selectedCategory != null
-                && categoryFilter
-                .getItems()
-                .contains(selectedCategory)) {
-
-            categoryFilter.setValue(
-                    selectedCategory
-            );
-        }
-
-        if (selectedWallet != null
-                && walletFilter
-                .getItems()
-                .contains(selectedWallet)) {
-
-            walletFilter.setValue(
-                    selectedWallet
-            );
+            if (selectedWallet != null && walletFilter.getItems().contains(selectedWallet)) {
+                walletFilter.setValue(selectedWallet);
+            } else {
+                walletFilter.setValue(null);
+            }
+        } finally {
+            isReloadingFilter = false;
         }
     }
 
@@ -296,8 +211,9 @@ public class TransactionController {
      */
     @FXML
     private void handleFilterChanged() {
-
-        refreshTransactionTable();
+        if (!isReloadingFilter) {
+            refreshTransactionTable();
+        }
     }
 
     /**
@@ -305,13 +221,9 @@ public class TransactionController {
      */
     @FXML
     private void handleResetFilters() {
-
         transactionTypeFilter.setValue(null);
-
         categoryFilter.setValue(null);
-
         walletFilter.setValue(null);
-
         refreshTransactionTable();
     }
 
@@ -319,68 +231,35 @@ public class TransactionController {
      * Refresh danh sách.
      */
     private void refreshTransactionTable() {
+        //reloadFilterOptions();
 
-        reloadFilterOptions();
+        List<Transaction> allTransactions = expenseManager.getTransactions();
+        TransactionType selectedType = transactionTypeFilter.getValue();
+        Category selectedCategory = categoryFilter.getValue();
+        Wallet selectedWallet = walletFilter.getValue();
 
-        List<Transaction> allTransactions =
-                expenseManager.getTransactions();
+        List<Transaction> filteredTransactions = new ArrayList<>();
 
-        TransactionType selectedType =
-                transactionTypeFilter.getValue();
+        for (Transaction transaction : allTransactions) {
+            boolean typeMatches = selectedType == null
+                    || transaction.getType() == selectedType;
 
-        Category selectedCategory =
-                categoryFilter.getValue();
+            boolean categoryMatches = selectedCategory == null
+                    || selectedCategory.equals(transaction.getCategory());
 
-        Wallet selectedWallet =
-                walletFilter.getValue();
+            boolean walletMatches = selectedWallet == null
+                    || selectedWallet.equals(transaction.getWallet());
 
-        List<Transaction> filteredTransactions =
-                new ArrayList<>();
-
-        for (Transaction transaction :
-                allTransactions) {
-
-            boolean typeMatches =
-                    selectedType == null
-                            || transaction.getType()
-                            == selectedType;
-
-            boolean categoryMatches =
-                    selectedCategory == null
-                            || selectedCategory.equals(
-                            transaction.getCategory()
-                    );
-
-            boolean walletMatches =
-                    selectedWallet == null
-                            || selectedWallet.equals(
-                            transaction.getWallet()
-                    );
-
-            if (typeMatches
-                    && categoryMatches
-                    && walletMatches) {
-
-                filteredTransactions.add(
-                        transaction
-                );
+            if (typeMatches && categoryMatches && walletMatches) {
+                filteredTransactions.add(transaction);
             }
         }
 
         ObservableList<Transaction> observableTransactions =
-                FXCollections.observableArrayList(
-                        filteredTransactions
-                );
+                FXCollections.observableArrayList(filteredTransactions);
 
-        transactionTable.setItems(
-                observableTransactions
-        );
-
-        transactionCountLabel.setText(
-                observableTransactions.size()
-                        + " giao dịch"
-        );
-
+        transactionTable.setItems(observableTransactions);
+        transactionCountLabel.setText(observableTransactions.size() + " giao dịch");
         transactionTable.refresh();
     }
 
@@ -388,82 +267,33 @@ public class TransactionController {
      * Nút Sửa / Xóa.
      */
     private void setupActionColumn() {
+        actionColumn.setCellFactory(column -> new TableCell<>() {
+            private final Button editButton = new Button("Sửa");
+            private final Button deleteButton = new Button("Xóa");
+            private final HBox buttonBox = new HBox(8, editButton, deleteButton);
 
-        actionColumn.setCellFactory(
-                column ->
-                        new TableCell<>() {
+            {
+                editButton.setOnAction(event -> {
+                    Transaction transaction = getTableView().getItems().get(getIndex());
+                    handleEditTransaction(transaction);
+                });
 
-                            private final Button editButton =
-                                    new Button("Sửa");
+                deleteButton.setOnAction(event -> {
+                    Transaction transaction = getTableView().getItems().get(getIndex());
+                    handleDeleteTransaction(transaction);
+                });
+            }
 
-                            private final Button deleteButton =
-                                    new Button("Xóa");
-
-                            private final HBox buttonBox =
-                                    new HBox(
-                                            8,
-                                            editButton,
-                                            deleteButton
-                                    );
-
-                            {
-                                editButton.setOnAction(
-                                        event -> {
-
-                                            Transaction transaction =
-                                                    getTableView()
-                                                            .getItems()
-                                                            .get(
-                                                                    getIndex()
-                                                            );
-
-                                            handleEditTransaction(
-                                                    transaction
-                                            );
-                                        }
-                                );
-
-                                deleteButton.setOnAction(
-                                        event -> {
-
-                                            Transaction transaction =
-                                                    getTableView()
-                                                            .getItems()
-                                                            .get(
-                                                                    getIndex()
-                                                            );
-
-                                            handleDeleteTransaction(
-                                                    transaction
-                                            );
-                                        }
-                                );
-                            }
-
-                            @Override
-                            protected void updateItem(
-                                    Void item,
-                                    boolean empty
-                            ) {
-
-                                super.updateItem(
-                                        item,
-                                        empty
-                                );
-
-                                if (empty) {
-
-                                    setGraphic(null);
-
-                                } else {
-
-                                    setGraphic(
-                                            buttonBox
-                                    );
-                                }
-                            }
-                        }
-        );
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(buttonBox);
+                }
+            }
+        });
     }
 
     /**
@@ -471,62 +301,26 @@ public class TransactionController {
      */
     @FXML
     private void handleOpenTransactionForm() {
-
         try {
-
-            FXMLLoader loader =
-                    new FXMLLoader(
-                            getClass()
-                                    .getResource(
-                                            "/com/expensemanager/view/transaction-form.fxml"
-                                    )
-                    );
-
-            Parent root =
-                    loader.load();
-
-            Scene scene =
-                    new Scene(root);
-
-            String css =
-                    getClass()
-                            .getResource(
-                                    "/css/styles.css"
-                            )
-                            .toExternalForm();
-
-            scene.getStylesheets()
-                    .add(css);
-
-            Stage stage =
-                    new Stage();
-
-            stage.setTitle(
-                    "Thêm giao dịch"
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/expensemanager/view/transaction-form.fxml")
             );
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
 
-            stage.setScene(
-                    scene
-            );
+            String css = getClass().getResource("/css/styles.css").toExternalForm();
+            scene.getStylesheets().add(css);
 
-            stage.initModality(
-                    Modality.APPLICATION_MODAL
-            );
-
-            stage.setResizable(
-                    false
-            );
-
+            Stage stage = new Stage();
+            stage.setTitle("Thêm giao dịch");
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
             stage.showAndWait();
 
             refreshTransactionTable();
-
         } catch (IOException e) {
-
-            System.out.println(
-                    "Không thể mở form thêm giao dịch."
-            );
-
+            System.out.println("Không thể mở form thêm giao dịch.");
             e.printStackTrace();
         }
     }
@@ -534,72 +328,31 @@ public class TransactionController {
     /**
      * Mở form sửa.
      */
-    private void handleEditTransaction(
-            Transaction transaction
-    ) {
-
+    private void handleEditTransaction(Transaction transaction) {
         try {
-
-            FXMLLoader loader =
-                    new FXMLLoader(
-                            getClass()
-                                    .getResource(
-                                            "/com/expensemanager/view/transaction-form.fxml"
-                                    )
-                    );
-
-            Parent root =
-                    loader.load();
-
-            TransactionFormController formController =
-                    loader.getController();
-
-            formController.setEditingTransaction(
-                    transaction
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/expensemanager/view/transaction-form.fxml")
             );
+            Parent root = loader.load();
 
-            Scene scene =
-                    new Scene(root);
+            TransactionFormController formController = loader.getController();
+            formController.setEditingTransaction(transaction);
 
-            String css =
-                    getClass()
-                            .getResource(
-                                    "/css/styles.css"
-                            )
-                            .toExternalForm();
+            Scene scene = new Scene(root);
 
-            scene.getStylesheets()
-                    .add(css);
+            String css = getClass().getResource("/css/styles.css").toExternalForm();
+            scene.getStylesheets().add(css);
 
-            Stage stage =
-                    new Stage();
-
-            stage.setTitle(
-                    "Sửa giao dịch"
-            );
-
-            stage.setScene(
-                    scene
-            );
-
-            stage.initModality(
-                    Modality.APPLICATION_MODAL
-            );
-
-            stage.setResizable(
-                    false
-            );
-
+            Stage stage = new Stage();
+            stage.setTitle("Sửa giao dịch");
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
             stage.showAndWait();
 
             refreshTransactionTable();
-
         } catch (IOException e) {
-
-            System.out.println(
-                    "Không thể mở form sửa giao dịch."
-            );
-
+            System.out.println("Không thể mở form sửa giao dịch.");
             e.printStackTrace();
         }
     }
@@ -607,86 +360,36 @@ public class TransactionController {
     /**
      * Xóa giao dịch.
      */
-    private void handleDeleteTransaction(
-            Transaction transaction
-    ) {
+    private void handleDeleteTransaction(Transaction transaction) {
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Xác nhận xóa");
+        confirmAlert.setHeaderText("Bạn có chắc muốn xóa giao dịch này?");
 
-        Alert confirmAlert =
-                new Alert(
-                        Alert.AlertType.CONFIRMATION
-                );
-
-        confirmAlert.setTitle(
-                "Xác nhận xóa"
-        );
-
-        confirmAlert.setHeaderText(
-                "Bạn có chắc muốn xóa giao dịch này?"
-        );
-
-        String note =
-                transaction.getNote();
-
-        if (note == null
-                || note.isBlank()) {
-
-            note =
-                    formatAmount(
-                            transaction.getAmount()
-                    );
+        String note = transaction.getNote();
+        if (note == null || note.isBlank()) {
+            note = formatAmount(transaction.getAmount());
         }
 
-        confirmAlert.setContentText(
-                note
-        );
+        confirmAlert.setContentText(note);
 
-        Optional<ButtonType> result =
-                confirmAlert.showAndWait();
-
-        if (result.isPresent()
-                && result.get()
-                == ButtonType.OK) {
-
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-
                 /*
                  * Backend tự xử lý hoàn tác số dư Wallet.
                  */
-                expenseManager.removeTransaction(
-                        transaction
-                );
-
+                expenseManager.removeTransaction(transaction);
                 refreshTransactionTable();
-
             } catch (Exception e) {
-
-                String message =
-                        e.getMessage();
-
-                if (message == null
-                        || message.isBlank()) {
-
-                    message =
-                            "Không thể xóa giao dịch.";
+                String message = e.getMessage();
+                if (message == null || message.isBlank()) {
+                    message = "Không thể xóa giao dịch.";
                 }
 
-                Alert errorAlert =
-                        new Alert(
-                                Alert.AlertType.ERROR
-                        );
-
-                errorAlert.setTitle(
-                        "Không thể xóa giao dịch"
-                );
-
-                errorAlert.setHeaderText(
-                        "Xóa giao dịch thất bại"
-                );
-
-                errorAlert.setContentText(
-                        message
-                );
-
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Không thể xóa giao dịch");
+                errorAlert.setHeaderText("Xóa giao dịch thất bại");
+                errorAlert.setContentText(message);
                 errorAlert.showAndWait();
 
                 e.printStackTrace();

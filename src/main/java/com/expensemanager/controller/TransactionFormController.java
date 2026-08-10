@@ -113,8 +113,8 @@ public class TransactionFormController {
         incomeFieldsBox.setVisible(income);
         incomeFieldsBox.setManaged(income);
 
-        paymentFieldsBox.setVisible(expense);
-        paymentFieldsBox.setManaged(expense);
+        paymentFieldsBox.setVisible(false);
+        paymentFieldsBox.setManaged(false);
 
         periodFieldsBox.setVisible(recurring);
         periodFieldsBox.setManaged(recurring);

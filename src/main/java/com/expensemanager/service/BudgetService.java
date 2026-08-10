@@ -86,7 +86,7 @@ public class BudgetService {
     /** Thêm ngân sách. */
     public void addBudget(Budget budget, int userId) {
         ValidationService.validateBudget(budget);
-        if (findBudgetById(budget.getId(), userId) != null) {
+        if (findBudgetByCategory(budget.getCategory(), userId) != null) {
             throw new DuplicateEntityException("Ngân sách", "mã" + userId);
         }
         budget.setUserId(userId);

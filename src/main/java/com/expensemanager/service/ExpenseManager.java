@@ -1,7 +1,11 @@
 package com.expensemanager.service;
 
+import com.expensemanager.factory.storage.*;
 import com.expensemanager.model.enums.ReportType;
 import com.expensemanager.model.enums.TransactionType;
+import com.expensemanager.model.transaction.RecurringExecution;
+import com.expensemanager.model.transaction.RecurringExpense;
+import com.expensemanager.service.RecurringExpenseService;
 import com.expensemanager.model.transaction.Transaction;
 import com.expensemanager.model.user.User;
 import com.expensemanager.model.wallet.Wallet;
@@ -16,11 +20,6 @@ import com.expensemanager.service.TransactionService;
 import com.expensemanager.service.StatisticsService;
 import com.expensemanager.service.UserService;
 import com.expensemanager.model.report.ReportData;
-import com.expensemanager.factory.storage.WalletStorageFactory;
-import com.expensemanager.factory.storage.CategoryStorageFactory;
-import com.expensemanager.factory.storage.BudgetStorageFactory;
-import com.expensemanager.factory.storage.TransactionStorageFactory;
-import com.expensemanager.factory.storage.UserStorageFactory;
 
 import com.expensemanager.model.enums.StorageType;
 
@@ -44,6 +43,7 @@ public class ExpenseManager {
     private final CategoryStorageFactory categoryStorageFactory;
     private final BudgetStorageFactory budgetStorageFactory;
     private final TransactionStorageFactory transactionStorageFactory;
+    private final RecurringExecutionStorageFactory recurringExecutionStorageFactory;
 
     private final UserService userService;
     private final WalletService walletService;
@@ -52,6 +52,7 @@ public class ExpenseManager {
     private final BudgetService budgetService;
     private final StatisticsService statisticsService;
     private final ReportService reportService;
+    private final RecurringExpenseService recurringExpenseService;
 
     /** Phương thức khởi tạo của EM. */
     private ExpenseManager() {
@@ -62,6 +63,7 @@ public class ExpenseManager {
         categoryStorageFactory = new CategoryStorageFactory(storageType);
         budgetStorageFactory = new BudgetStorageFactory(storageType);
         transactionStorageFactory = new TransactionStorageFactory(storageType);
+        recurringExecutionStorageFactory = new RecurringExecutionStorageFactory(storageType);
 
         userService = new UserService(userStorageFactory);
         walletService = new WalletService(walletStorageFactory);
@@ -69,7 +71,8 @@ public class ExpenseManager {
         budgetService = new BudgetService(budgetStorageFactory, categoryService);
         transactionService = new TransactionService(budgetService, walletService,
                 categoryService, transactionStorageFactory);
-
+        recurringExpenseService = new RecurringExpenseService(recurringExecutionStorageFactory,
+                transactionService, walletService);
         statisticsService = new StatisticsService();
         reportService = new ReportService();
     }
@@ -100,6 +103,10 @@ public class ExpenseManager {
 
     public BudgetService getBudgetService() {
         return budgetService;
+    }
+
+    public RecurringExpenseService getRecurringExpenseService() {
+        return recurringExpenseService;
     }
 
     public StatisticsService getStatisticsService() {
@@ -198,6 +205,30 @@ public class ExpenseManager {
     public List<Transaction> findTransactionByType(TransactionType type) {
         int userId = getCurrentUserId();
         return transactionService.findTransactionByType(type, userId);
+    }
+
+    // Giao dịch theo chu kì.
+    /** Xử lý toàn bộ khoản chi định kỳ của người dùng. */
+    public void processDueExpenses() {
+        int userId = getCurrentUserId();
+        recurringExpenseService.processDueExpenses(userId);
+    }
+
+    /** Lấy lịch sử thực thi của một người dùng. */
+    public List<RecurringExecution> getExecutions() {
+        int userId = getCurrentUserId();
+        return recurringExpenseService.getExecutions(userId);
+    }
+
+    /** Lấy lịch sử thực thi của một khoản chi định kỳ. */
+    public List<RecurringExecution> getExecutions(String recurringExpenseId) {
+        int userId = getCurrentUserId();
+        return recurringExpenseService.getExecutions(recurringExpenseId, userId);
+    }
+
+    /** Lấy toàn bộ khoản chi định kỳ của người dùng. */
+    public List<RecurringExpense> getRecurringExpenses(int userId) {
+        return recurringExpenseService.getRecurringExpenses(userId);
     }
 
     // Ví.

@@ -24,6 +24,7 @@ import com.expensemanager.model.transaction.Income;
 import com.expensemanager.model.transaction.Expense;
 import com.expensemanager.model.transaction.RecurringExpense;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -112,7 +113,9 @@ public class TransactionService {
                 transaction.getType().name(),
                 extractExtraField(transaction),
                 extractPeriod(transaction),
-                transaction.getUserId()
+                transaction.getUserId(),
+                extractNextDueDate(transaction),
+                extractActive(transaction)
         );
     }
 
@@ -129,10 +132,26 @@ public class TransactionService {
 
     /** Trích xuất chu kỳ: Chỉ RecurringExpense mới có Period. */
     private String extractPeriod(Transaction tx) {
-        if (tx instanceof RecurringExpense) {
-            return ((RecurringExpense) tx).getPeriod().name();
+        if (tx instanceof RecurringExpense recurringExpense) {
+            return recurringExpense.getPeriod().name();
         }
         return "";
+    }
+
+    /** Trích xuất ngày tiếp theo của chu kỳ. */
+    private LocalDate extractNextDueDate(Transaction transaction) {
+        if (transaction instanceof RecurringExpense recurringExpense) {
+            return recurringExpense.getNextDueDate();
+        }
+        return null;
+    }
+
+    /** Trích xuất trạng thái. */
+    private boolean extractActive(Transaction transaction) {
+        if (transaction instanceof RecurringExpense recurringExpense) {
+            return recurringExpense.isActive();
+        }
+        return true;
     }
 
     /** Thêm giao dịch. */
@@ -141,6 +160,13 @@ public class TransactionService {
         if (findTransactionById(transaction.getId(), userId) != null) {
             throw new DuplicateEntityException("Giao dịch", "mã " + transaction.getId());
         }
+
+        if (transaction instanceof RecurringExpense) {
+            transactions.add(transaction);
+            save();
+            return;
+        }
+
         ValidationService.validateWallet(transaction.getWallet());
         Wallet wallet = transaction.getWallet();
         double signedAmount = transaction.getSignedAmount();
@@ -165,6 +191,12 @@ public class TransactionService {
         if (!transactions.contains(transaction)) {
             return;
         }
+        Transaction existing = findTransactionById(transaction.getId(), userId);
+        if (existing instanceof RecurringExpense) {
+            transactions.remove(existing);
+            save();
+            return;
+        }
         Wallet wallet = transaction.getWallet();
         double signedAmount = transaction.getSignedAmount();
         if (signedAmount < 0) {
@@ -174,7 +206,7 @@ public class TransactionService {
             wallet.withdraw(signedAmount);
         }
         walletService.save();
-        transactions.remove(findTransactionById(transaction.getId(), userId));
+        transactions.remove(existing);
         save();
     }
 

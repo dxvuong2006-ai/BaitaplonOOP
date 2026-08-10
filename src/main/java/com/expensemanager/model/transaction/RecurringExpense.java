@@ -123,7 +123,6 @@ public class RecurringExpense extends Expense {
         if (nextDueDate == null) {
             setNextDueDate(getDate());
         }
-
         nextDueDate = calculateNextDueDate(nextDueDate);
     }
 
@@ -132,10 +131,7 @@ public class RecurringExpense extends Expense {
         if (currentDate == null) {
             throw new EmptyFieldException(FieldType.DATE);
         }
-
-        return active
-                && nextDueDate != null
-                && !nextDueDate.isAfter(currentDate);
+        return active && nextDueDate != null && !nextDueDate.isAfter(currentDate);
     }
 
     /** Tính số kỳ đã đến hạn tính từ nextDueDate đến currentDate. */

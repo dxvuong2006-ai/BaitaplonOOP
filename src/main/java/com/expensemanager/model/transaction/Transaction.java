@@ -21,18 +21,22 @@ public abstract class Transaction {
     private String note;
     private Wallet wallet;
     private Category category;
+    private int userId;
 
     /**
      * Constructor rỗng phục vụ cho các thư viện Serialize/Deserialize (JSON, XML).
      */
     public Transaction() {}
-    public Transaction(String id, double amount, LocalDate date, String note, Category category, Wallet wallet) {
+
+    public Transaction(String id, double amount, LocalDate date, String note,
+                       Category category, Wallet wallet, int userId) {
         setId(id);
         setAmount(amount);
         setDate(date);
         setNote(note);
         setCategory(category);
         setWallet(wallet);
+        setUserId(userId);
     }
 
     // --- PHƯƠNG THỨC TRỪU TƯỢNG ---
@@ -90,5 +94,16 @@ public abstract class Transaction {
 
     public void setWallet(Wallet wallet) {
         this.wallet = wallet;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        if (userId <= 0) {
+            throw new EmptyFieldException(FieldType.USERID);
+        }
+        this.userId = userId;
     }
 }

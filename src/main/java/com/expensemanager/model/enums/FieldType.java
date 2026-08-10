@@ -22,7 +22,11 @@ public enum FieldType {
     REGISTRY("Sổ đăng ký"),
     TRANSACTION("Giao dịch"),
     BUDGET("Ngân sách"),
-    REPORTTYPE("Kiểu báo cáo");
+    REPORTTYPE("Loại báo cáo"),
+    USERID("Người dùng"),
+    USERNAME("Tên đăng nhập"),
+    PASSWORD("Mật khẩu"),
+    EMAIL("Email");
 
     private final String displayName;
 

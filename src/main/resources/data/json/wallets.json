@@ -1,0 +1,17 @@
+[
+  {
+    "id": "9e20be30-01cc-42ee-82fa-e420248f45a7",
+    "name": "cuong",
+    "balance": 50000.0,
+    "type": "CASH",
+    "userId": 1
+  },
+  {
+    "transactionFee": 0.0,
+    "id": "cbe1a0b3-9804-450c-89d8-8c03f4ce89c6",
+    "name": "ucong",
+    "balance": 200000.0,
+    "type": "BANK",
+    "userId": 1
+  }
+]

@@ -14,12 +14,29 @@ import com.expensemanager.utils.CurrencyUtils;
 public class BankAccount extends Wallet {
     private double transactionFee; // Phí giao dịch cố định cho mỗi lần rút/chuyển tiền
 
-    public BankAccount(String id, String name, double balance) {
-        this(id, name, balance, 0.0);
+    /**
+     * Khởi tạo tài khoản ngân hàng không có phí giao dịch ban đầu (phí = 0).
+     *
+     * @param id      định danh ví
+     * @param name    tên tài khoản/ngân hàng, không được rỗng
+     * @param balance số dư ban đầu (>= 0)
+     * @param userId  id của người dùng sở hữu ví, phải > 0
+     */
+    public BankAccount(String id, String name, double balance, int userId) {
+        this(id, name, balance, 0.0, userId);
     }
 
-    public BankAccount(String id, String name, double balance, double transactionFee) {
-        super(id, name, balance, WalletType.BANK);
+    /**
+     * Khởi tạo tài khoản ngân hàng với phí giao dịch xác định.
+     *
+     * @param id             định danh ví
+     * @param name           tên tài khoản/ngân hàng, không được rỗng
+     * @param balance        số dư ban đầu (>= 0)
+     * @param transactionFee phí giao dịch cố định (>= 0)
+     * @param userId         id của người dùng sở hữu ví, phải > 0
+     */
+    public BankAccount(String id, String name, double balance, double transactionFee, int userId) {
+        super(id, name, balance, WalletType.BANK, userId);
         setTransactionFee(transactionFee);
     }
 

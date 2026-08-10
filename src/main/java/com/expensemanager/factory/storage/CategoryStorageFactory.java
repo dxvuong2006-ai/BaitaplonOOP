@@ -1,12 +1,20 @@
 package com.expensemanager.factory.storage;
 
 import com.expensemanager.model.category.Category;
+import com.expensemanager.model.enums.StorageType;
+import com.expensemanager.repository.Storage;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 import java.util.function.Function;
 
 public class CategoryStorageFactory extends AbstractStorageFactory<Category> {
+
+    private Storage<Category> storage;
+
+    public CategoryStorageFactory(StorageType storageType) {
+        super(storageType);
+    }
 
     @Override
     protected TypeToken<List<Category>> getTypeToken() {
@@ -15,7 +23,7 @@ public class CategoryStorageFactory extends AbstractStorageFactory<Category> {
 
     @Override
     protected String[] getCsvHeader() {
-        return new String[]{"id", "name", "description"};
+        return new String[]{"id", "name", "description", "userId"};
     }
 
     @Override
@@ -23,7 +31,8 @@ public class CategoryStorageFactory extends AbstractStorageFactory<Category> {
         return cat -> new String[]{
                 cat.getId(),
                 cat.getName(),
-                cat.getDescription() != null ? cat.getDescription() : ""
+                cat.getDescription() != null ? cat.getDescription() : "",
+                String.valueOf(cat.getUserId())
         };
     }
 
@@ -33,9 +42,10 @@ public class CategoryStorageFactory extends AbstractStorageFactory<Category> {
             String id = row[0];
             String name = row[1];
             String description = row.length > 2 ? row[2] : "";
+            int userId = row.length > 3 ? Integer.parseInt(row[3]) : 0;
 
             // Category là object độc lập nên có thể tự tạo mới ngay tại đây
-            return new Category(id, name, description);
+            return new Category(id, name, description, userId);
         };
     }
 }

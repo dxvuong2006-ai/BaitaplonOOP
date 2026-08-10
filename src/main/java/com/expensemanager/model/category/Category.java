@@ -12,6 +12,7 @@ public class Category {
     private String id;
     private String name;
     private String description;
+    private int userId;
 
     /**
      * Khởi tạo một danh mục.
@@ -19,13 +20,20 @@ public class Category {
      * @param id          định danh danh mục, phải >= 0
      * @param name        tên danh mục, không được rỗng
      * @param description mô tả chi tiết, có thể để trống
-     * @throws IllegalArgumentException nếu id âm, hoặc name rỗng/null
+     * @param userId      id của người dùng sở hữu danh mục, phải > 0
+     * @throws IllegalArgumentException nếu id âm, name rỗng/null, hoặc userId không hợp lệ
      */
-    public Category(String id, String name, String description) {
-
+    public Category(String id, String name, String description, int userId) {
+        if(id==null || id.isBlank()) {
+            throw new EmptyFieldException(FieldType.ID);
+        }
+        if (name == null || name.isBlank()) {
+            throw new EmptyFieldException(FieldType.NAME);
+        }
         this.id = id;
         this.name = name;
         this.description = description;
+        setUserId(userId);
     }
 
     /**
@@ -84,6 +92,28 @@ public class Category {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * Lấy id của người dùng sở hữu danh mục.
+     *
+     * @return userId của chủ sở hữu
+     */
+    public int getUserId() {
+        return userId;
+    }
+
+    /**
+     * Gán lại chủ sở hữu cho danh mục.
+     *
+     * @param userId id người dùng mới, phải > 0
+     * @throws IllegalArgumentException nếu userId không hợp lệ
+     */
+    public void setUserId(int userId) {
+        if (userId <= 0) {
+            throw new EmptyFieldException(FieldType.USERID);
+        }
+        this.userId = userId;
     }
 
     /**

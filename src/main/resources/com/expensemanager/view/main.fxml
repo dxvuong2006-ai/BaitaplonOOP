@@ -94,6 +94,12 @@
                     onAction="#handleShowBudget"
                     maxWidth="Infinity"/>
 
+            <Button fx:id="btnReport"
+                    text="Báo cáo"
+                    styleClass="sidebar-button"
+                    onAction="#handleShowReport"
+                    maxWidth="Infinity"/>
+
         </VBox>
 
     </left>

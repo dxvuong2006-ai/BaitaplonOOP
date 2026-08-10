@@ -15,8 +15,9 @@ public class RecurringExpense extends Expense{
         super();
     }
 
-    public RecurringExpense(String id, double amount, LocalDate date,String note,Category category, Wallet wallet, String paymentMethod, Period period) {
-        super(id, amount, date, note, category,wallet, paymentMethod);
+    public RecurringExpense(String id, double amount, LocalDate date, String note, Category category,
+                            Wallet wallet, String paymentMethod, Period period, int userId) {
+        super(id, amount, date, note, category, wallet, paymentMethod, userId);
         setPeriod(period);
     }
 

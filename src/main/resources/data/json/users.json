@@ -14,5 +14,13 @@
     "passwordHash": "/voIKyzbS1WtSLzwVEO8z7xwpDHj9mSWOOhsoyv+ZhQ\u003d",
     "salt": "82pR3VtcSFWc37L/18p6fw\u003d\u003d",
     "email": ""
+  },
+  {
+    "id": "acb5d5ad-3131-4896-8ac4-b41b2d2b6f3a",
+    "userId": 3,
+    "username": "pthuy123",
+    "passwordHash": "LNKThZnBygjK4EhdhZcc9PSvndASn8EQaboK9R6juzA\u003d",
+    "salt": "VMRkSNQU1tZlDcBafY5YcQ\u003d\u003d",
+    "email": ""
   }
 ]

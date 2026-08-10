@@ -10,5 +10,17 @@
     "extraField": "cash",
     "period": "",
     "userId": 1
+  },
+  {
+    "id": "7286c202-23a2-4010-abb6-ac9f469bc145",
+    "amount": 5000.0,
+    "date": "10/08/2026",
+    "note": "aaaaa",
+    "categoryId": "87ae724e-5fb4-42a1-beb8-cd3b3c7196b3",
+    "walletId": "dee27cc4-7c72-4608-a2a7-e85cf29e454c",
+    "type": "EXPENSE",
+    "extraField": "mat",
+    "period": "",
+    "userId": 3
   }
 ]

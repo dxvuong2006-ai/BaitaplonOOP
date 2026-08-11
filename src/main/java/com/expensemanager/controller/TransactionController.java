@@ -7,6 +7,7 @@ import com.expensemanager.model.wallet.Wallet;
 import com.expensemanager.service.ExpenseManager;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.ListCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -204,16 +205,16 @@ public class TransactionController {
                 .getItems()
                 .setAll(TransactionType.values());
 
+        setupComboBoxPlaceholder(transactionTypeFilter, "Loại giao dịch");
+
         categoryFilter.setConverter(
                 new StringConverter<>() {
 
                     @Override
                     public String toString(Category category) {
-
                         if (category == null) {
-                            return "";
+                            return "Danh mục";
                         }
-
                         return category.getName();
                     }
 
@@ -223,17 +224,16 @@ public class TransactionController {
                     }
                 }
         );
+        setupComboBoxPlaceholder(categoryFilter, "Danh mục");
 
         walletFilter.setConverter(
                 new StringConverter<>() {
 
                     @Override
                     public String toString(Wallet wallet) {
-
                         if (wallet == null) {
-                            return "";
+                            return "Ví";
                         }
-
                         return wallet.getName();
                     }
 
@@ -243,61 +243,71 @@ public class TransactionController {
                     }
                 }
         );
+        setupComboBoxPlaceholder(walletFilter, "Ví");
 
         reloadFilterOptions();
     }
 
     /**
-     * Reload Wallet / Category hiện tại.
+     * Cấu hình hiển thị nhãn mặc định khi ComboBox có giá trị null
      */
-    private void reloadFilterOptions() {
-
-        Category selectedCategory =
-                categoryFilter.getValue();
-
-        Wallet selectedWallet =
-                walletFilter.getValue();
-
-        categoryFilter
-                .getItems()
-                .setAll(
-                        expenseManager.getCategories()
-                );
-
-        walletFilter
-                .getItems()
-                .setAll(
-                        expenseManager.getWallets()
-                );
-
-        if (selectedCategory != null
-                && categoryFilter
-                .getItems()
-                .contains(selectedCategory)) {
-
-            categoryFilter.setValue(
-                    selectedCategory
-            );
-        }
-
-        if (selectedWallet != null
-                && walletFilter
-                .getItems()
-                .contains(selectedWallet)) {
-
-            walletFilter.setValue(
-                    selectedWallet
-            );
-        }
+    private <T> void setupComboBoxPlaceholder(ComboBox<T> comboBox, String placeholder) {
+        if (comboBox == null) return;
+        comboBox.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(T item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(placeholder);
+                } else if (item instanceof Category) {
+                    setText(((Category) item).getName());
+                } else if (item instanceof Wallet) {
+                    setText(((Wallet) item).getName());
+                } else {
+                    setText(item.toString());
+                }
+            }
+        });
     }
 
     /**
-     * Áp dụng filter.
+     * Reload Wallet / Category hiện tại.
      */
+    private boolean isReloadingFilter = false;
+
+    private void reloadFilterOptions() {
+        if (isReloadingFilter) return;
+
+        try {
+            isReloadingFilter = true;
+
+            Category selectedCategory = categoryFilter.getValue();
+            Wallet selectedWallet = walletFilter.getValue();
+
+            categoryFilter.getItems().setAll(expenseManager.getCategories());
+            walletFilter.getItems().setAll(expenseManager.getWallets());
+
+            if (selectedCategory != null && categoryFilter.getItems().contains(selectedCategory)) {
+                categoryFilter.setValue(selectedCategory);
+            } else {
+                categoryFilter.setValue(null);
+            }
+
+            if (selectedWallet != null && walletFilter.getItems().contains(selectedWallet)) {
+                walletFilter.setValue(selectedWallet);
+            } else {
+                walletFilter.setValue(null);
+            }
+        } finally {
+            isReloadingFilter = false;
+        }
+    }
+
     @FXML
     private void handleFilterChanged() {
-
-        refreshTransactionTable();
+        if (!isReloadingFilter) {
+            refreshTransactionTable();
+        }
     }
 
     /**
@@ -306,11 +316,20 @@ public class TransactionController {
     @FXML
     private void handleResetFilters() {
 
-        transactionTypeFilter.setValue(null);
+        if (transactionTypeFilter != null) {
+            transactionTypeFilter.getSelectionModel().clearSelection();
+            transactionTypeFilter.setValue(null);
+        }
 
-        categoryFilter.setValue(null);
+        if (categoryFilter != null) {
+            categoryFilter.getSelectionModel().clearSelection();
+            categoryFilter.setValue(null);
+        }
 
-        walletFilter.setValue(null);
+        if (walletFilter != null) {
+            walletFilter.getSelectionModel().clearSelection();
+            walletFilter.setValue(null);
+        }
 
         refreshTransactionTable();
     }
@@ -319,8 +338,6 @@ public class TransactionController {
      * Refresh danh sách.
      */
     private void refreshTransactionTable() {
-
-        reloadFilterOptions();
 
         List<Transaction> allTransactions =
                 expenseManager.getTransactions();

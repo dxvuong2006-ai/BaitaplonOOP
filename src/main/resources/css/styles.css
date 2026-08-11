@@ -2486,3 +2486,106 @@ AUTH SECONDARY BUTTON
 
     -fx-font-size: 12px;
 }
+
+/* ==========================================================
+   SIDEBAR USER - CLICK / LOGOUT MENU
+   ========================================================== */
+
+.sidebar-user-card {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.07);
+
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.10);
+
+    -fx-border-width: 1px;
+
+    -fx-padding: 13px 14px;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0, 0, 0, 0.16),
+            14,
+            0.12,
+            0,
+            4
+    );
+}
+
+.sidebar-user-card:hover {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.11);
+
+    -fx-border-color:
+            rgba(94, 231, 223, 0.28);
+}
+
+
+/* USER MENU */
+
+.sidebar-user-menu {
+    -fx-background-color:
+            rgba(30, 42, 61, 0.98);
+
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.10);
+
+    -fx-border-width: 1px;
+
+    -fx-padding: 7px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0, 0, 0, 0.25),
+            18,
+            0.16,
+            0,
+            5
+    );
+}
+
+
+/* LOGOUT BUTTON */
+
+.sidebar-logout-button {
+    -fx-background-color: transparent;
+
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+
+    -fx-border-width: 0;
+
+    -fx-text-fill: #f1f5f9;
+    -fx-font-size: 14px;
+
+    -fx-alignment: CENTER-LEFT;
+
+    -fx-padding: 11px 14px;
+
+    -fx-cursor: hand;
+}
+
+.sidebar-logout-button:hover {
+    -fx-background-color:
+            rgba(255, 90, 95, 0.15);
+
+    -fx-text-fill: #ff8a8a;
+}
+
+
+/* SMALL ARROW */
+
+.sidebar-user-menu-arrow {
+    -fx-text-fill: #9fb0c6;
+
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}

@@ -2,17 +2,21 @@ package com.expensemanager.controller;
 
 import com.expensemanager.model.user.User;
 import com.expensemanager.service.ExpenseManager;
+
 import java.io.IOException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
- * Controller điều khiển khung sườn chính của ứng dụng (main.fxml).
- * Chịu trách nhiệm điều hướng màn hình và hiển thị
- * thông tin tài khoản đang đăng nhập trên sidebar.
+ * Controller điều khiển khung sườn chính của ứng dụng.
+ * Quản lý điều hướng, thông tin người dùng và đăng xuất.
  */
 public class MainController {
 
@@ -25,11 +29,16 @@ public class MainController {
     @FXML
     private Label sidebarAvatarLabel;
 
-    private final ExpenseManager expenseManager = ExpenseManager.getInstance();
+    @FXML
+    private VBox userMenuBox;
+
+    private final ExpenseManager expenseManager =
+            ExpenseManager.getInstance();
 
     @FXML
     private void initialize() {
         loadCurrentUser();
+        hideUserMenu();
         loadView("dashboard.fxml");
     }
 
@@ -37,6 +46,7 @@ public class MainController {
      * Hiển thị tài khoản đang đăng nhập trên sidebar.
      */
     private void loadCurrentUser() {
+
         User currentUser = expenseManager.getCurrentUser();
 
         if (currentUser == null) {
@@ -55,28 +65,96 @@ public class MainController {
 
         sidebarUsernameLabel.setText(username);
 
-        String firstLetter =
-                username.substring(0, 1).toUpperCase();
-
-        sidebarAvatarLabel.setText(firstLetter);
+        sidebarAvatarLabel.setText(
+                username.substring(0, 1).toUpperCase()
+        );
     }
 
     /**
-     * Hàm dùng chung để nạp một file FXML
-     * vào vùng nội dung chính.
+     * Bấm card tài khoản để hiện / ẩn menu.
+     */
+    @FXML
+    private void handleToggleUserMenu() {
+
+        boolean show = !userMenuBox.isVisible();
+
+        userMenuBox.setVisible(show);
+        userMenuBox.setManaged(show);
+    }
+
+    /**
+     * Ẩn menu tài khoản.
+     */
+    private void hideUserMenu() {
+        userMenuBox.setVisible(false);
+        userMenuBox.setManaged(false);
+    }
+
+    /**
+     * Đăng xuất và quay lại màn hình đăng nhập.
+     */
+    @FXML
+    private void handleLogout() {
+
+        try {
+
+            expenseManager.logout();
+
+            FXMLLoader loader =
+                    new FXMLLoader(
+                            getClass().getResource(
+                                    "/com/expensemanager/view/login.fxml"
+                            )
+                    );
+
+            Parent root = loader.load();
+
+            Stage stage =
+                    (Stage) contentPane
+                            .getScene()
+                            .getWindow();
+
+            Scene scene = new Scene(root);
+
+            stage.setScene(scene);
+            stage.setTitle("Đăng nhập - Quản Lý Chi Tiêu Cá Nhân");
+            stage.setResizable(false);
+            stage.sizeToScene();
+            stage.centerOnScreen();
+            stage.show();
+
+        } catch (IOException e) {
+
+            System.out.println(
+                    "Không thể tải giao diện đăng nhập."
+            );
+
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Load màn hình con vào vùng nội dung chính.
      */
     private void loadView(String fxmlFile) {
+
         try {
+
             Parent view =
                     FXMLLoader.load(
                             getClass().getResource(
-                                    "/com/expensemanager/view/" + fxmlFile));
+                                    "/com/expensemanager/view/" + fxmlFile
+                            )
+                    );
 
             contentPane.getChildren().setAll(view);
 
         } catch (IOException e) {
+
             System.out.println(
-                    "Không thể tải giao diện: " + fxmlFile);
+                    "Không thể tải giao diện: " + fxmlFile
+            );
+
             e.printStackTrace();
         }
     }

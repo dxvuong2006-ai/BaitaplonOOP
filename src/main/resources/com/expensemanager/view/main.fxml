@@ -2,9 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -14,10 +17,6 @@
             stylesheets="@../../../css/styles.css"
             prefWidth="1200.0"
             prefHeight="760.0">
-
-    <!-- ================================================= -->
-    <!-- SIDEBAR -->
-    <!-- ================================================= -->
 
     <left>
 
@@ -31,14 +30,11 @@
             <padding>
                 <Insets top="12.0"
                         right="16.0"
-                        bottom="22.0"
+                        bottom="18.0"
                         left="16.0"/>
             </padding>
 
-
-            <!-- ========================================= -->
             <!-- LOGO -->
-            <!-- ========================================= -->
 
             <VBox alignment="CENTER"
                   prefHeight="175.0"
@@ -59,10 +55,7 @@
 
             </VBox>
 
-
-            <!-- ========================================= -->
             <!-- MENU -->
-            <!-- ========================================= -->
 
             <Button fx:id="btnDashboard"
                     text="Tổng quan"
@@ -100,14 +93,72 @@
                     onAction="#handleShowReport"
                     maxWidth="Infinity"/>
 
+            <!-- ĐẨY USER AREA XUỐNG ĐÁY -->
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <!-- MENU KHI CLICK USER -->
+
+            <VBox fx:id="userMenuBox"
+                  spacing="6.0"
+                  visible="false"
+                  managed="false"
+                  styleClass="sidebar-user-menu">
+
+                <Button text="Đăng xuất"
+                        maxWidth="Infinity"
+                        onAction="#handleLogout"
+                        styleClass="sidebar-logout-button"/>
+
+            </VBox>
+
+            <!-- CURRENT USER CARD -->
+
+            <HBox alignment="CENTER_LEFT"
+                  spacing="12.0"
+                  onMouseClicked="#handleToggleUserMenu"
+                  styleClass="sidebar-user-card">
+
+                <!-- AVATAR -->
+
+                <StackPane minWidth="46.0"
+                           prefWidth="46.0"
+                           maxWidth="46.0"
+                           minHeight="46.0"
+                           prefHeight="46.0"
+                           maxHeight="46.0"
+                           styleClass="sidebar-user-avatar">
+
+                    <Label fx:id="sidebarAvatarLabel"
+                           text="U"
+                           styleClass="sidebar-user-avatar-text"/>
+
+                </StackPane>
+
+                <!-- USER INFO -->
+
+                <VBox spacing="3.0"
+                      alignment="CENTER_LEFT">
+
+                    <Label fx:id="sidebarUsernameLabel"
+                           text="Người dùng"
+                           styleClass="sidebar-user-name"/>
+
+                    <Label text="Đang đăng nhập"
+                           styleClass="sidebar-user-status"/>
+
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Label text="⌃"
+                       styleClass="sidebar-user-menu-arrow"/>
+
+            </HBox>
+
         </VBox>
 
     </left>
-
-
-    <!-- ================================================= -->
-    <!-- MAIN CONTENT -->
-    <!-- ================================================= -->
 
     <center>
 

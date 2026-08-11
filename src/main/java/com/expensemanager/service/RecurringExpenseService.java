@@ -8,6 +8,7 @@ import com.expensemanager.model.transaction.RecurringExecution;
 import com.expensemanager.model.transaction.RecurringExpense;
 import com.expensemanager.model.transaction.Transaction;
 import com.expensemanager.model.wallet.Wallet;
+import com.expensemanager.exception.ExpenseManagerException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class RecurringExpenseService {
         }
         transactionService.save();
         walletService.save();
+        save();
     }
 
     /**
@@ -92,7 +94,12 @@ public class RecurringExpenseService {
                 recurringExpense.getPaymentMethod(),
                 userId
         );
-        transactionService.addTransaction(expense, userId);
+        try {
+            transactionService.addTransaction(expense, userId);
+        } catch (ExpenseManagerException e) {
+            recordFailedExecution(recurringExpense, userId, dueDate);
+            return;
+        }
         executions.add(
                 new RecurringExecution(
                         UUID.randomUUID().toString(),

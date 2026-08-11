@@ -97,7 +97,9 @@ public class TransactionService {
                 source,
                 paymentMethod,
                 period,
-                record.getUserId()
+                record.getUserId(),
+                record.getNextDueDate(),
+                record.isActive()
         );
     }
 

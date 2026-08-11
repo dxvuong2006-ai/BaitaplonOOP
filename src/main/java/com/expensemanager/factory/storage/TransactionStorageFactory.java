@@ -56,7 +56,7 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
                 record.getExtraField() == null ? "" : record.getExtraField(),
                 record.getPeriod() == null ? "" : record.getPeriod(),
                 String.valueOf(record.getUserId()),
-                DateUtils.formatDate(record.getNextDueDate()),
+                record.getNextDueDate() == null ? "" : DateUtils.formatDate(record.getNextDueDate()),
                 String.valueOf(record.isActive())
         };
     }
@@ -84,7 +84,8 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
             String extraField = row.length > 7 ? row[7].trim() : "";
             String period = row.length > 8 ? row[8].trim() : "";
             int userId = row.length > 9 ? Integer.parseInt(row[9].trim()) : 0;
-            LocalDate nextDueDate = parseDateSafely(row[10]);
+            String rawNextDate = row.length > 10? row[10].trim() : "";
+            LocalDate nextDueDate = rawNextDate.isEmpty()? null : parseDateSafely(rawNextDate);
             Boolean active = row.length > 11 ? Boolean.parseBoolean(row[11].trim()) : true;
 
             return new TransactionRecord(id, amount, date, note, categoryId,

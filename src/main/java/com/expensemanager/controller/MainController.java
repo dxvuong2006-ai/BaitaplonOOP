@@ -1,5 +1,7 @@
 package com.expensemanager.controller;
 
+import com.expensemanager.exception.ExpenseManagerException;
+import com.expensemanager.service.ExpenseManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,9 +20,30 @@ public class MainController {
     @FXML
     private StackPane contentPane;
 
+    private final ExpenseManager manager = ExpenseManager.getInstance();
+
     @FXML
     private void initialize() {
+
+        processDueRecurringExpenses();
+
         loadView("dashboard.fxml");
+    }
+
+    /**
+     * Xử lý các khoản chi tiêu định kỳ đã đến hạn của người dùng hiện tại.
+     * Lỗi ở bước này (nếu có) chỉ được log ra console, KHÔNG được để văng
+     * lên UI hay chặn việc mở dashboard — vì đây là một tác vụ nền tự động,
+     * người dùng không chủ động bấm nút để chạy nó, nên không nên bị chặn
+     * truy cập ứng dụng chỉ vì một lỗi ở tác vụ nền.
+     */
+    private void processDueRecurringExpenses() {
+        try {
+            manager.processDueExpenses();
+        } catch (ExpenseManagerException e) {
+            System.err.println("Không thể xử lý khoản chi định kỳ: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -32,8 +55,6 @@ public class MainController {
             Parent view = FXMLLoader.load(getClass().getResource("/com/expensemanager/view/" + fxmlFile));
             contentPane.getChildren().setAll(view);
         } catch (IOException e) {
-            // Bắt lỗi tại đây để nếu file FXML bị thiếu/sai đường dẫn,
-            // ứng dụng không bị sập đột ngột (crash), mà chỉ báo lỗi ra console.
             System.out.println("Không thể tải giao diện: " + fxmlFile);
             e.printStackTrace();
         }

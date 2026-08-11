@@ -50,6 +50,35 @@ public class RecurringExpense extends Expense {
         this.active = true;
     }
 
+    /** .Reconstructor */
+    public RecurringExpense(
+            String id,
+            double amount,
+            LocalDate date,
+            String note,
+            Category category,
+            Wallet wallet,
+            String paymentMethod,
+            Period period,
+            int userId,
+            LocalDate nextDueDate,
+            boolean active
+    ) {
+        super(
+                id,
+                amount,
+                date,
+                note,
+                category,
+                wallet,
+                paymentMethod,
+                userId
+        );
+        setPeriod(period);
+        setNextDueDate(nextDueDate != null ? nextDueDate : date);
+        this.active = active;
+    }
+
     /** Trả về loại giao dịch là RECURRING_EXPENSE. */
     @Override
     public TransactionType getType() {

@@ -8,13 +8,14 @@ import java.util.Objects;
  */
 public class User {
 
-    private int id;
+    private String id;
+    private int userId;
     private String username;
     private String passwordHash;
     private String salt;
     private String email;
 
-    public User(int id, String username, String passwordHash, String salt, String email) {
+    public User(String id, String username, String passwordHash, String salt, String email, int userId) {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("Username không được để trống.");
         }
@@ -26,10 +27,11 @@ public class User {
         this.passwordHash = passwordHash;
         this.salt = salt;
         this.email = email;
+        this.userId = userId;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getUsername() { return username; }
     public void setUsername(String username) {
@@ -48,11 +50,19 @@ public class User {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
-        return id == ((User) o).id;
+        return id.equals(((User) o).id);
     }
 
     @Override

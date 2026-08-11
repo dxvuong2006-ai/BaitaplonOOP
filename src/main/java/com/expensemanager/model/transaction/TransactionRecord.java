@@ -34,7 +34,7 @@ public class TransactionRecord {
         this.extraField = extraField;
         this.period = period;
         this.userId = userId;
-        this.nextDueDate = null;
+        this.nextDueDate = date;
         this.active = true;
     }
 

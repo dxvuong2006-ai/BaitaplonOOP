@@ -22,5 +22,13 @@
     "passwordHash": "LNKThZnBygjK4EhdhZcc9PSvndASn8EQaboK9R6juzA\u003d",
     "salt": "VMRkSNQU1tZlDcBafY5YcQ\u003d\u003d",
     "email": ""
+  },
+  {
+    "id": "5a2dd8d9-4259-432b-ae7c-b0e3b4439501",
+    "userId": 4,
+    "username": "haha",
+    "passwordHash": "+dUtm4gTIm6iSVPjmY1b5DDcB/ZB3Wsjzq6xLbz3SXo\u003d",
+    "salt": "/7lfPr6hNLPHMQ4qsI02Qg\u003d\u003d",
+    "email": "haha"
   }
 ]

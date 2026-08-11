@@ -6,12 +6,14 @@ public class BudgetExceededException extends ExpenseManagerException {
     private final double budgetLimit;
     private final double currentSpent;
 
-    /** Khởi tạo đối tượng. */
-    public BudgetExceededException(double budgetLimit,
-                                   double currentSpent) {
-
+    /**
+     * Khởi tạo đối tượng.
+     *
+     * @param budgetLimit hạn mức ngân sách
+     * @param currentSpent số tiền đã chi tiêu
+     */
+    public BudgetExceededException(double budgetLimit, double currentSpent) {
         super(String.format("Đã vượt quá ngân sách %.2f", currentSpent - budgetLimit));
-
         this.budgetLimit = budgetLimit;
         this.currentSpent = currentSpent;
     }
@@ -27,5 +29,4 @@ public class BudgetExceededException extends ExpenseManagerException {
     public double getExceededAmount() {
         return currentSpent - budgetLimit;
     }
-
 }

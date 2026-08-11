@@ -1,19 +1,15 @@
 package com.expensemanager.factory.storage;
 
 import com.expensemanager.model.enums.StorageType;
-import com.expensemanager.model.transaction.Expense;
-import com.expensemanager.model.transaction.Income;
-import com.expensemanager.model.transaction.RecurringExpense;
-import com.expensemanager.model.transaction.Transaction;
-import com.expensemanager.repository.Storage;
-import com.google.gson.reflect.TypeToken;
-import com.expensemanager.utils.DateUtils;
 import com.expensemanager.model.transaction.TransactionRecord;
+import com.expensemanager.utils.DateUtils;
+import com.google.gson.reflect.TypeToken;
 
-import java.util.List;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.function.Function;
 
+/** Lớp factory tạo {@link} cho dữ liệu {@link TransactionRecord}. */
 public class TransactionStorageFactory extends AbstractStorageFactory<TransactionRecord> {
 
     public TransactionStorageFactory(StorageType storageType) {
@@ -27,7 +23,7 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
 
     @Override
     protected String[] getCsvHeader() {
-        return new String[]{
+        return new String[] {
                 "id",
                 "amount",
                 "date",
@@ -43,7 +39,7 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
 
     @Override
     protected Function<TransactionRecord, String[]> getSerializer() {
-        return record -> new String[]{
+        return record -> new String[] {
                 record.getId(),
                 String.valueOf(record.getAmount()),
                 DateUtils.formatDate(record.getDate()),
@@ -71,9 +67,11 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
             double amount = 0.0;
             try {
                 amount = Double.parseDouble(row[1].trim());
-            } catch (NumberFormatException ignored) {}
+            } catch (NumberFormatException ignored) {
+                // Giữ giá trị mặc định 0.0 nếu parse thất bại
+            }
 
-            // 3. Parse ngày an toàn (Xử lý dứt điểm lỗi crash)
+            // 3. Parse ngày an toàn (xử lý dứt điểm lỗi crash)
             LocalDate date = parseDateSafely(row[2]);
 
             // 4. Lấy các trường còn lại với trim()
@@ -85,12 +83,18 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
             String period = row.length > 8 ? row[8].trim() : "";
             int userId = row.length > 9 ? Integer.parseInt(row[9].trim()) : 0;
 
-            return new TransactionRecord(id, amount, date, note, categoryId,
-                    walletId, type, extraField, period, userId);
+            return new TransactionRecord(
+                    id, amount, date, note, categoryId, walletId, type, extraField, period, userId);
         };
     }
 
-    // tạm đi
+    /**
+     * Parse chuỗi ngày tháng một cách an toàn, trả về ngày hiện tại nếu chuỗi rỗng
+     * hoặc không thể parse theo mọi định dạng đã thử.
+     *
+     * @param rawDate chuỗi ngày tháng thô đọc từ file
+     * @return đối tượng {@link LocalDate} tương ứng, hoặc ngày hiện tại nếu thất bại
+     */
     private LocalDate parseDateSafely(String rawDate) {
         if (rawDate == null || rawDate.isBlank()) {
             return LocalDate.now();

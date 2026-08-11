@@ -3,14 +3,13 @@ package com.expensemanager.factory.storage;
 import com.expensemanager.factory.model.UserFactory;
 import com.expensemanager.model.enums.StorageType;
 import com.expensemanager.model.user.User;
-import com.expensemanager.repository.Storage;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 import java.util.function.Function;
 
+/** Lớp factory tạo {@link} cho dữ liệu {@link }. */
 public class UserStorageFactory extends AbstractStorageFactory<User> {
-    private Storage<User> storage;
 
     public UserStorageFactory(StorageType storageType) {
         super(storageType);
@@ -47,6 +46,7 @@ public class UserStorageFactory extends AbstractStorageFactory<User> {
             String salt = row.length > 3 ? row[3] : "";
             String email = row.length > 4 ? row[4] : "";
             int userId = row.length > 5 ? Integer.parseInt(row[5]) : 0;
+
             return UserFactory.reconstructUser(id, username, passwordHash, salt, email, userId);
         };
     }

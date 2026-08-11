@@ -15,18 +15,11 @@
     "userId": 1
   },
   {
-    "id": "dee27cc4-7c72-4608-a2a7-e85cf29e454c",
-    "name": "di cho",
-    "balance": 495000.0,
-    "type": "CASH",
-    "userId": 3
-  },
-  {
-    "feePercent": 1000.0,
-    "id": "db3038a2-d61c-4731-ac6d-f6e63bc0dc34",
-    "name": "acs",
-    "balance": 100000.0,
-    "type": "EWALLET",
-    "userId": 1
+    "transactionFee": 2.0,
+    "id": "de384473-6932-424f-9913-d4ead130a4bf",
+    "name": "hehe",
+    "balance": 1.0E9,
+    "type": "BANK",
+    "userId": 4
   }
 ]

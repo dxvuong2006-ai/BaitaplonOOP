@@ -8,10 +8,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -68,26 +72,29 @@
               styleClass="summary-card">
 
             <HBox alignment="CENTER_LEFT"
-                  minHeight="44.0"
-                  prefHeight="44.0">
+                  spacing="10.0"
+                  minHeight="64.0"
+                  prefHeight="64.0">
+
+                <StackPane styleClass="summary-icon balance-icon"
+                           minWidth="64.0"
+                           minHeight="64.0"
+                           prefWidth="64.0"
+                           prefHeight="64.0"
+                           maxWidth="64.0"
+                           maxHeight="64.0">
+
+                    <ImageView fitWidth="46.0"
+                               fitHeight="46.0"
+                               preserveRatio="true"
+                               smooth="true">
+                        <Image url="@../../../images/balance.png"/>
+                    </ImageView>
+
+                </StackPane>
 
                 <Label text="TỔNG SỐ DƯ"
                        styleClass="summary-label balance-text"/>
-
-                <Region HBox.hgrow="ALWAYS"/>
-
-                <StackPane styleClass="summary-icon balance-icon"
-                           minWidth="44.0"
-                           minHeight="44.0"
-                           prefWidth="44.0"
-                           prefHeight="44.0"
-                           maxWidth="44.0"
-                           maxHeight="44.0">
-
-                    <Label text="₫"
-                           styleClass="summary-icon-text"/>
-
-                </StackPane>
 
             </HBox>
 
@@ -111,26 +118,29 @@
               styleClass="summary-card">
 
             <HBox alignment="CENTER_LEFT"
-                  minHeight="44.0"
-                  prefHeight="44.0">
+                  spacing="10.0"
+                  minHeight="64.0"
+                  prefHeight="64.0">
+
+                <StackPane styleClass="summary-icon income-icon"
+                           minWidth="64.0"
+                           minHeight="64.0"
+                           prefWidth="64.0"
+                           prefHeight="64.0"
+                           maxWidth="64.0"
+                           maxHeight="64.0">
+
+                    <ImageView fitWidth="46.0"
+                               fitHeight="46.0"
+                               preserveRatio="true"
+                               smooth="true">
+                        <Image url="@../../../images/tongthu.png"/>
+                    </ImageView>
+
+                </StackPane>
 
                 <Label text="TỔNG THU"
                        styleClass="summary-label income-text"/>
-
-                <Region HBox.hgrow="ALWAYS"/>
-
-                <StackPane styleClass="summary-icon income-icon"
-                           minWidth="44.0"
-                           minHeight="44.0"
-                           prefWidth="44.0"
-                           prefHeight="44.0"
-                           maxWidth="44.0"
-                           maxHeight="44.0">
-
-                    <Label text="↑"
-                           styleClass="summary-icon-text"/>
-
-                </StackPane>
 
             </HBox>
 
@@ -154,26 +164,29 @@
               styleClass="summary-card">
 
             <HBox alignment="CENTER_LEFT"
-                  minHeight="44.0"
-                  prefHeight="44.0">
+                  spacing="10.0"
+                  minHeight="64.0"
+                  prefHeight="64.0">
+
+                <StackPane styleClass="summary-icon expense-icon"
+                           minWidth="64.0"
+                           minHeight="64.0"
+                           prefWidth="64.0"
+                           prefHeight="64.0"
+                           maxWidth="64.0"
+                           maxHeight="64.0">
+
+                    <ImageView fitWidth="46.0"
+                               fitHeight="46.0"
+                               preserveRatio="true"
+                               smooth="true">
+                        <Image url="@../../../images/shopping.png"/>
+                    </ImageView>
+
+                </StackPane>
 
                 <Label text="TỔNG CHI"
                        styleClass="summary-label expense-text"/>
-
-                <Region HBox.hgrow="ALWAYS"/>
-
-                <StackPane styleClass="summary-icon expense-icon"
-                           minWidth="44.0"
-                           minHeight="44.0"
-                           prefWidth="44.0"
-                           prefHeight="44.0"
-                           maxWidth="44.0"
-                           maxHeight="44.0">
-
-                    <Label text="↓"
-                           styleClass="summary-icon-text"/>
-
-                </StackPane>
 
             </HBox>
 
@@ -197,26 +210,29 @@
               styleClass="summary-card">
 
             <HBox alignment="CENTER_LEFT"
-                  minHeight="44.0"
-                  prefHeight="44.0">
+                  spacing="10.0"
+                  minHeight="64.0"
+                  prefHeight="64.0">
+
+                <StackPane styleClass="summary-icon"
+                           minWidth="64.0"
+                           minHeight="64.0"
+                           prefWidth="64.0"
+                           prefHeight="64.0"
+                           maxWidth="64.0"
+                           maxHeight="64.0">
+
+                    <ImageView fitWidth="46.0"
+                               fitHeight="46.0"
+                               preserveRatio="true"
+                               smooth="true">
+                        <Image url="/images/tietkiem.png"/>
+                    </ImageView>
+
+                </StackPane>
 
                 <Label text="TIẾT KIỆM RÒNG"
                        styleClass="summary-label"/>
-
-                <Region HBox.hgrow="ALWAYS"/>
-
-                <StackPane styleClass="summary-icon"
-                           minWidth="44.0"
-                           minHeight="44.0"
-                           prefWidth="44.0"
-                           prefHeight="44.0"
-                           maxWidth="44.0"
-                           maxHeight="44.0">
-
-                    <Label text="="
-                           styleClass="summary-icon-text"/>
-
-                </StackPane>
 
             </HBox>
 

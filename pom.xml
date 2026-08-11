@@ -16,6 +16,7 @@
         <maven.compiler.target>17</maven.compiler.target>
 
         <javafx.version>17.0.12</javafx.version>
+        <ikonli.version>12.3.1</ikonli.version>
     </properties>
 
     <dependencies>
@@ -50,6 +51,20 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
+        </dependency>
+
+        <!-- Thư viện icon vector cho JavaFX (dùng FontIcon trong FXML) -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>${ikonli.version}</version>
+        </dependency>
+
+        <!-- Bộ icon Feather (line icon, giống thiết kế UI hiện tại) -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-feather-pack</artifactId>
+            <version>${ikonli.version}</version>
         </dependency>
 
         <dependency>
@@ -125,7 +140,6 @@
                 <version>0.0.8</version>
 
                 <configuration>
-                    <mainClass>com.expensemanager.app.Main</mainClass>
                     <mainClass>com.expensemanager.app.AppLauncher</mainClass>
                 </configuration>
             </plugin>

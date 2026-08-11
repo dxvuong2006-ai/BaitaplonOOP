@@ -5,5 +5,12 @@
     "limitAmount": 50000.0,
     "period": "DAILY",
     "userId": 1
+  },
+  {
+    "id": "fc0fa7b2-bc53-4066-9e1d-1457a5415404",
+    "categoryId": "80c32365-6c15-4806-89c1-0fcad8ab8389",
+    "limitAmount": 10000.0,
+    "period": "DAILY",
+    "userId": 5
   }
 ]

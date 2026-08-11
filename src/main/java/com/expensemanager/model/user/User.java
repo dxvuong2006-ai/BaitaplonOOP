@@ -100,4 +100,13 @@ public class User {
     public String toString() {
         return "User{id=" + id + ", username='" + username + "'}";
     }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
 }

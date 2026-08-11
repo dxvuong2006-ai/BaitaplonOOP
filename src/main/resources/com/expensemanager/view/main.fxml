@@ -10,6 +10,8 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -61,37 +63,97 @@
                     text="Tổng quan"
                     styleClass="sidebar-button"
                     onAction="#handleShowDashboard"
-                    maxWidth="Infinity"/>
+                    maxWidth="Infinity">
+                <graphic>
+                    <ImageView fitWidth="24"
+                               fitHeight="24"
+                               preserveRatio="true">
+                        <image>
+                            <Image url="/images/house.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
 
             <Button fx:id="btnTransaction"
                     text="Giao dịch"
                     styleClass="sidebar-button"
                     onAction="#handleShowTransaction"
-                    maxWidth="Infinity"/>
+                    maxWidth="Infinity">
+                <graphic>
+                    <ImageView fitWidth="24"
+                               fitHeight="24"
+                               preserveRatio="true">
+                        <image>
+                            <Image url="/images/exchange.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
 
             <Button fx:id="btnWallet"
                     text="Ví"
                     styleClass="sidebar-button"
                     onAction="#handleShowWallet"
-                    maxWidth="Infinity"/>
+                    maxWidth="Infinity">
+                <graphic>
+                    <ImageView fitWidth="24"
+                               fitHeight="24"
+                               preserveRatio="true">
+                        <image>
+                            <Image url="/images/wallet.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
 
             <Button fx:id="btnCategory"
                     text="Danh mục"
                     styleClass="sidebar-button"
                     onAction="#handleShowCategory"
-                    maxWidth="Infinity"/>
+                    maxWidth="Infinity">
+                <graphic>
+                    <ImageView fitWidth="24"
+                               fitHeight="24"
+                               preserveRatio="true">
+                        <image>
+                            <Image url="/images/category.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
 
             <Button fx:id="btnBudget"
                     text="Ngân sách"
                     styleClass="sidebar-button"
                     onAction="#handleShowBudget"
-                    maxWidth="Infinity"/>
+                    maxWidth="Infinity">
+                <graphic>
+                    <ImageView fitWidth="24"
+                               fitHeight="24"
+                               preserveRatio="true">
+                        <image>
+                            <Image url="/images/ngan_sach.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
 
             <Button fx:id="btnReport"
                     text="Báo cáo"
                     styleClass="sidebar-button"
                     onAction="#handleShowReport"
-                    maxWidth="Infinity"/>
+                    maxWidth="Infinity">
+                <graphic>
+                    <ImageView fitWidth="24"
+                               fitHeight="24"
+                               preserveRatio="true">
+                        <image>
+                            <Image url="/images/bao_cao.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
 
             <!-- ĐẨY USER AREA XUỐNG ĐÁY -->
 

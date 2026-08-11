@@ -73,12 +73,5 @@ public class User {
         return "User{id=" + id + ", username='" + username + "'}";
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
 }

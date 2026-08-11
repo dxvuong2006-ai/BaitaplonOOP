@@ -80,31 +80,63 @@ SIDEBAR MENU
     -fx-pref-height: 50px;
 }
 
-
-/* Hover */
+/* ==========================================================
+   SIDEBAR BUTTON - HOVER
+   ========================================================== */
 
 .sidebar-button:hover {
-    -fx-background-color:
-            rgba(255, 255, 255, 0.08);
-
-    -fx-text-fill: #ffffff;
-}
-
-
-/* ==========================================================
-SIDEBAR ACTIVE / FOCUS
-========================================================== */
-
-.sidebar-button:focused {
+    /*
+     * Làm nền sáng hơn để icon màu đen nổi bật
+     */
     -fx-background-color:
             linear-gradient(
                     to right,
-                    rgba(48, 164, 174, 0.26),
-                    rgba(65, 123, 175, 0.18)
+                    rgba(48, 164, 174, 0.32),
+                    rgba(65, 123, 175, 0.28)
             );
 
     -fx-text-fill: #ffffff;
 
+    -fx-background-radius: 13px;
+
+    /*
+     * Glow nhẹ khi hover
+     */
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(87, 218, 220, 0.20),
+            10,
+            0.12,
+            0,
+            0
+    );
+}
+
+
+/* ==========================================================
+   SIDEBAR BUTTON - FOCUSED / ACTIVE
+   ========================================================== */
+
+.sidebar-button:focused {
+
+    /*
+     * Nền sáng và nổi bật hơn Hover
+     * giúp icon màu đen tương phản tốt
+     */
+    -fx-background-color:
+            linear-gradient(
+                    to right,
+                    rgba(48, 164, 174, 0.55),
+                    rgba(65, 123, 175, 0.42)
+            );
+
+    -fx-text-fill: #ffffff;
+
+    -fx-background-radius: 13px;
+
+    /*
+     * Chỉ tạo border ở bên phải
+     */
     -fx-border-color:
             transparent
             #69e1df
@@ -115,18 +147,23 @@ SIDEBAR ACTIVE / FOCUS
 
     -fx-border-radius: 13px;
 
+    /*
+     * Glow mạnh hơn Hover
+     */
     -fx-effect: dropshadow(
             gaussian,
-            rgba(87, 218, 220, 0.16),
-            12,
-            0.15,
+            rgba(87, 218, 220, 0.30),
+            14,
+            0.18,
             0,
             0
     );
 }
 
 
-/* Text button */
+/* ==========================================================
+   SIDEBAR BUTTON TEXT
+   ========================================================== */
 
 .sidebar-button .text {
     -fx-fill: #edf1f7;
@@ -142,8 +179,8 @@ SIDEBAR ACTIVE / FOCUS
 
 
 /* ==========================================================
-SIDEBAR SEPARATOR
-========================================================== */
+   SIDEBAR SEPARATOR
+   ========================================================== */
 
 .sidebar .separator .line {
     -fx-border-color:
@@ -152,8 +189,8 @@ SIDEBAR SEPARATOR
 
 
 /* ==========================================================
-SIDEBAR SCROLLBAR
-========================================================== */
+   SIDEBAR SCROLLBAR
+   ========================================================== */
 
 .sidebar .scroll-bar {
     -fx-background-color: transparent;

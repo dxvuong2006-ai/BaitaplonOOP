@@ -21,5 +21,12 @@
     "balance": 1.0E9,
     "type": "BANK",
     "userId": 4
+  },
+  {
+    "id": "21b13575-4faa-4aab-97e4-f03b2fea1c74",
+    "name": "oke",
+    "balance": 10000.0,
+    "type": "CASH",
+    "userId": 5
   }
 ]

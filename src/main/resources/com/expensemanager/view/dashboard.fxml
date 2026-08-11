@@ -14,6 +14,8 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -84,8 +86,9 @@
 
                     <ImageView fitWidth="46.0"
                                fitHeight="46.0"
-                               preserveRatio="true">
-                        <Image url="@../../../images/img.png"/>
+                               preserveRatio="true"
+                               smooth="true">
+                        <Image url="@../../../images/balance.png"/>
                     </ImageView>
 
                 </StackPane>
@@ -129,8 +132,9 @@
 
                     <ImageView fitWidth="46.0"
                                fitHeight="46.0"
-                               preserveRatio="true">
-                        <Image url="@../../../images/img_3.png"/>
+                               preserveRatio="true"
+                               smooth="true">
+                        <Image url="@../../../images/tongthu.png"/>
                     </ImageView>
 
                 </StackPane>
@@ -174,8 +178,9 @@
 
                     <ImageView fitWidth="46.0"
                                fitHeight="46.0"
-                               preserveRatio="true">
-                        <Image url="@../../../images/img_2.png"/>
+                               preserveRatio="true"
+                               smooth="true">
+                        <Image url="@../../../images/shopping.png"/>
                     </ImageView>
 
                 </StackPane>
@@ -219,8 +224,9 @@
 
                     <ImageView fitWidth="46.0"
                                fitHeight="46.0"
-                               preserveRatio="true">
-                        <Image url="@../../../images/img_1.png"/>
+                               preserveRatio="true"
+                               smooth="true">
+                        <Image url="/images/tietkiem.png"/>
                     </ImageView>
 
                 </StackPane>

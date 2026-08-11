@@ -9,6 +9,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -42,9 +44,21 @@
 
         <Region HBox.hgrow="ALWAYS"/>
 
-        <Button text="+ Thêm giao dịch"
+        <Button text=" Thêm giao dịch"
                 onAction="#handleOpenTransactionForm"
-                styleClass="transaction-add-button"/>
+                styleClass="transaction-add-button">
+
+            <graphic>
+                <ImageView fitWidth="18"
+                           fitHeight="18"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="/images/dau_cong.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+
+        </Button>
 
     </HBox>
 
@@ -90,7 +104,19 @@
                 minHeight="46.0"
                 prefHeight="46.0"
                 onAction="#handleResetFilters"
-                styleClass="transaction-reset-button"/>
+                styleClass="transaction-reset-button">
+
+            <graphic>
+                <ImageView fitWidth="18"
+                           fitHeight="18"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="/images/restart.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+
+        </Button>
 
     </HBox>
 

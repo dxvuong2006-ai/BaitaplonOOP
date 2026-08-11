@@ -38,5 +38,13 @@
     "passwordHash": "UPAMQwDVDUMSdtFsid0z4uKNnfhzIgtO9mJWcwroe9w\u003d",
     "salt": "VWWdlerOLR9aeaSKwrSNfw\u003d\u003d",
     "email": ""
+  },
+  {
+    "id": "aaa78c0c-5e30-4a6e-baf2-8132f5cf04f4",
+    "userId": 5,
+    "username": "dung",
+    "passwordHash": "KLrey/cte78hYvYp+S9+HJXpSOppVnPHdpy9YFugzSE\u003d",
+    "salt": "e5ORjvImsE6MIOVM6dxnxw\u003d\u003d",
+    "email": ""
   }
 ]

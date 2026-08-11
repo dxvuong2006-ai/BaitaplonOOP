@@ -1,17 +1,5 @@
 [
   {
-    "id": "a7997eab-26f6-48ff-88b8-98957f401b2b",
-    "amount": 50000.0,
-    "date": "10/08/2026",
-    "note": "",
-    "categoryId": "3a3ad980-a07b-4c5f-a19d-384740696d24",
-    "walletId": "9e20be30-01cc-42ee-82fa-e420248f45a7",
-    "type": "EXPENSE",
-    "extraField": "cash",
-    "period": "",
-    "userId": 1
-  },
-  {
     "id": "7286c202-23a2-4010-abb6-ac9f469bc145",
     "amount": 5000.0,
     "date": "10/08/2026",
@@ -22,5 +10,41 @@
     "extraField": "mat",
     "period": "",
     "userId": 3
+  },
+  {
+    "id": "a7997eab-26f6-48ff-88b8-98957f401b2b",
+    "amount": 10000.0,
+    "date": "10/08/2026",
+    "note": "",
+    "categoryId": "3a3ad980-a07b-4c5f-a19d-384740696d24",
+    "walletId": "9e20be30-01cc-42ee-82fa-e420248f45a7",
+    "type": "EXPENSE",
+    "extraField": "cash",
+    "period": "",
+    "userId": 1
+  },
+  {
+    "id": "51d8160e-4c1c-496b-96a9-464565ff5354",
+    "amount": 10.0,
+    "date": "11/08/2026",
+    "note": "",
+    "categoryId": "3a3ad980-a07b-4c5f-a19d-384740696d24",
+    "walletId": "db3038a2-d61c-4731-ac6d-f6e63bc0dc34",
+    "type": "EXPENSE",
+    "extraField": "",
+    "period": "DAILY",
+    "userId": 1
+  },
+  {
+    "id": "858c753a-a658-4ad4-8f6c-71a9552e56f2",
+    "amount": 2000.0,
+    "date": "11/08/2026",
+    "note": "",
+    "categoryId": "3a3ad980-a07b-4c5f-a19d-384740696d24",
+    "walletId": "db3038a2-d61c-4731-ac6d-f6e63bc0dc34",
+    "type": "EXPENSE",
+    "extraField": "",
+    "period": "DAILY",
+    "userId": 1
   }
 ]

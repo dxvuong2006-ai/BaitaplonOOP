@@ -14,8 +14,6 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -317,7 +315,7 @@
     <!-- ============================= -->
 
     <VBox spacing="10.0"
-          prefHeight="250.0"
+          prefHeight="340.0"
           styleClass="dashboard-panel">
 
         <HBox alignment="CENTER_LEFT">
@@ -334,6 +332,11 @@
 
         <TableView fx:id="recentTransactionTable"
                    VBox.vgrow="ALWAYS">
+
+            <!-- Cấu hình dãn đều các cột và tự động triệt tiêu cột thừa ở cuối -->
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
 
             <placeholder>
 

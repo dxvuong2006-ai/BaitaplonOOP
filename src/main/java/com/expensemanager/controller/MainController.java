@@ -5,6 +5,8 @@ import com.expensemanager.service.ExpenseManager;
 
 import java.io.IOException;
 
+import javafx.scene.paint.Color;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -40,6 +42,14 @@ public class MainController {
         loadCurrentUser();
         hideUserMenu();
         loadView("dashboard.fxml");
+        Platform.runLater(() -> {
+            if (contentPane != null && contentPane.getScene() != null) {
+                Stage stage = (Stage) contentPane.getScene().getWindow();
+                if (stage != null) {
+                    stage.setResizable(true); // Cho phép phóng to full màn hình
+                }
+            }
+        });
     }
 
     /**
@@ -95,26 +105,16 @@ public class MainController {
      */
     @FXML
     private void handleLogout() {
-
         try {
-
             expenseManager.logout();
-
             FXMLLoader loader =
-                    new FXMLLoader(
-                            getClass().getResource(
-                                    "/com/expensemanager/view/login.fxml"
-                            )
-                    );
-
+                    new FXMLLoader(getClass().getResource("/com/expensemanager/view/login.fxml"));
             Parent root = loader.load();
-
-            Stage stage =
-                    (Stage) contentPane
-                            .getScene()
-                            .getWindow();
-
+            Stage stage = (Stage) contentPane.getScene().getWindow();
             Scene scene = new Scene(root);
+
+            scene.setFill(Color.web("#1b2639"));
+            stage.setMaximized(false);
 
             stage.setScene(scene);
             stage.setTitle("Đăng nhập - Quản Lý Chi Tiêu Cá Nhân");

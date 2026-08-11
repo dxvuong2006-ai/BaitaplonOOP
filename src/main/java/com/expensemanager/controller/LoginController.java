@@ -112,6 +112,8 @@ public class LoginController {
 
         stage.setScene(scene);
         stage.setTitle("Quản Lý Chi Tiêu Cá Nhân");
+        stage.setResizable(true); // Cho phép phóng to / thu nhỏ giao diện chính
+        stage.centerOnScreen();   // Căn giữa màn hình sau khi đổi kích thước
         stage.show();
     }
 

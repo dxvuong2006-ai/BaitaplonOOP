@@ -1,0 +1,17 @@
+[
+  {
+    "id": "9b593c59-e91e-4192-858c-2dd6b32cb174",
+    "recurringExpenseId": "cb60be83-5c1f-4429-9a4f-d11ecd499d2b",
+    "userId": 1,
+    "dueDate": "11/08/2026",
+    "amount": 50000.0,
+    "status": "FAILED"
+  },
+  {
+    "id": "9d63e2ef-b058-4a57-be70-9b0a211f9f20",
+    "recurringExpenseId": "86b61d46-ef6f-43fc-b2be-075164e72421",
+    "userId": 1,
+    "dueDate": "09/08/2026",
+    "amount": 50000.0
+  }
+]

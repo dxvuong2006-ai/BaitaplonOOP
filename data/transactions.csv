@@ -1,3 +1,0 @@
-id,amount,date,note,categoryId,walletId,type,extraField,period
-123,123.0,2026-08-07,,123,123,EXPENSE,,
-123,124.0,2026-08-07,,123,123,INCOME,,

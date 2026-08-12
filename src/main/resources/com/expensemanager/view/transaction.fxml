@@ -9,8 +9,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -24,7 +22,6 @@
                 bottom="25.0"
                 left="25.0"/>
     </padding>
-
 
     <!-- ============================= -->
     <!-- HEADER -->
@@ -44,82 +41,46 @@
 
         <Region HBox.hgrow="ALWAYS"/>
 
-        <Button text=" Thêm giao dịch"
+        <Button text="+ Thêm giao dịch"
                 onAction="#handleOpenTransactionForm"
-                styleClass="transaction-add-button">
-
-            <graphic>
-                <ImageView fitWidth="18"
-                           fitHeight="18"
-                           preserveRatio="true">
-                    <image>
-                        <Image url="/images/dau_cong.png"/>
-                    </image>
-                </ImageView>
-            </graphic>
-
-        </Button>
+                styleClass="period-button"/>
 
     </HBox>
 
-
     <!-- ============================= -->
     <!-- BỘ LỌC -->
+    <!-- Chỉ giữ những dữ liệu backend hỗ trợ -->
     <!-- ============================= -->
 
-    <HBox spacing="14.0"
+    <HBox spacing="12.0"
           alignment="CENTER_LEFT"
-          styleClass="transaction-filter-panel">
+          styleClass="dashboard-panel">
 
         <ComboBox fx:id="transactionTypeFilter"
                   promptText="Loại giao dịch"
-                  prefWidth="220.0"
-                  minHeight="46.0"
-                  prefHeight="46.0"
-                  onAction="#handleFilterChanged"
-                  styleClass="transaction-filter-combo"/>
+                  prefWidth="190.0"
+                  onAction="#handleFilterChanged"/>
 
         <ComboBox fx:id="categoryFilter"
                   promptText="Danh mục"
-                  prefWidth="220.0"
-                  minHeight="46.0"
-                  prefHeight="46.0"
-                  onAction="#handleFilterChanged"
-                  styleClass="transaction-filter-combo"/>
+                  prefWidth="200.0"
+                  onAction="#handleFilterChanged"/>
 
         <ComboBox fx:id="walletFilter"
                   promptText="Ví"
-                  prefWidth="220.0"
-                  minHeight="46.0"
-                  prefHeight="46.0"
-                  onAction="#handleFilterChanged"
-                  styleClass="transaction-filter-combo"/>
+                  prefWidth="200.0"
+                  onAction="#handleFilterChanged"/>
 
         <Region HBox.hgrow="ALWAYS"/>
 
         <Button text="Đặt lại"
-                minWidth="105.0"
-                prefWidth="105.0"
-                maxWidth="105.0"
-                minHeight="46.0"
-                prefHeight="46.0"
+                minWidth="90.0"
+                prefWidth="90.0"
+                maxWidth="90.0"
                 onAction="#handleResetFilters"
-                styleClass="transaction-reset-button">
-
-            <graphic>
-                <ImageView fitWidth="18"
-                           fitHeight="18"
-                           preserveRatio="true">
-                    <image>
-                        <Image url="/images/restart.png"/>
-                    </image>
-                </ImageView>
-            </graphic>
-
-        </Button>
+                styleClass="filter-button"/>
 
     </HBox>
-
 
     <!-- ============================= -->
     <!-- TABLE -->
@@ -127,7 +88,7 @@
 
     <VBox spacing="12.0"
           VBox.vgrow="ALWAYS"
-          styleClass="transaction-list-panel">
+          styleClass="dashboard-panel">
 
         <HBox alignment="CENTER_LEFT">
 
@@ -141,7 +102,6 @@
                    styleClass="placeholder-text"/>
 
         </HBox>
-
 
         <TableView fx:id="transactionTable"
                    VBox.vgrow="ALWAYS">

@@ -14,159 +14,143 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.expensemanager.controller.TransactionFormController"
-      spacing="12.0"
-      prefWidth="520.0"
-      styleClass="transaction-form-modern-root">
+      spacing="16.0"
+      prefWidth="500.0"
+      styleClass="transaction-form-root">
 
     <padding>
-        <Insets top="28.0"
-                right="30.0"
-                bottom="28.0"
-                left="30.0"/>
+        <Insets top="24.0"
+                right="24.0"
+                bottom="24.0"
+                left="24.0"/>
     </padding>
 
-    <!-- HEADER -->
-    <VBox spacing="4.0">
-        <Label fx:id="formTitleLabel"
-               text="Thêm giao dịch"
-               styleClass="transaction-form-title"/>
+    <!-- Tiêu đề -->
 
-        <Label fx:id="formSubtitleLabel"
-               text="Nhập thông tin khoản thu hoặc chi"
-               styleClass="transaction-form-subtitle"/>
-    </VBox>
+    <Label fx:id="formTitleLabel"
+           text="Thêm giao dịch"
+           styleClass="dashboard-title"/>
 
-    <!-- LOẠI GIAO DỊCH -->
+    <Label fx:id="formSubtitleLabel"
+           text="Nhập thông tin khoản thu hoặc chi"
+           styleClass="dashboard-subtitle"/>
+
+    <!-- Loại giao dịch -->
+
     <Label text="Loại giao dịch"
-           styleClass="transaction-form-label"/>
+           styleClass="form-label"/>
 
     <ComboBox fx:id="transactionTypeComboBox"
               promptText="Chọn loại giao dịch"
-              maxWidth="Infinity"
-              minHeight="46.0"
-              prefHeight="46.0"
-              styleClass="transaction-form-combo"/>
+              maxWidth="Infinity"/>
 
-    <!-- SỐ TIỀN -->
+    <!-- Số tiền -->
+
     <Label text="Số tiền"
-           styleClass="transaction-form-label"/>
+           styleClass="form-label"/>
 
     <TextField fx:id="amountField"
-               promptText="Nhập số tiền"
-               minHeight="46.0"
-               prefHeight="46.0"
-               styleClass="transaction-form-input"/>
+               promptText="Nhập số tiền"/>
 
-    <!-- NGÀY GIAO DỊCH -->
+    <!-- Ngày -->
+
     <Label text="Ngày giao dịch"
-           styleClass="transaction-form-label"/>
+           styleClass="form-label"/>
 
     <DatePicker fx:id="datePicker"
                 promptText="Chọn ngày"
-                maxWidth="Infinity"
-                minHeight="46.0"
-                prefHeight="46.0"
-                styleClass="transaction-form-date"/>
+                maxWidth="Infinity"/>
 
-    <!-- VÍ -->
+    <!-- Ví -->
+
     <Label text="Ví"
-           styleClass="transaction-form-label"/>
+           styleClass="form-label"/>
 
     <ComboBox fx:id="walletComboBox"
               promptText="Chọn ví"
-              maxWidth="Infinity"
-              minHeight="46.0"
-              prefHeight="46.0"
-              styleClass="transaction-form-combo"/>
+              maxWidth="Infinity"/>
 
-    <!-- DANH MỤC -->
+    <!-- Danh mục -->
+
     <Label text="Danh mục"
-           styleClass="transaction-form-label"/>
+           styleClass="form-label"/>
 
     <ComboBox fx:id="categoryComboBox"
               promptText="Chọn danh mục"
-              maxWidth="Infinity"
-              minHeight="46.0"
-              prefHeight="46.0"
-              styleClass="transaction-form-combo"/>
+              maxWidth="Infinity"/>
 
+    <!-- ============================= -->
     <!-- THU NHẬP -->
+    <!-- ============================= -->
+
     <VBox fx:id="incomeFieldsBox"
           spacing="8.0">
 
         <Label text="Nguồn thu"
-               styleClass="transaction-form-label"/>
+               styleClass="form-label"/>
 
         <TextField fx:id="sourceField"
-                   promptText="Ví dụ: Lương, Thưởng..."
-                   minHeight="46.0"
-                   prefHeight="46.0"
-                   styleClass="transaction-form-input"/>
+                   promptText="Ví dụ: Lương, Thưởng..."/>
 
     </VBox>
 
+    <!-- ============================= -->
     <!-- CHI TIÊU -->
+    <!-- ============================= -->
+
     <VBox fx:id="paymentFieldsBox"
           spacing="8.0">
 
         <Label text="Phương thức thanh toán"
-               styleClass="transaction-form-label"/>
+               styleClass="form-label"/>
 
         <TextField fx:id="paymentMethodField"
-                   promptText="Ví dụ: Tiền mặt, Chuyển khoản..."
-                   minHeight="46.0"
-                   prefHeight="46.0"
-                   styleClass="transaction-form-input"/>
+                   promptText="Ví dụ: Tiền mặt, Chuyển khoản..."/>
 
     </VBox>
 
+    <!-- ============================= -->
     <!-- CHI ĐỊNH KỲ -->
+    <!-- ============================= -->
+
     <VBox fx:id="periodFieldsBox"
           spacing="8.0">
 
         <Label text="Chu kỳ"
-               styleClass="transaction-form-label"/>
+               styleClass="form-label"/>
 
         <ComboBox fx:id="periodComboBox"
                   promptText="Chọn chu kỳ"
-                  maxWidth="Infinity"
-                  minHeight="46.0"
-                  prefHeight="46.0"
-                  styleClass="transaction-form-combo"/>
+                  maxWidth="Infinity"/>
 
     </VBox>
 
-    <!-- MÔ TẢ -->
+    <!-- Mô tả -->
+
     <Label text="Mô tả"
-           styleClass="transaction-form-label"/>
+           styleClass="form-label"/>
 
     <TextArea fx:id="noteArea"
               promptText="Nhập mô tả giao dịch"
               prefRowCount="3"
-              wrapText="true"
-              minHeight="90.0"
-              prefHeight="90.0"
-              styleClass="transaction-form-textarea"/>
+              wrapText="true"/>
 
-    <!-- ACTION BUTTONS -->
-    <HBox spacing="12.0"
+    <!-- Buttons -->
+
+    <HBox spacing="10.0"
           alignment="CENTER_RIGHT">
 
         <Region HBox.hgrow="ALWAYS"/>
 
         <Button text="Hủy"
-                minWidth="105.0"
-                minHeight="44.0"
-                prefHeight="44.0"
+                minWidth="90.0"
                 onAction="#handleCancel"
-                styleClass="transaction-form-cancel-button"/>
+                styleClass="filter-button"/>
 
         <Button text="Lưu"
-                minWidth="115.0"
-                minHeight="44.0"
-                prefHeight="44.0"
+                minWidth="90.0"
                 onAction="#handleSave"
-                styleClass="transaction-form-save-button"/>
+                styleClass="period-button"/>
 
     </HBox>
 

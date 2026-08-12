@@ -12,7 +12,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -73,7 +72,6 @@ public class LoginController {
                 errorLabel.setText(
                         "Tên đăng nhập hoặc mật khẩu không đúng."
                 );
-
                 passwordField.clear();
                 passwordField.requestFocus();
                 return;
@@ -112,44 +110,26 @@ public class LoginController {
 
         stage.setScene(scene);
         stage.setTitle("Quản Lý Chi Tiêu Cá Nhân");
-        stage.setResizable(true); // Cho phép phóng to / thu nhỏ giao diện chính
-        stage.centerOnScreen();   // Căn giữa màn hình sau khi đổi kích thước
         stage.show();
     }
 
     @FXML
     private void handleOpenRegister() throws IOException {
-
-        FXMLLoader loader =
-                new FXMLLoader(
-                        getClass().getResource(
-                                "/com/expensemanager/view/register.fxml"
-                        )
-                );
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource(
+                        "/com/expensemanager/view/register.fxml"
+                )
+        );
 
         Parent root = loader.load();
 
-        Stage stage =
-                (Stage) usernameField
-                        .getScene()
-                        .getWindow();
+        Stage stage = (Stage) usernameField
+                .getScene()
+                .getWindow();
 
-        Scene scene = new Scene(root);
-
-        // Nền phía sau card cùng màu navy.
-        // Khi card bo góc sẽ không còn lộ nền trắng.
-        scene.setFill(Color.web("#1b2639"));
-
-        stage.setScene(scene);
+        stage.setScene(new Scene(root));
         stage.setTitle("Đăng ký - Quản Lý Chi Tiêu Cá Nhân");
         stage.setResizable(false);
-
-        // Cho cửa sổ ôm đúng kích thước register.fxml
-        stage.sizeToScene();
-
-        // Căn lại cửa sổ vào giữa màn hình
-        stage.centerOnScreen();
-
         stage.show();
     }
 }

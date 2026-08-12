@@ -9,8 +9,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -40,19 +38,9 @@
 
         <Region HBox.hgrow="ALWAYS"/>
 
-        <Button text="Thêm ngân sách"
+        <Button text="+ Thêm ngân sách"
                 onAction="#handleOpenBudgetForm"
-                styleClass="period-button">
-            <graphic>
-                <ImageView fitWidth="18"
-                           fitHeight="18"
-                           preserveRatio="true">
-                    <image>
-                        <Image url="/images/dau_cong.png"/>
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
+                styleClass="period-button"/>
 
     </HBox>
 
@@ -63,38 +51,20 @@
 
         <ComboBox fx:id="categoryFilter"
                   promptText="Danh mục"
-                  prefWidth="220.0"
-                  minHeight="46.0"
-                  prefHeight="46.0"
-                  styleClass="transaction-filter-combo"/>
+                  prefWidth="240.0"/>
 
         <ComboBox fx:id="periodFilter"
                   promptText="Chu kỳ"
-                  prefWidth="220.0"
-                  minHeight="46.0"
-                  prefHeight="46.0"
-                  styleClass="transaction-filter-combo"/>
+                  prefWidth="180.0"/>
 
         <Region HBox.hgrow="ALWAYS"/>
 
         <Button text="Đặt lại"
                 onAction="#handleResetFilters"
-                minWidth="105.0"
-                prefWidth="105.0"
-                maxWidth="105.0"
-                styleClass="filter-button">
-
-            <graphic>
-                <ImageView fitWidth="18"
-                           fitHeight="18"
-                           preserveRatio="true">
-                    <image>
-                        <Image url="/images/restart.png"/>
-                    </image>
-                </ImageView>
-            </graphic>
-
-        </Button>
+                minWidth="90.0"
+                prefWidth="90.0"
+                maxWidth="90.0"
+                styleClass="filter-button"/>
 
     </HBox>
 

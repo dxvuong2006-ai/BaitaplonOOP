@@ -3,10 +3,11 @@ package com.expensemanager.model.report;
 import com.expensemanager.model.category.Category;
 import com.expensemanager.model.transaction.Transaction;
 import com.expensemanager.model.wallet.Wallet;
-import java.time.LocalDate;
+
 import java.time.YearMonth;
-import java.util.HashMap;
+import java.time.LocalDate;
 import java.util.Map;
+import java.util.HashMap;
 
 /** Lớp xử lý thông tin cần báo cáo. */
 public class ReportData {
@@ -42,7 +43,7 @@ public class ReportData {
         return startDate;
     }
 
-    /** Thiết lập ngày bắt đầu. */
+    /** Thiệt lập ngày bắt đầu. */
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
@@ -57,7 +58,7 @@ public class ReportData {
         this.endDate = endDate;
     }
 
-    /** Lấy tổng thu. */
+    /** Tổng thu. */
     public double getTotalIncome() {
         return totalIncome;
     }
@@ -67,7 +68,7 @@ public class ReportData {
         this.totalIncome = totalIncome;
     }
 
-    /** Lấy tổng chi. */
+    /** Tổng chi. */
     public double getTotalExpense() {
         return totalExpense;
     }
@@ -77,22 +78,22 @@ public class ReportData {
         this.totalExpense = totalExpense;
     }
 
-    /** Lấy chênh lệch giữa thu và chi. */
+    /** Chênh lệch giữa thu và chi. */
     public double getNetSaving() {
         return netSaving;
     }
 
-    /** Thiết lập chênh lệch giữa thu và chi. */
+    /** Thiết lập chênh lệch. */
     public void setNetSaving(double netSaving) {
         this.netSaving = netSaving;
     }
 
-    /** Lấy tổng thu theo danh mục. */
+    /** Tổng thu theo loại. */
     public Map<Category, Double> getIncomeByCategory() {
         return incomeByCategory;
     }
 
-    /** Thiết lập tổng thu theo danh mục. */
+    /** Thiết lập tổng thu theo loại. */
     public void setIncomeByCategory(Map<Category, Double> incomeByCategory) {
         this.incomeByCategory = incomeByCategory;
     }

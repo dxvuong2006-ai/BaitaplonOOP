@@ -10,14 +10,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 
 <VBox xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.expensemanager.controller.WalletController"
-      styleClass="dashboard-root"
-      spacing="18.0">
+      spacing="20.0">
 
     <padding>
         <Insets top="25.0"
@@ -26,108 +23,52 @@
                 left="25.0"/>
     </padding>
 
-
-    <!-- ============================= -->
-    <!-- HEADER -->
-    <!-- ============================= -->
-
+    <!-- Tiêu đề màn hình Ví -->
     <HBox alignment="CENTER_LEFT">
 
         <VBox spacing="5.0">
-
             <Label text="Ví"
                    styleClass="dashboard-title"/>
 
             <Label text="Quản lý các nguồn tiền và số dư hiện có"
                    styleClass="dashboard-subtitle"/>
-
         </VBox>
 
         <Region HBox.hgrow="ALWAYS"/>
 
-        <Button text="Thêm ví"
+        <Button text="+ Thêm ví"
                 onAction="#handleOpenWalletForm"
-                styleClass="transaction-add-button">
-            <graphic>
-                <ImageView fitWidth="18"
-                           fitHeight="18"
-                           preserveRatio="true">
-                    <image>
-                        <Image url="/images/dau_cong.png"/>
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
+                styleClass="period-button"/>
 
     </HBox>
 
-
-    <!-- ============================= -->
-    <!-- TÌM KIẾM + BỘ LỌC -->
-    <!-- ============================= -->
-
-    <HBox spacing="14.0"
+    <!-- Khu vực tìm kiếm và bộ lọc -->
+    <HBox spacing="12.0"
           alignment="CENTER_LEFT"
-          styleClass="transaction-filter-panel">
+          styleClass="dashboard-panel">
 
-        <!-- Tìm kiếm: Sửa fx:id thành searchField để khớp với Controller -->
-
-        <TextField fx:id="searchField"
+        <TextField fx:id="walletSearchField"
                    promptText="Tìm kiếm theo tên ví..."
-                   prefWidth="340.0"
-                   minHeight="46.0"
-                   prefHeight="46.0"
-                   styleClass="transaction-search-field"/>
-
-
-        <!-- Loại ví -->
+                   prefWidth="320.0"/>
 
         <ComboBox fx:id="walletTypeFilter"
                   promptText="Loại ví"
-                  prefWidth="230.0"
-                  minHeight="46.0"
-                  prefHeight="46.0"
-                  styleClass="transaction-filter-combo"/>
-
-
-        <!-- Đẩy nút Đặt lại sang phải -->
+                  prefWidth="180.0"/>
 
         <Region HBox.hgrow="ALWAYS"/>
 
-
-        <!-- Đặt lại: Thêm onAction="#handleResetFilters" -->
-
         <Button text="Đặt lại"
-                onAction="#handleResetFilters"
-                minWidth="105.0"
-                prefWidth="105.0"
-                maxWidth="105.0"
-                minHeight="46.0"
-                prefHeight="46.0"
-                styleClass="transaction-reset-button">
-
-            <graphic>
-                <ImageView fitWidth="18"
-                           fitHeight="18"
-                           preserveRatio="true">
-                    <image>
-                        <Image url="/images/restart.png"/>
-                    </image>
-                </ImageView>
-            </graphic>
-
-        </Button>
+                minWidth="90.0"
+                prefWidth="90.0"
+                maxWidth="90.0"
+                styleClass="filter-button"/>
 
     </HBox>
 
-
-    <!-- ============================= -->
-    <!-- DANH SÁCH VÍ -->
-    <!-- ============================= -->
-
+    <!-- Bảng danh sách ví -->
     <VBox spacing="12.0"
           VBox.vgrow="ALWAYS"
-          styleClass="transaction-list-panel">
+          styleClass="dashboard-panel">
 
         <HBox alignment="CENTER_LEFT">
 
@@ -141,7 +82,6 @@
                    styleClass="placeholder-text"/>
 
         </HBox>
-
 
         <TableView fx:id="walletTable"
                    VBox.vgrow="ALWAYS">

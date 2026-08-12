@@ -8,8 +8,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -42,19 +40,10 @@
 
         <Region HBox.hgrow="ALWAYS"/>
 
-        <Button text="Thêm danh mục"
+        <Button text="+ Thêm danh mục"
                 onAction="#handleOpenCategoryForm"
-                styleClass="period-button">
-            <graphic>
-                <ImageView fitWidth="18"
-                           fitHeight="18"
-                           preserveRatio="true">
-                    <image>
-                        <Image url="/images/dau_cong.png"/>
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
+                styleClass="period-button"/>
+
     </HBox>
 
     <!-- ============================= -->

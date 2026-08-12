@@ -65,7 +65,6 @@ public class WalletService {
         oldwallet.setName(newWallet.getName());
         oldwallet.setId(newWallet.getId());
         oldwallet.setUserId(newWallet.getUserId());
-        oldwallet.setBalance(newWallet.getBalance());
         save();
     }
 

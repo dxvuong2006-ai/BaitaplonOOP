@@ -1,32 +1,9 @@
 [
   {
-    "id": "9e20be30-01cc-42ee-82fa-e420248f45a7",
-    "name": "quack",
-    "balance": 1.16E7,
+    "id": "1bf696a6-051f-43cc-9b44-973555e37959",
+    "name": "momo",
+    "balance": 880000.0,
     "type": "CASH",
-    "userId": 1
-  },
-  {
-    "transactionFee": 0.0,
-    "id": "cbe1a0b3-9804-450c-89d8-8c03f4ce89c6",
-    "name": "ucong",
-    "balance": 200000.0,
-    "type": "BANK",
-    "userId": 1
-  },
-  {
-    "id": "dee27cc4-7c72-4608-a2a7-e85cf29e454c",
-    "name": "di cho",
-    "balance": 495000.0,
-    "type": "CASH",
-    "userId": 3
-  },
-  {
-    "feePercent": 1000.0,
-    "id": "db3038a2-d61c-4731-ac6d-f6e63bc0dc34",
-    "name": "acs",
-    "balance": 77890.0,
-    "type": "EWALLET",
     "userId": 1
   }
 ]

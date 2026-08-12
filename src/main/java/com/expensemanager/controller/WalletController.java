@@ -1,6 +1,5 @@
 package com.expensemanager.controller;
 
-import com.expensemanager.model.enums.WalletType;
 import com.expensemanager.model.wallet.Wallet;
 import com.expensemanager.service.ExpenseManager;
 
@@ -14,25 +13,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 /**
  * Controller điều khiển màn hình Ví.
  */
@@ -60,269 +52,403 @@ public class WalletController {
     private TableColumn<Wallet, Void> actionColumn;
 
     @FXML
-    private TextField searchField;
-
-    @FXML
-    private ComboBox<WalletType> walletTypeFilter;
-
-    @FXML
     private Label walletCountLabel;
 
-    private final ExpenseManager expenseManager = ExpenseManager.getInstance();
+    private final ExpenseManager expenseManager =
+            ExpenseManager.getInstance();
 
+    /**
+     * JavaFX tự động gọi sau khi load wallet.fxml.
+     */
     @FXML
     private void initialize() {
-        walletTable.setColumnResizePolicy(
-                TableView.CONSTRAINED_RESIZE_POLICY
-        );
-        // 1. Cấu hình các cột cho TableView
+
+        /*
+         * Tên ví
+         */
         nameColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getName())
+                cellData ->
+                        new SimpleStringProperty(
+                                cellData
+                                        .getValue()
+                                        .getName()
+                        )
         );
 
+        /*
+         * Loại ví
+         */
         typeColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getType().toString())
+                cellData ->
+                        new SimpleStringProperty(
+                                cellData
+                                        .getValue()
+                                        .getType()
+                                        .toString()
+                        )
         );
 
+        /*
+         * Số dư
+         */
         balanceColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(
-                        expenseManager.getFormattedBalance(cellData.getValue())
-                )
+                cellData ->
+                        new SimpleStringProperty(
+                                expenseManager
+                                        .getFormattedBalance(
+                                                cellData.getValue()
+                                        )
+                        )
         );
 
+        /*
+         * Sửa / Xóa
+         */
         setupActionColumn();
 
-        // 2. Cấu hình ComboBox Bộ lọc loại ví
-        if (walletTypeFilter != null) {
-            walletTypeFilter.getItems().setAll(WalletType.values());
-
-            // Hiển thị chữ "Loại ví" khi giá trị null (đặt lại)
-            walletTypeFilter.setButtonCell(new ListCell<>() {
-                @Override
-                protected void updateItem(WalletType item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText("Loại ví");
-                    } else {
-                        setText(item.toString());
-                    }
-                }
-            });
-
-            // Lắng nghe sự kiện lọc theo loại
-            walletTypeFilter.valueProperty().addListener((obs, oldVal, newVal) -> refreshWalletTable());
-        }
-
-        // 3. Lắng nghe sự kiện lọc theo tên ví
-        if (searchField != null) {
-            searchField.textProperty().addListener((obs, oldVal, newVal) -> refreshWalletTable());
-        }
-
-        // 4. Tải dữ liệu ban đầu
+        /*
+         * Load dữ liệu.
+         */
         refreshWalletTable();
     }
 
+    /**
+     * Tạo nút Sửa và Xóa cho từng dòng.
+     */
     private void setupActionColumn() {
+
         actionColumn.setCellFactory(
-                column -> new TableCell<>() {
-                    private final Button editButton = new Button();
-                    private final Button deleteButton = new Button();
-                    private final HBox buttonBox = new HBox(8, editButton, deleteButton);
+                column ->
+                        new TableCell<>() {
 
-                    {
-                        // =========================
-                        // ICON SỬA
-                        // =========================
+                            private final Button editButton =
+                                    new Button("Sửa");
 
-                        ImageView editIcon =
-                                new ImageView(
-                                        new Image(
-                                                getClass()
-                                                        .getResource(
-                                                                "/images/sua.png"
-                                                        )
-                                                        .toExternalForm()
-                                        )
+                            private final Button deleteButton =
+                                    new Button("Xóa");
+
+                            private final HBox buttonBox =
+                                    new HBox(
+                                            8,
+                                            editButton,
+                                            deleteButton
+                                    );
+
+                            {
+                                /*
+                                 * Sửa
+                                 */
+                                editButton.setOnAction(
+                                        event -> {
+
+                                            Wallet wallet =
+                                                    getTableView()
+                                                            .getItems()
+                                                            .get(
+                                                                    getIndex()
+                                                            );
+
+                                            handleEditWallet(
+                                                    wallet
+                                            );
+                                        }
                                 );
 
-                        editIcon.setFitWidth(16);
-                        editIcon.setFitHeight(16);
-                        editIcon.setPreserveRatio(true);
-                        editIcon.setSmooth(true);
+                                /*
+                                 * Xóa
+                                 */
+                                deleteButton.setOnAction(
+                                        event -> {
 
-                        editButton.setGraphic(editIcon);
+                                            Wallet wallet =
+                                                    getTableView()
+                                                            .getItems()
+                                                            .get(
+                                                                    getIndex()
+                                                            );
 
+                                            handleDeleteWallet(
+                                                    wallet
+                                            );
+                                        }
+                                );
+                            }
 
-                        // =========================
-                        // ICON XÓA
-                        // =========================
+                            @Override
+                            protected void updateItem(
+                                    Void item,
+                                    boolean empty
+                            ) {
 
-                        ImageView deleteIcon =
-                                new ImageView(
-                                        new Image(
-                                                getClass()
-                                                        .getResource(
-                                                                "/images/trash.png"
-                                                        )
-                                                        .toExternalForm()
-                                        )
+                                super.updateItem(
+                                        item,
+                                        empty
                                 );
 
-                        deleteIcon.setFitWidth(16);
-                        deleteIcon.setFitHeight(16);
-                        deleteIcon.setPreserveRatio(true);
-                        deleteIcon.setSmooth(true);
+                                if (empty) {
 
-                        deleteButton.setGraphic(deleteIcon);
-                        editButton.setOnAction(event -> {
-                            Wallet wallet = getTableView().getItems().get(getIndex());
-                            handleEditWallet(wallet);
-                        });
+                                    setGraphic(null);
 
-                        deleteButton.setOnAction(event -> {
-                            Wallet wallet = getTableView().getItems().get(getIndex());
-                            handleDeleteWallet(wallet);
-                        });
-                    }
+                                } else {
 
-                    @Override
-                    protected void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(buttonBox);
+                                    setGraphic(
+                                            buttonBox
+                                    );
+                                }
+                            }
                         }
-                    }
-                }
         );
     }
 
-    private void handleEditWallet(Wallet wallet) {
+    /**
+     * Mở popup sửa ví.
+     */
+    private void handleEditWallet(
+            Wallet wallet
+    ) {
+
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/expensemanager/view/wallet-form.fxml")
+
+            FXMLLoader loader =
+                    new FXMLLoader(
+                            getClass()
+                                    .getResource(
+                                            "/com/expensemanager/view/wallet-form.fxml"
+                                    )
+                    );
+
+            Parent root =
+                    loader.load();
+
+            /*
+             * Lấy WalletFormController.
+             */
+            WalletFormController formController =
+                    loader.getController();
+
+            /*
+             * Truyền Wallet cần sửa.
+             */
+            formController.setEditingWallet(
+                    wallet
             );
-            Parent root = loader.load();
 
-            WalletFormController formController = loader.getController();
-            formController.setEditingWallet(wallet);
+            Scene scene =
+                    new Scene(root);
 
-            Scene scene = new Scene(root);
-            String css = getClass().getResource("/css/styles.css").toExternalForm();
-            scene.getStylesheets().add(css);
+            String css =
+                    getClass()
+                            .getResource(
+                                    "/css/styles.css"
+                            )
+                            .toExternalForm();
 
-            Stage stage = new Stage();
-            stage.setTitle("Sửa ví");
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable(false);
+            scene.getStylesheets()
+                    .add(css);
+
+            Stage stage =
+                    new Stage();
+
+            stage.setTitle(
+                    "Sửa ví"
+            );
+
+            stage.setScene(
+                    scene
+            );
+
+            stage.initModality(
+                    Modality.APPLICATION_MODAL
+            );
+
+            stage.setResizable(
+                    false
+            );
+
+            /*
+             * Chờ đóng popup.
+             */
             stage.showAndWait();
 
+            /*
+             * Refresh bảng sau khi sửa.
+             */
             refreshWalletTable();
+
         } catch (IOException e) {
-            System.out.println("Không thể mở form sửa ví.");
+
+            System.out.println(
+                    "Không thể mở form sửa ví."
+            );
+
             e.printStackTrace();
         }
     }
 
-    private void handleDeleteWallet(Wallet wallet) {
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Xác nhận xóa");
-        confirmAlert.setHeaderText("Bạn có chắc muốn xóa ví này?");
-        confirmAlert.setContentText(wallet.getName());
+    /**
+     * Xóa ví.
+     */
+    private void handleDeleteWallet(
+            Wallet wallet
+    ) {
 
-        Optional<ButtonType> result = confirmAlert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        Alert confirmAlert =
+                new Alert(
+                        Alert.AlertType.CONFIRMATION
+                );
+
+        confirmAlert.setTitle(
+                "Xác nhận xóa"
+        );
+
+        confirmAlert.setHeaderText(
+                "Bạn có chắc muốn xóa ví này?"
+        );
+
+        confirmAlert.setContentText(
+                wallet.getName()
+        );
+
+        Optional<ButtonType> result =
+                confirmAlert.showAndWait();
+
+        if (result.isPresent()
+                && result.get()
+                == ButtonType.OK) {
+
             try {
-                expenseManager.removeWallet(wallet);
+
+                expenseManager.removeWallet(
+                        wallet
+                );
+
                 refreshWalletTable();
+
             } catch (Exception e) {
-                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                errorAlert.setTitle("Không thể xóa ví");
-                errorAlert.setHeaderText("Xóa ví thất bại");
-                String message = e.getMessage();
-                if (message == null || message.isBlank()) {
-                    message = "Không thể xóa ví.";
+
+                Alert errorAlert =
+                        new Alert(
+                                Alert.AlertType.ERROR
+                        );
+
+                errorAlert.setTitle(
+                        "Không thể xóa ví"
+                );
+
+                errorAlert.setHeaderText(
+                        "Xóa ví thất bại"
+                );
+
+                String message =
+                        e.getMessage();
+
+                if (message == null
+                        || message.isBlank()) {
+
+                    message =
+                            "Không thể xóa ví.";
                 }
-                errorAlert.setContentText(message);
+
+                errorAlert.setContentText(
+                        message
+                );
+
                 errorAlert.showAndWait();
+
                 e.printStackTrace();
             }
         }
     }
 
     /**
-     * Lọc và làm mới bảng ví.
+     * Refresh danh sách ví.
      */
     private void refreshWalletTable() {
-        List<Wallet> allWallets = expenseManager.getWallets();
-        List<Wallet> filteredWallets = new ArrayList<>();
 
-        String keyword = (searchField != null && searchField.getText() != null)
-                ? searchField.getText().trim().toLowerCase()
-                : "";
+        List<Wallet> wallets =
+                expenseManager.getWallets();
 
-        WalletType selectedType = (walletTypeFilter != null)
-                ? walletTypeFilter.getValue()
-                : null;
+        ObservableList<Wallet> observableWallets =
+                FXCollections.observableArrayList(
+                        wallets
+                );
 
-        for (Wallet wallet : allWallets) {
-            boolean matchesName = keyword.isEmpty()
-                    || (wallet.getName() != null && wallet.getName().toLowerCase().contains(keyword));
+        walletTable.setItems(
+                observableWallets
+        );
 
-            boolean matchesType = (selectedType == null)
-                    || (wallet.getType() == selectedType);
+        walletCountLabel.setText(
+                observableWallets.size()
+                        + " ví"
+        );
 
-            if (matchesName && matchesType) {
-                filteredWallets.add(wallet);
-            }
-        }
-
-        ObservableList<Wallet> observableWallets = FXCollections.observableArrayList(filteredWallets);
-        walletTable.setItems(observableWallets);
-        walletCountLabel.setText(observableWallets.size() + " ví");
         walletTable.refresh();
     }
 
     /**
-     * Sự kiện nút "Đặt lại" bộ lọc.
+     * Mở popup thêm ví.
      */
     @FXML
-    private void handleResetFilters() {
-        if (searchField != null) {
-            searchField.clear();
-        }
-        if (walletTypeFilter != null) {
-            // Xóa lựa chọn hiển thị để khôi phục chữ mờ (promptText)
-            walletTypeFilter.getSelectionModel().clearSelection();
-            walletTypeFilter.setValue(null);
-        }
-        refreshWalletTable();
-    }
-
-    @FXML
     private void handleOpenWalletForm() {
+
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/expensemanager/view/wallet-form.fxml")
+
+            FXMLLoader loader =
+                    new FXMLLoader(
+                            getClass()
+                                    .getResource(
+                                            "/com/expensemanager/view/wallet-form.fxml"
+                                    )
+                    );
+
+            Parent root =
+                    loader.load();
+
+            Scene scene =
+                    new Scene(root);
+
+            String css =
+                    getClass()
+                            .getResource(
+                                    "/css/styles.css"
+                            )
+                            .toExternalForm();
+
+            scene.getStylesheets()
+                    .add(css);
+
+            Stage stage =
+                    new Stage();
+
+            stage.setTitle(
+                    "Thêm ví"
             );
-            Parent root = loader.load();
 
-            Scene scene = new Scene(root);
-            String css = getClass().getResource("/css/styles.css").toExternalForm();
-            scene.getStylesheets().add(css);
+            stage.setScene(
+                    scene
+            );
 
-            Stage stage = new Stage();
-            stage.setTitle("Thêm ví");
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable(false);
+            stage.initModality(
+                    Modality.APPLICATION_MODAL
+            );
+
+            stage.setResizable(
+                    false
+            );
+
             stage.showAndWait();
 
+            /*
+             * Refresh sau khi thêm.
+             */
             refreshWalletTable();
+
         } catch (IOException e) {
-            System.out.println("Không thể mở form thêm ví.");
+
+            System.out.println(
+                    "Không thể mở form thêm ví."
+            );
+
             e.printStackTrace();
         }
     }

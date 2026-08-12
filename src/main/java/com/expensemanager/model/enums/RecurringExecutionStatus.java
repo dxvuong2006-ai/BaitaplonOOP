@@ -8,11 +8,7 @@ public enum RecurringExecutionStatus {
     /** Tên hiển thị của trạng thái. */
     private final String displayName;
 
-    /**
-     * Khởi tạo trạng thái thực thi.
-     *
-     * @param displayName tên hiển thị
-     */
+    /** Khởi tạo trạng thái thực thi. */
     RecurringExecutionStatus(String displayName) {
         this.displayName = displayName;
     }

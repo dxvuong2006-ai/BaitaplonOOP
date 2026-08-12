@@ -9,6 +9,7 @@ import com.expensemanager.model.wallet.Wallet;
 
 import java.time.LocalDate;
 
+/** Class các khoản chi tiêu định kỳ. */
 public class RecurringExpense extends Expense {
     /** Chu kỳ lặp lại của khoản chi. */
     private Period period;
@@ -17,34 +18,16 @@ public class RecurringExpense extends Expense {
     /** Trạng thái hoạt động của lịch định kỳ. */
     private boolean active;
 
-    /** Constructor mặc định, dùng cho quá trình deserialize. */
+    /** Constructor rỗng phục vụ cho các thư viện Serialize/Deserialize (JSON, XML). */
     public RecurringExpense() {
         super();
         this.active = true;
     }
 
-    /** Khởi tạo khoản chi tiêu định kỳ. */
-    public RecurringExpense(
-            String id,
-            double amount,
-            LocalDate date,
-            String note,
-            Category category,
-            Wallet wallet,
-            String paymentMethod,
-            Period period,
-            int userId
-    ) {
-        super(
-                id,
-                amount,
-                date,
-                note,
-                category,
-                wallet,
-                paymentMethod,
-                userId
-        );
+    /** Khởi tạo một khoản chi tiêu định kỳ. */
+    public RecurringExpense(String id, double amount, LocalDate date, String note,
+                            Category category, Wallet wallet, String paymentMethod, Period period, int userId) {
+        super(id, amount, date, note, category, wallet, paymentMethod, userId);
         setPeriod(period);
         setNextDueDate(date);
         this.active = true;
@@ -85,12 +68,12 @@ public class RecurringExpense extends Expense {
         return TransactionType.RECURRING_EXPENSE;
     }
 
-    /** Trả về chu kỳ của khoản chi. */
+    /** Lấy chu kỳ lặp lại. */
     public Period getPeriod() {
         return period;
     }
 
-    /** Cập nhật chu kỳ của khoản chi. */
+    /** Gán lại chu kỳ lặp lại. */
     public void setPeriod(Period period) {
         if (period == null) {
             throw new EmptyFieldException(FieldType.PERIOD);

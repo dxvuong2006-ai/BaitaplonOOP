@@ -42,7 +42,7 @@ public class MainController {
     private void initialize() {
         loadCurrentUser();
         hideUserMenu();
-        expenseManager.processDueExpenses();
+        //expenseManager.processDueExpenses();
         loadView("dashboard.fxml");
         Platform.runLater(() -> {
             if (contentPane != null && contentPane.getScene() != null) {

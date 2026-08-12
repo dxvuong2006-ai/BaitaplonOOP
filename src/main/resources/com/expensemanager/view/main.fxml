@@ -2,9 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -98,6 +100,41 @@
                     styleClass="sidebar-button"
                     onAction="#handleShowReport"
                     maxWidth="Infinity"/>
+
+            <!-- Đẩy khối người dùng xuống đáy Sidebar -->
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <!-- ========================================= -->
+            <!-- THÔNG TIN NGƯỜI DÙNG & ĐĂNG XUẤT -->
+            <!-- ========================================= -->
+
+            <VBox spacing="8.0">
+                <!-- Card người dùng (bấm vào để hiện/ẩn menu) -->
+                <HBox alignment="CENTER_LEFT"
+                      spacing="10.0"
+                      styleClass="user-card"
+                      onMouseClicked="#handleToggleUserMenu">
+                    <Label fx:id="sidebarAvatarLabel"
+                           text="U"
+                           styleClass="user-avatar"/>
+                    <Label fx:id="sidebarUsernameLabel"
+                           text="User"
+                           styleClass="user-name"
+                           maxWidth="Infinity"
+                           HBox.hgrow="ALWAYS"/>
+                </HBox>
+
+                <!-- Menu xổ ra chứa nút Đăng xuất -->
+                <VBox fx:id="userMenuBox"
+                      spacing="5.0"
+                      visible="false"
+                      managed="false">
+                    <Button text="Đăng xuất"
+                            onAction="#handleLogout"
+                            styleClass="sidebar-button, logout-button"
+                            maxWidth="Infinity"/>
+                </VBox>
+            </VBox>
 
         </VBox>
 

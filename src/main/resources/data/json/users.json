@@ -24,27 +24,11 @@
     "email": ""
   },
   {
-    "id": "f59dca97-3a9e-4358-9c57-df0dae3a4d9e",
-    "userId": 3,
-    "username": "hehe",
-    "passwordHash": "f8gSQRRLvqQdv3NU7d0SfNxUWEMk+qD66geCfb4TEUE\u003d",
-    "salt": "XmotHIk10N8SHNAdEebVcQ\u003d\u003d",
-    "email": "hehehe"
-  },
-  {
-    "id": "c2166063-3d4c-40c9-8af2-4f18324bc486",
+    "id": "5a2dd8d9-4259-432b-ae7c-b0e3b4439501",
     "userId": 4,
     "username": "haha",
-    "passwordHash": "UPAMQwDVDUMSdtFsid0z4uKNnfhzIgtO9mJWcwroe9w\u003d",
-    "salt": "VWWdlerOLR9aeaSKwrSNfw\u003d\u003d",
-    "email": ""
-  },
-  {
-    "id": "aaa78c0c-5e30-4a6e-baf2-8132f5cf04f4",
-    "userId": 5,
-    "username": "dung",
-    "passwordHash": "KLrey/cte78hYvYp+S9+HJXpSOppVnPHdpy9YFugzSE\u003d",
-    "salt": "e5ORjvImsE6MIOVM6dxnxw\u003d\u003d",
-    "email": ""
+    "passwordHash": "+dUtm4gTIm6iSVPjmY1b5DDcB/ZB3Wsjzq6xLbz3SXo\u003d",
+    "salt": "/7lfPr6hNLPHMQ4qsI02Qg\u003d\u003d",
+    "email": "haha"
   }
 ]

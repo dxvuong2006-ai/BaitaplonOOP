@@ -1,19 +1,15 @@
 package com.expensemanager.factory.storage;
 
 import com.expensemanager.model.enums.StorageType;
-import com.expensemanager.model.transaction.Expense;
-import com.expensemanager.model.transaction.Income;
-import com.expensemanager.model.transaction.RecurringExpense;
-import com.expensemanager.model.transaction.Transaction;
-import com.expensemanager.repository.Storage;
-import com.google.gson.reflect.TypeToken;
-import com.expensemanager.utils.DateUtils;
 import com.expensemanager.model.transaction.TransactionRecord;
+import com.expensemanager.utils.DateUtils;
+import com.google.gson.reflect.TypeToken;
 
-import java.util.List;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.function.Function;
 
+/** Lớp factory tạo {@link} cho dữ liệu {@link TransactionRecord}. */
 public class TransactionStorageFactory extends AbstractStorageFactory<TransactionRecord> {
 
     public TransactionStorageFactory(StorageType storageType) {
@@ -27,7 +23,7 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
 
     @Override
     protected String[] getCsvHeader() {
-        return new String[]{
+        return new String[] {
                 "id",
                 "amount",
                 "date",
@@ -45,7 +41,7 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
 
     @Override
     protected Function<TransactionRecord, String[]> getSerializer() {
-        return record -> new String[]{
+        return record -> new String[] {
                 record.getId(),
                 String.valueOf(record.getAmount()),
                 DateUtils.formatDate(record.getDate()),

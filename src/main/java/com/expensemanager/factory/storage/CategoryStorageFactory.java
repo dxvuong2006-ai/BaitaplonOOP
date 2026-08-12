@@ -2,15 +2,13 @@ package com.expensemanager.factory.storage;
 
 import com.expensemanager.model.category.Category;
 import com.expensemanager.model.enums.StorageType;
-import com.expensemanager.repository.Storage;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 import java.util.function.Function;
 
+/** Lớp factory tạo {@link} cho dữ liệu {@link Category}. */
 public class CategoryStorageFactory extends AbstractStorageFactory<Category> {
-
-    private Storage<Category> storage;
 
     public CategoryStorageFactory(StorageType storageType) {
         super(storageType);
@@ -23,12 +21,12 @@ public class CategoryStorageFactory extends AbstractStorageFactory<Category> {
 
     @Override
     protected String[] getCsvHeader() {
-        return new String[]{"id", "name", "description", "userId"};
+        return new String[] {"id", "name", "description", "userId"};
     }
 
     @Override
     protected Function<Category, String[]> getSerializer() {
-        return cat -> new String[]{
+        return cat -> new String[] {
                 cat.getId(),
                 cat.getName(),
                 cat.getDescription() != null ? cat.getDescription() : "",

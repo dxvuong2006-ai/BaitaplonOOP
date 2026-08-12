@@ -1,14 +1,13 @@
 package com.expensemanager.factory.storage;
 
-import com.expensemanager.model.budget.Budget;
-import com.expensemanager.model.enums.StorageType;
-import com.expensemanager.repository.Storage;
-import com.google.gson.reflect.TypeToken;
 import com.expensemanager.model.budget.BudgetRecord;
+import com.expensemanager.model.enums.StorageType;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 import java.util.function.Function;
 
+/** Lớp factory tạo {@link } cho dữ liệu {@link BudgetRecord}. */
 public class BudgetStorageFactory extends AbstractStorageFactory<BudgetRecord> {
 
     public BudgetStorageFactory(StorageType storageType) {
@@ -22,12 +21,12 @@ public class BudgetStorageFactory extends AbstractStorageFactory<BudgetRecord> {
 
     @Override
     protected String[] getCsvHeader() {
-        return new String[]{"id", "categoryId", "limitAmount", "period", "userId"};
+        return new String[] {"id", "categoryId", "limitAmount", "period", "userId"};
     }
 
     @Override
     protected Function<BudgetRecord, String[]> getSerializer() {
-        return record -> new String[]{
+        return record -> new String[] {
                 record.getId(),
                 record.getCategoryId() == null ? "" : record.getCategoryId(),
                 String.valueOf(record.getLimitAmount()),

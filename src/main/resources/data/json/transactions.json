@@ -52,5 +52,32 @@
     "userId": 1,
     "nextDueDate": "13/08/2026",
     "active": true
+  },
+  {
+    "id": "d1ffdeac-f510-48e4-8e83-b27117fc8e59",
+    "amount": 200000.0,
+    "date": "12/08/2026",
+    "note": "",
+    "categoryId": "cf4db8c3-2dd0-47a2-b24b-8a0b1c51d6db",
+    "walletId": "1bf696a6-051f-43cc-9b44-973555e37959",
+    "type": "RECURRING_EXPENSE",
+    "extraField": "",
+    "period": "DAILY",
+    "userId": 1,
+    "nextDueDate": "13/08/2026",
+    "active": true
+  },
+  {
+    "id": "828f7647-136d-46b9-b65b-ff2e90d60a07",
+    "amount": 200000.0,
+    "date": "12/08/2026",
+    "note": "",
+    "categoryId": "cf4db8c3-2dd0-47a2-b24b-8a0b1c51d6db",
+    "walletId": "1bf696a6-051f-43cc-9b44-973555e37959",
+    "type": "EXPENSE",
+    "extraField": "",
+    "period": "",
+    "userId": 1,
+    "active": true
   }
 ]

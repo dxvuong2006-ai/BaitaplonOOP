@@ -225,5 +225,14 @@
     "dueDate": "12/08/2026",
     "amount": 3000000.0,
     "status": "FAILED"
+  },
+  {
+    "id": "d6a1a28c-4f36-4f1b-9e57-d81b7ff059c0",
+    "recurringExpenseId": "d1ffdeac-f510-48e4-8e83-b27117fc8e59",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 200000.0,
+    "status": "SUCCESS",
+    "transactionId": "828f7647-136d-46b9-b65b-ff2e90d60a07"
   }
 ]

@@ -46,22 +46,67 @@ public final class TransactionFactory {
             String source,
             String paymentMethod,
             Period period,
-            int userId) {
+            int userId,
+            LocalDate nextDueDate,
+            boolean active
+    ) throws InvalidFormatException {
         // 1. Chặn lỗi NullPointerException trước khi vào switch-case
         if (type == null) {
             throw new EmptyFieldException(FieldType.TRANSACTIONTYPE);
         }
-
-        return switch (type) {
-            case INCOME ->
-                    new Income(id, amount, date, note, category, wallet, source, userId);
-
-            case EXPENSE ->
-                    new Expense(id, amount, date, note, category, wallet, paymentMethod, userId);
-
-            case RECURRING_EXPENSE ->
-                    new RecurringExpense(
-                            id, amount, date, note, category, wallet, paymentMethod, period, userId);
-        };
+        switch (type) {
+            case INCOME:
+                return new Income(
+                        id,
+                        amount,
+                        date,
+                        note,
+                        category,
+                        wallet,
+                        source,
+                        userId
+                );
+            case EXPENSE:
+                return new Expense(
+                        id,
+                        amount,
+                        date,
+                        note,
+                        category,
+                        wallet,
+                        paymentMethod,
+                        userId
+                );
+            case RECURRING_EXPENSE:
+                if (nextDueDate == null) {
+                    return new RecurringExpense(
+                            id,
+                            amount,
+                            date,
+                            note,
+                            category,
+                            wallet,
+                            paymentMethod,
+                            period,
+                            userId
+                    );
+                }
+                return new RecurringExpense(
+                        id,
+                        amount,
+                        date,
+                        note,
+                        category,
+                        wallet,
+                        paymentMethod,
+                        period,
+                        userId,
+                        nextDueDate,
+                        active
+                );
+            default:
+                // 2. Ném ra ngoại lệ chuẩn với FieldType và giá trị gây lỗi
+                throw new InvalidFormatException(FieldType.TRANSACTIONTYPE, String.valueOf(type));
+        }
     }
 }

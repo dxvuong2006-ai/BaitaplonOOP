@@ -33,7 +33,9 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
                 "type",
                 "extraField",
                 "period",
-                "userId"
+                "userId",
+                "nextDueDate",
+                "active"
         };
     }
 
@@ -49,7 +51,9 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
                 record.getType(),
                 record.getExtraField() == null ? "" : record.getExtraField(),
                 record.getPeriod() == null ? "" : record.getPeriod(),
-                String.valueOf(record.getUserId())
+                String.valueOf(record.getUserId()),
+                record.getNextDueDate() == null ? "" : DateUtils.formatDate(record.getNextDueDate()),
+                String.valueOf(record.isActive())
         };
     }
 
@@ -60,20 +64,14 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
             if (row == null || row.length < 3) {
                 return null;
             }
-
             String id = row[0].trim();
-
             // 2. Parse số tiền an toàn (loại bỏ khoảng trắng)
             double amount = 0.0;
             try {
                 amount = Double.parseDouble(row[1].trim());
-            } catch (NumberFormatException ignored) {
-                // Giữ giá trị mặc định 0.0 nếu parse thất bại
-            }
-
-            // 3. Parse ngày an toàn (xử lý dứt điểm lỗi crash)
+            } catch (NumberFormatException ignored) {}
+            // 3. Parse ngày an toàn (Xử lý dứt điểm lỗi crash)
             LocalDate date = parseDateSafely(row[2]);
-
             // 4. Lấy các trường còn lại với trim()
             String note = row.length > 3 ? row[3].trim() : "";
             String categoryId = row.length > 4 ? row[4].trim() : "";
@@ -82,19 +80,16 @@ public class TransactionStorageFactory extends AbstractStorageFactory<Transactio
             String extraField = row.length > 7 ? row[7].trim() : "";
             String period = row.length > 8 ? row[8].trim() : "";
             int userId = row.length > 9 ? Integer.parseInt(row[9].trim()) : 0;
+            String rawNextDate = row.length > 10? row[10].trim() : "";
+            LocalDate nextDueDate = rawNextDate.isEmpty()? null : parseDateSafely(rawNextDate);
+            Boolean active = row.length > 11 ? Boolean.parseBoolean(row[11].trim()) : true;
 
-            return new TransactionRecord(
-                    id, amount, date, note, categoryId, walletId, type, extraField, period, userId);
+            return new TransactionRecord(id, amount, date, note, categoryId,
+                    walletId, type, extraField, period, userId, nextDueDate, active);
         };
     }
 
-    /**
-     * Parse chuỗi ngày tháng một cách an toàn, trả về ngày hiện tại nếu chuỗi rỗng
-     * hoặc không thể parse theo mọi định dạng đã thử.
-     *
-     * @param rawDate chuỗi ngày tháng thô đọc từ file
-     * @return đối tượng {@link LocalDate} tương ứng, hoặc ngày hiện tại nếu thất bại
-     */
+    /** Chuyển dạng ngày an toàn. */
     private LocalDate parseDateSafely(String rawDate) {
         if (rawDate == null || rawDate.isBlank()) {
             return LocalDate.now();

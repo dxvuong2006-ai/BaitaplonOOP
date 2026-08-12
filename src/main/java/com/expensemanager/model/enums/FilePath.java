@@ -6,7 +6,8 @@ public enum FilePath {
     TRANSACTION("transactions"),
     CATEGORY("categories"),
     BUDGET("budgets"),
-    USER("users");
+    USER("users"),
+    RECURRING("recurring");
 
     private final String basePath;
     private final String resource;

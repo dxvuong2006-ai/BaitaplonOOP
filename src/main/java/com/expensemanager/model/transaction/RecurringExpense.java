@@ -10,10 +10,15 @@ import java.time.LocalDate;
 /** Class các khoản chi tiêu định kỳ. */
 public class RecurringExpense extends Expense {
     private Period period;
+    /** Ngày đến hạn tiếp theo của khoản chi. */
+    private LocalDate nextDueDate;
+    /** Trạng thái hoạt động của lịch định kỳ. */
+    private boolean active;
 
     /** Constructor rỗng phục vụ cho các thư viện Serialize/Deserialize (JSON, XML). */
     public RecurringExpense() {
         super();
+        this.active = true;
     }
 
     /** Khởi tạo một khoản chi tiêu định kỳ. */
@@ -21,6 +26,43 @@ public class RecurringExpense extends Expense {
                             Category category, Wallet wallet, String paymentMethod, Period period, int userId) {
         super(id, amount, date, note, category, wallet, paymentMethod, userId);
         setPeriod(period);
+        setNextDueDate(date);
+        this.active = true;
+    }
+
+    /** .Reconstructor */
+    public RecurringExpense(
+            String id,
+            double amount,
+            LocalDate date,
+            String note,
+            Category category,
+            Wallet wallet,
+            String paymentMethod,
+            Period period,
+            int userId,
+            LocalDate nextDueDate,
+            boolean active
+    ) {
+        super(
+                id,
+                amount,
+                date,
+                note,
+                category,
+                wallet,
+                paymentMethod,
+                userId
+        );
+        setPeriod(period);
+        setNextDueDate(nextDueDate != null ? nextDueDate : date);
+        this.active = active;
+    }
+
+    /** Trả về loại giao dịch là RECURRING_EXPENSE. */
+    @Override
+    public TransactionType getType() {
+        return TransactionType.RECURRING_EXPENSE;
     }
 
     /** Lấy chu kỳ lặp lại. */
@@ -30,6 +72,9 @@ public class RecurringExpense extends Expense {
 
     /** Gán lại chu kỳ lặp lại. */
     public void setPeriod(Period period) {
+        if (period == null) {
+            throw new EmptyFieldException(FieldType.PERIOD);
+        }
         this.period = period;
     }
 
@@ -47,5 +92,30 @@ public class RecurringExpense extends Expense {
             default:
                 throw new UnsupportedOperationException("Chu kỳ không được hỗ trợ tính toán.");
         }
+        int count = 0;
+        LocalDate dueDate = nextDueDate;
+        while (!dueDate.isAfter(currentDate)) {
+            count++;
+            dueDate = calculateNextDueDate(dueDate);
+        }
+        return count;
+    }
+
+    /** Trả về ngày bắt đầu của khoản chi định kỳ. */
+    public LocalDate getStartDate() {
+        return getDate();
+    }
+
+    @Override
+    public String toString() {
+        return "RecurringExpense{" +
+                "id='" + getId() + '\'' +
+                ", amount=" + getAmount() +
+                ", startDate=" + getStartDate() +
+                ", nextDueDate=" + nextDueDate +
+                ", period=" + period +
+                ", active=" + active +
+                ", userId=" + getUserId() +
+                '}';
     }
 }

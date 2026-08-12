@@ -14,6 +14,8 @@ public class TransactionRecord {
     private String extraField;
     private String period;
     private int userId;
+    private LocalDate nextDueDate;
+    private boolean active;
 
     /** Constructor rỗng phục vụ cho các thư viện Serialize/Deserialize (JSON, XML). */
     public TransactionRecord() {}
@@ -32,6 +34,27 @@ public class TransactionRecord {
         this.extraField = extraField;
         this.period = period;
         this.userId = userId;
+        this.nextDueDate = date;
+        this.active = true;
+    }
+
+    /** Constructor. */
+    public TransactionRecord(String id, double amount, LocalDate date, String note,
+                             String categoryId, String walletId, String type,
+                             String extraField, String period, int userId,
+                             LocalDate nextDueDate, boolean active) {
+        this.id = id;
+        this.amount = amount;
+        this.date = date;
+        this.note = note;
+        this.categoryId = categoryId;
+        this.walletId = walletId;
+        this.type = type;
+        this.extraField = extraField;
+        this.period = period;
+        this.userId = userId;
+        this.nextDueDate = nextDueDate;
+        this.active = active;
     }
 
     /** Lấy định danh giao dịch. */
@@ -132,5 +155,21 @@ public class TransactionRecord {
     /** Gán lại chủ sở hữu cho giao dịch. */
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public LocalDate getNextDueDate() {
+        return nextDueDate;
+    }
+
+    public void setNextDueDate(LocalDate nextDueDate) {
+        this.nextDueDate = nextDueDate;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

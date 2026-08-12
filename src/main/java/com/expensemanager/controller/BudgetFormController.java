@@ -53,13 +53,15 @@ public class BudgetFormController {
 
     public void setEditingBudget(Budget budget) {
         this.editingBudget = budget;
-
         titleLabel.setText("Sửa ngân sách");
-
-        categoryComboBox.setValue(budget.getCategory());
+        if (budget.getCategory() != null) {
+            categoryComboBox.getItems().stream()
+                    .filter(c -> c.getId().equals(budget.getCategory().getId()))
+                    .findFirst()
+                    .ifPresent(categoryComboBox::setValue);
+        }
 
         limitField.setText(String.valueOf(budget.getLimitAmount()));
-
         periodComboBox.setValue(budget.getPeriod());
     }
 
@@ -67,57 +69,39 @@ public class BudgetFormController {
     private void handleSave() {
         try {
             Category category = categoryComboBox.getValue();
-
             if (category == null) {
                 showError("Vui lòng chọn danh mục.");
                 return;
             }
-
             double limitAmount = parseLimitAmount(limitField.getText());
-
             if (limitAmount <= 0) {
                 showError("Hạn mức phải lớn hơn 0.");
                 return;
             }
-
             Period period = periodComboBox.getValue();
-
             if (period == null) {
                 showError("Vui lòng chọn chu kỳ.");
                 return;
             }
-
             int userId = manager.getCurrentUserId();
-
             if (editingBudget == null) {
                 String id = UUID.randomUUID().toString();
-
                 Budget budget = new Budget(id, category, limitAmount, period, userId);
-
                 manager.addBudget(budget);
-
                 showSuccess("Đã thêm ngân sách thành công.");
             } else {
                 Budget updatedBudget =
                         new Budget(editingBudget.getId(), category, limitAmount, period, userId);
-
                 manager.updateBudget(editingBudget, updatedBudget);
-
                 showSuccess("Đã cập nhật ngân sách thành công.");
             }
-
             closeForm();
-
         } catch (Exception e) {
             String message = e.getMessage();
-
             if (message == null || message.isBlank()) {
                 message =
-                        editingBudget == null
-                                ? "Không thể thêm ngân sách."
-                                : "Không thể cập nhật ngân sách.";
+                        editingBudget == null ? "Không thể thêm ngân sách." : "Không thể cập nhật ngân sách.";
             }
-
             showError(message);
         }
     }

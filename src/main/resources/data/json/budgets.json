@@ -1,8 +1,8 @@
 [
   {
-    "id": "bde6ae49-6ce1-463e-93d9-e4d8ba70ed85",
+    "id": "9679c90e-7ad9-4ce5-8d61-d08e569171bb",
     "categoryId": "cf4db8c3-2dd0-47a2-b24b-8a0b1c51d6db",
-    "limitAmount": 190000.0,
+    "limitAmount": 150000.0,
     "period": "DAILY",
     "userId": 1
   }

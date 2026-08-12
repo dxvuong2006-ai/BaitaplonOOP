@@ -59,12 +59,13 @@ public class WalletService {
         Wallet existingOld = findWalletById(oldwallet.getId(), userId);
         ValidationService.validateWallet(existingOld);
         Wallet existedWallet = findWalletByName(newWallet.getName(), userId);
-        if (existedWallet != null && existedWallet != oldwallet) {
+        if (existedWallet != null && !existedWallet.getId().equals(oldwallet.getId())) {
             throw new DuplicateEntityException("Ví", newWallet.getName());
         }
         oldwallet.setName(newWallet.getName());
         oldwallet.setId(newWallet.getId());
         oldwallet.setUserId(newWallet.getUserId());
+        oldwallet.setBalance(newWallet.getBalance());
         save();
     }
 

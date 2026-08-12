@@ -168,9 +168,8 @@ public class TransactionService {
             save();
             return;
         }
-
-        ValidationService.validateWallet(transaction.getWallet());
-        Wallet wallet = transaction.getWallet();
+        Wallet wallet = walletService.findWalletById(transaction.getId(), userId);
+        ValidationService.validateWallet(wallet);
         double signedAmount = transaction.getSignedAmount();
         if (signedAmount < 0) {
             ValidationService.validateWithdraw(wallet, -signedAmount);

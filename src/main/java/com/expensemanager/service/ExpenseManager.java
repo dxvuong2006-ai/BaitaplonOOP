@@ -323,6 +323,7 @@ public class ExpenseManager {
         int userId = getCurrentUserId();
         budgetService.updateBudget(oldBudget, newBudget, userId);
         recurringExpenseService.processDueExpenses(userId);
+        recurringExpenseService.processDueExpenses(userId);
     }
 
     /** Tìm ngân sách bằng ID. */

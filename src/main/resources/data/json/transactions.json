@@ -1,7 +1,7 @@
 [
   {
-    "id": "ee9ac697-8848-4264-8979-9175e6760e30",
-    "amount": 120000.0,
+    "id": "ec88fa4b-9ff3-474f-8eed-1ce33aeaec9c",
+    "amount": 50000.0,
     "date": "12/08/2026",
     "note": "",
     "categoryId": "cf4db8c3-2dd0-47a2-b24b-8a0b1c51d6db",
@@ -14,8 +14,8 @@
     "active": true
   },
   {
-    "id": "ac405fe5-adfb-4996-a668-c21c0f23def0",
-    "amount": 120000.0,
+    "id": "4b197bc8-0e0e-4aa2-8cba-dbe61d401991",
+    "amount": 50000.0,
     "date": "12/08/2026",
     "note": "",
     "categoryId": "cf4db8c3-2dd0-47a2-b24b-8a0b1c51d6db",
@@ -27,8 +27,22 @@
     "active": true
   },
   {
-    "id": "200449ce-0f4a-4166-9e1b-3b464c6e5d5a",
-    "amount": 20000.0,
+    "id": "5576f742-9d5c-4cc3-9f94-04e79677e26e",
+    "amount": 100000.0,
+    "date": "12/08/2026",
+    "note": "",
+    "categoryId": "cf4db8c3-2dd0-47a2-b24b-8a0b1c51d6db",
+    "walletId": "1bf696a6-051f-43cc-9b44-973555e37959",
+    "type": "RECURRING_EXPENSE",
+    "extraField": "",
+    "period": "DAILY",
+    "userId": 1,
+    "nextDueDate": "13/08/2026",
+    "active": true
+  },
+  {
+    "id": "a0a592aa-2e55-487d-815a-9ce520a78952",
+    "amount": 12000.0,
     "date": "12/08/2026",
     "note": "",
     "categoryId": "cf4db8c3-2dd0-47a2-b24b-8a0b1c51d6db",

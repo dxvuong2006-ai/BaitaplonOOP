@@ -5,6 +5,7 @@ import com.expensemanager.model.enums.TransactionType;
 import com.expensemanager.model.transaction.Transaction;
 import com.expensemanager.model.wallet.Wallet;
 import com.expensemanager.service.ExpenseManager;
+import com.expensemanager.model.transaction.RecurringExpense;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;

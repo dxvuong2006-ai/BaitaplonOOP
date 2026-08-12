@@ -412,6 +412,19 @@ public class DashboardController {
      */
     private void setupRecentTransactionTable() {
 
+        recentTransactionTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        // 2. Đặt độ cao mỗi dòng 45px giúp chữ thoáng đẹp
+        recentTransactionTable.setFixedCellSize(45);
+
+        // 3. Phân bổ phần trăm chiều rộng cho từng cột (Mô tả chiếm nhiều không gian nhất)
+        recentDateColumn.setMaxWidth(1f * Integer.MAX_VALUE * 15);     // 15%
+        recentNoteColumn.setMaxWidth(1f * Integer.MAX_VALUE * 30);     // 30% (Mô tả)
+        recentWalletColumn.setMaxWidth(1f * Integer.MAX_VALUE * 15);   // 15%
+        recentCategoryColumn.setMaxWidth(1f * Integer.MAX_VALUE * 15); // 15%
+        recentTypeColumn.setMaxWidth(1f * Integer.MAX_VALUE * 10);     // 10%
+        recentAmountColumn.setMaxWidth(1f * Integer.MAX_VALUE * 15);
+
         recentDateColumn.setCellValueFactory(
                 cellData -> {
 

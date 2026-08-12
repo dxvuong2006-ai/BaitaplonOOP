@@ -1,8 +1,8 @@
 [
   {
     "id": "9e20be30-01cc-42ee-82fa-e420248f45a7",
-    "name": "cuong",
-    "balance": 50000.0,
+    "name": "quack",
+    "balance": 1.16E7,
     "type": "CASH",
     "userId": 1
   },
@@ -25,7 +25,7 @@
     "feePercent": 1000.0,
     "id": "db3038a2-d61c-4731-ac6d-f6e63bc0dc34",
     "name": "acs",
-    "balance": 100000.0,
+    "balance": 77890.0,
     "type": "EWALLET",
     "userId": 1
   }

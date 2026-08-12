@@ -1,17 +1,5 @@
 [
   {
-    "id": "a7997eab-26f6-48ff-88b8-98957f401b2b",
-    "amount": 50000.0,
-    "date": "10/08/2026",
-    "note": "",
-    "categoryId": "3a3ad980-a07b-4c5f-a19d-384740696d24",
-    "walletId": "9e20be30-01cc-42ee-82fa-e420248f45a7",
-    "type": "EXPENSE",
-    "extraField": "cash",
-    "period": "",
-    "userId": 1
-  },
-  {
     "id": "7286c202-23a2-4010-abb6-ac9f469bc145",
     "amount": 5000.0,
     "date": "10/08/2026",
@@ -22,5 +10,101 @@
     "extraField": "mat",
     "period": "",
     "userId": 3
+  },
+  {
+    "id": "a7997eab-26f6-48ff-88b8-98957f401b2b",
+    "amount": 10000.0,
+    "date": "10/08/2026",
+    "note": "",
+    "categoryId": "3a3ad980-a07b-4c5f-a19d-384740696d24",
+    "walletId": "9e20be30-01cc-42ee-82fa-e420248f45a7",
+    "type": "EXPENSE",
+    "extraField": "cash",
+    "period": "",
+    "userId": 1
+  },
+  {
+    "id": "51d8160e-4c1c-496b-96a9-464565ff5354",
+    "amount": 10.0,
+    "date": "11/08/2026",
+    "note": "",
+    "categoryId": "3a3ad980-a07b-4c5f-a19d-384740696d24",
+    "walletId": "db3038a2-d61c-4731-ac6d-f6e63bc0dc34",
+    "type": "EXPENSE",
+    "extraField": "",
+    "period": "",
+    "userId": 1
+  },
+  {
+    "id": "858c753a-a658-4ad4-8f6c-71a9552e56f2",
+    "amount": 2000.0,
+    "date": "11/08/2026",
+    "note": "",
+    "categoryId": "3a3ad980-a07b-4c5f-a19d-384740696d24",
+    "walletId": "db3038a2-d61c-4731-ac6d-f6e63bc0dc34",
+    "type": "EXPENSE",
+    "extraField": "",
+    "period": "",
+    "userId": 1
+  },
+  {
+    "id": "a59e339c-0b04-4a52-a44d-10aa416a8d88",
+    "amount": 1.0E7,
+    "date": "12/08/2026",
+    "note": "",
+    "categoryId": "3a3ad980-a07b-4c5f-a19d-384740696d24",
+    "walletId": "9e20be30-01cc-42ee-82fa-e420248f45a7",
+    "type": "INCOME",
+    "extraField": "Lương",
+    "period": "",
+    "userId": 1
+  },
+  {
+    "id": "2d6f1834-9d06-4a65-92d5-3206da915541",
+    "amount": 5000000.0,
+    "date": "12/08/2026",
+    "note": "",
+    "categoryId": "3a3ad980-a07b-4c5f-a19d-384740696d24",
+    "walletId": "9e20be30-01cc-42ee-82fa-e420248f45a7",
+    "type": "INCOME",
+    "extraField": "",
+    "period": "",
+    "userId": 1
+  },
+  {
+    "id": "d0c7cbaf-0dfd-428c-b056-e93746607a37",
+    "amount": 1000000.0,
+    "date": "12/08/2026",
+    "note": "",
+    "categoryId": "3a3ad980-a07b-4c5f-a19d-384740696d24",
+    "walletId": "9e20be30-01cc-42ee-82fa-e420248f45a7",
+    "type": "EXPENSE",
+    "extraField": "",
+    "period": "",
+    "userId": 1
+  },
+  {
+    "id": "206b0322-b01b-4550-9ff0-66c5a8bb22c7",
+    "amount": 1000000.0,
+    "date": "12/08/2026",
+    "note": "",
+    "categoryId": "69c0a08f-566d-4d58-85e3-146bb44b7664",
+    "walletId": "9e20be30-01cc-42ee-82fa-e420248f45a7",
+    "type": "EXPENSE",
+    "extraField": "",
+    "period": "",
+    "userId": 1
+  },
+  {
+    "id": "4a34841a-dac3-4f35-97c2-d2d60d37084e",
+    "amount": 1500000.0,
+    "date": "12/08/2026",
+    "note": "",
+    "categoryId": "a701ef40-973a-45fe-9abc-e297e4233679",
+    "walletId": "9e20be30-01cc-42ee-82fa-e420248f45a7",
+    "type": "EXPENSE",
+    "extraField": "",
+    "period": "",
+    "userId": 1
   }
 ]

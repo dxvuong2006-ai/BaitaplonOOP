@@ -17,6 +17,7 @@ import com.expensemanager.model.transaction.Expense;
 import com.expensemanager.model.transaction.Income;
 import com.expensemanager.model.transaction.RecurringExpense;
 import com.expensemanager.model.enums.Period;
+import com.expensemanager.service.RecurringExpenseService;
 
 import com.expensemanager.exception.BudgetExceededException;
 import com.expensemanager.exception.DuplicateEntityException;
@@ -37,12 +38,14 @@ public class BudgetService {
     private final BudgetStorageFactory storageFactory;
     private final CategoryService categoryService;
 
+    /** Khởi tạo. */
     public BudgetService(BudgetStorageFactory storageFactory, CategoryService categoryService) {
         this.storageFactory = storageFactory;
         this.categoryService = categoryService;
         load();
     }
 
+    /** Tải dữ liệu. */
     public void load() {
         budgets.clear();
         List<BudgetRecord> records = storageFactory.load(FilePath.BUDGET);
@@ -56,6 +59,7 @@ public class BudgetService {
         }
     }
 
+    /** Lưu dữ liệu. */
     public void save() {
         List<BudgetRecord> records = new ArrayList<>();
         for(Budget budget : budgets) {
@@ -86,7 +90,7 @@ public class BudgetService {
     /** Thêm ngân sách. */
     public void addBudget(Budget budget, int userId) {
         ValidationService.validateBudget(budget);
-        if (findBudgetById(budget.getId(), userId) != null) {
+        if (findBudgetByCategory(budget.getCategory(), userId) != null) {
             throw new DuplicateEntityException("Ngân sách", "mã" + userId);
         }
         budget.setUserId(userId);
@@ -109,13 +113,13 @@ public class BudgetService {
         Budget existingOld = findBudgetById(oldBudget.getId(), userId);
         ValidationService.validateBudget(existingOld);
         Budget existed = findBudgetByCategory(newBudget.getCategory(), userId);
-        if (existed != null && existed != oldBudget) {
+        if (existed != null && !existed.getId().trim().equalsIgnoreCase(oldBudget.getId().trim())) {
             throw new DuplicateEntityException("Ngân sách", newBudget.getCategory().getName());
         }
-        oldBudget.setCategory(newBudget.getCategory());
-        oldBudget.setLimitAmount(newBudget.getLimitAmount());
-        oldBudget.setPeriod(newBudget.getPeriod());
-        oldBudget.setUserId(newBudget.getUserId());
+        existingOld.setCategory(newBudget.getCategory());
+        existingOld.setLimitAmount(newBudget.getLimitAmount());
+        existingOld.setPeriod(newBudget.getPeriod());
+        existingOld.setUserId(newBudget.getUserId());
         save();
     }
 
@@ -153,7 +157,7 @@ public class BudgetService {
         LocalDate today = LocalDate.now();
         return manager.getTransactions().stream()
                 .filter(transaction -> transaction.getUserId() == userId)
-                .filter(transaction -> transaction instanceof Expense)
+                .filter(transaction -> transaction instanceof Expense && !(transaction instanceof RecurringExpense))
                 .filter(transaction -> transaction.getCategory() != null)
                 .filter(transaction -> Objects.equals(
                         transaction.getCategory(), budget.getCategory()))

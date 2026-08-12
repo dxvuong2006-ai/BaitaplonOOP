@@ -259,7 +259,9 @@ public class BudgetController {
 
         for (Budget budget : allBudgets) {
             boolean categoryMatches =
-                    selectedCategory == null || selectedCategory.equals(budget.getCategory());
+                    selectedCategory == null
+                            || (budget.getCategory() != null
+                            && selectedCategory.getId().equals(budget.getCategory().getId()));
             boolean periodMatches =
                     selectedPeriod == null || selectedPeriod == budget.getPeriod();
 
@@ -335,8 +337,11 @@ public class BudgetController {
         Category selectedCategory = categoryFilter.getValue();
         categoryFilter.getItems().setAll(expenseManager.getCategories());
 
-        if (selectedCategory != null && categoryFilter.getItems().contains(selectedCategory)) {
-            categoryFilter.setValue(selectedCategory);
+        if (selectedCategory != null) {
+            categoryFilter.getItems().stream()
+                    .filter(c -> c.getId().equals(selectedCategory.getId()))
+                    .findFirst()
+                    .ifPresent(categoryFilter::setValue);
         }
     }
 

@@ -31,7 +31,9 @@ public final class TransactionFactory {
             String source,
             String paymentMethod,
             Period period,
-            int userId
+            int userId,
+            LocalDate nextDueDate,
+            boolean active
     ) throws InvalidFormatException {
         // 1. Chặn lỗi NullPointerException trước khi vào switch-case
         if (type == null) {
@@ -61,6 +63,19 @@ public final class TransactionFactory {
                         userId
                 );
             case RECURRING_EXPENSE:
+                if (nextDueDate == null) {
+                    return new RecurringExpense(
+                            id,
+                            amount,
+                            date,
+                            note,
+                            category,
+                            wallet,
+                            paymentMethod,
+                            period,
+                            userId
+                    );
+                }
                 return new RecurringExpense(
                         id,
                         amount,
@@ -70,7 +85,9 @@ public final class TransactionFactory {
                         wallet,
                         paymentMethod,
                         period,
-                        userId
+                        userId,
+                        nextDueDate,
+                        active
                 );
             default:
                 // 2. Ném ra ngoại lệ chuẩn với FieldType và giá trị gây lỗi

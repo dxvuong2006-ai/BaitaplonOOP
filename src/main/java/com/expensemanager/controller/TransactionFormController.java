@@ -135,8 +135,8 @@ public class TransactionFormController {
         incomeFieldsBox.setVisible(income);
         incomeFieldsBox.setManaged(income);
 
-        paymentFieldsBox.setVisible(expense);
-        paymentFieldsBox.setManaged(expense);
+        paymentFieldsBox.setVisible(false);
+        paymentFieldsBox.setManaged(false);
 
         periodFieldsBox.setVisible(recurring);
         periodFieldsBox.setManaged(recurring);
@@ -231,6 +231,11 @@ public class TransactionFormController {
 
             int userId = manager.getCurrentUserId();
 
+            // Khi tạo mới hoặc lưu/sửa khoản chi định kỳ:
+// Ép reset nextDueDate về đúng ngày bắt đầu chọn trên form và kích hoạt active = true
+            LocalDate nextDueDate = date;
+            boolean active = true;
+
             Transaction transaction =
                     TransactionFactory.createTransaction(
                             type,
@@ -247,12 +252,16 @@ public class TransactionFormController {
 
             if (editingTransaction == null) {
                 manager.addTransaction(transaction);
-                showSuccess("Đã thêm giao dịch thành công.");
             } else {
                 manager.updateTransaction(editingTransaction, transaction);
-                showSuccess("Đã cập nhật giao dịch thành công.");
             }
 
+// Gọi quét và xử lý các kỳ đến hạn ngay lập tức
+            if (type == TransactionType.RECURRING_EXPENSE) {
+                manager.processDueExpenses();
+            }
+
+            showSuccess("Đã lưu giao dịch thành công.");
             closeForm();
 
         } catch (Exception e) {

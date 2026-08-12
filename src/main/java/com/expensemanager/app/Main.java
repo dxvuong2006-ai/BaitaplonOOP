@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
 
         // Chế độ dòng lệnh:
-        // new ConsoleView().start();
+        //new ConsoleView().start();
 
         // Chế độ giao diện JavaFX:
         AppLauncher.main(args);

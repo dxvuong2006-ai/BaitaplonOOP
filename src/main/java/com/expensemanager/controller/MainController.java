@@ -25,6 +25,8 @@ public class MainController {
     @FXML
     private StackPane contentPane;
 
+    private final ExpenseManager manager = ExpenseManager.getInstance();
+
     @FXML
     private Label sidebarUsernameLabel;
 

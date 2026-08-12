@@ -17,6 +17,7 @@ import com.expensemanager.utils.CurrencyUtils;
 import com.expensemanager.exception.ExpenseManagerException;
 import com.expensemanager.validation.InputValidationService;
 import com.expensemanager.validation.ValidationResult;
+import com.expensemanager.model.user.User;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -55,6 +56,13 @@ public class ConsoleView {
      * của người dùng và gọi đúng hàm xử lý tương ứng.
      */
     public void start() {
+        // 1. Bắt buộc xác thực tài khoản trước
+        if (!handleAuthMenu()) {
+            System.out.println("Cảm ơn bạn đã sử dụng ứng dụng!");
+            return;
+        }
+
+        // 2. Chạy menu chức năng khi đã có currentUser
         boolean running = true;
         while (running) {
             printMenu();
@@ -72,11 +80,64 @@ public class ConsoleView {
                 case "9" -> handleBudgetMenu();
                 case "10" -> handleReportMenu();
                 case "0" -> {
+                    manager.logout(); // Đăng xuất người dùng khi thoát
                     running = false;
-                    System.out.println("Tạm biệt!");
+                    System.out.println("Đã đăng xuất. Tạm biệt!");
                 }
                 default -> System.out.println("Lựa chọn không hợp lệ, thử lại.");
             }
+        }
+    }
+
+    private boolean handleAuthMenu() {
+        while (true) {
+            System.out.println("\n===== HỆ THỐNG QUẢN LÝ CHI TIÊU =====");
+            System.out.println("[1] Đăng nhập");
+            System.out.println("[2] Đăng ký");
+            System.out.println("[0] Thoát");
+            System.out.print("Chọn thao tác: ");
+            String choice = scanner.nextLine().trim();
+
+            switch (choice) {
+                case "1" -> {
+                    if (processLogin()) return true;
+                }
+                case "2" -> processRegister();
+                case "0" -> { return false; }
+                default -> System.out.println("Lựa chọn không hợp lệ, thử lại.");
+            }
+        }
+    }
+
+    private boolean processLogin() {
+        System.out.println("\n-- ĐĂNG NHẬP --");
+        String username = readRequiredString("Tên đăng nhập: ", FieldType.NAME);
+        System.out.print("Mật khẩu: ");
+        String password = scanner.nextLine().trim();
+
+        User user = manager.login(username, password);
+        if (user != null) {
+            System.out.println("Đăng nhập thành công! Chào mừng " + user.getUsername());
+            return true;
+        } else {
+            printFieldError("Tên đăng nhập hoặc mật khẩu không chính xác.");
+            return false;
+        }
+    }
+
+    private void processRegister() {
+        System.out.println("\n-- ĐĂNG KÝ --");
+        try {
+            String id = java.util.UUID.randomUUID().toString();
+            String username = readRequiredString("Tên đăng nhập: ", FieldType.NAME);
+            System.out.print("Mật khẩu: ");
+            String password = scanner.nextLine().trim();
+            String email = readLineAllowEmpty("Email (có thể để trống): ");
+
+            manager.register(id, username, password, email);
+            System.out.println("Đăng ký thành công! Bạn có thể đăng nhập ngay.");
+        } catch (ExpenseManagerException e) {
+            printOperationError(e.getMessage());
         }
     }
 
@@ -517,7 +578,9 @@ public class ConsoleView {
                     null,
                     paymentMethod,
                     null,
-                    userId
+                    userId,
+                    null,
+                    true
             );
 
             manager.addTransaction(transaction);
@@ -561,7 +624,9 @@ public class ConsoleView {
                     source,
                     null,
                     null,
-                    userId
+                    userId,
+                    null,
+                    true
             );
 
             manager.addTransaction(transaction);
@@ -683,12 +748,12 @@ public class ConsoleView {
                 String paymentMethod = readLineAllowEmpty("Phương thức thanh toán mới (có thể để trống): ");
                 newTransaction = TransactionFactory.createTransaction(
                         TransactionType.EXPENSE, oldTransaction.getId(), amount, date, note,
-                        category, wallet, null, paymentMethod, null, userId);
+                        category, wallet, null, paymentMethod, null, userId, null, true);
             } else {
                 String source = readLineAllowEmpty("Nguồn thu mới (có thể để trống): ");
                 newTransaction = TransactionFactory.createTransaction(
                         TransactionType.INCOME, oldTransaction.getId(), amount, date, note,
-                        category, wallet, source, null, null, userId);
+                        category, wallet, source, null, null, userId, null, true);
             }
 
             manager.updateTransaction(oldTransaction, newTransaction);

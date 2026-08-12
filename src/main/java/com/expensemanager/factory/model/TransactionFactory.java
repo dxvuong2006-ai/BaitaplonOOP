@@ -19,7 +19,6 @@ public final class TransactionFactory {
     private TransactionFactory() {
         // Không cho phép khởi tạo Factory
     }
-
     public static Transaction createTransaction(
             TransactionType type,
             String id,

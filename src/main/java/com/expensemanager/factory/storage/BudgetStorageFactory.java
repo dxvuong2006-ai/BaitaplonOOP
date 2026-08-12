@@ -14,7 +14,6 @@ public class BudgetStorageFactory extends AbstractStorageFactory<BudgetRecord> {
     public BudgetStorageFactory(StorageType storageType) {
         super(storageType);
     }
-
     @Override
     protected TypeToken<List<BudgetRecord>> getTypeToken() {
         return new TypeToken<List<BudgetRecord>>() {};

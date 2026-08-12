@@ -600,9 +600,7 @@ public class TransactionController {
     /**
      * Mở form sửa.
      */
-    private void handleEditTransaction(
-            Transaction transaction
-    ) {
+    private void handleEditTransaction(Transaction transaction) {
 
         try {
 
@@ -673,9 +671,7 @@ public class TransactionController {
     /**
      * Xóa giao dịch.
      */
-    private void handleDeleteTransaction(
-            Transaction transaction
-    ) {
+    private void handleDeleteTransaction(Transaction transaction) {
 
         Alert confirmAlert =
                 new Alert(

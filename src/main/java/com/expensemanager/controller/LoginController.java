@@ -136,8 +136,6 @@ public class LoginController {
 
         Scene scene = new Scene(root);
 
-        // Nền phía sau card cùng màu navy.
-        // Khi card bo góc sẽ không còn lộ nền trắng.
         scene.setFill(Color.web("#1b2639"));
 
         stage.setScene(scene);

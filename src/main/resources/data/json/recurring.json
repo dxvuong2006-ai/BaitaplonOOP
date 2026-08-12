@@ -1,0 +1,238 @@
+[
+  {
+    "id": "9b593c59-e91e-4192-858c-2dd6b32cb174",
+    "recurringExpenseId": "cb60be83-5c1f-4429-9a4f-d11ecd499d2b",
+    "userId": 1,
+    "dueDate": "11/08/2026",
+    "amount": 50000.0,
+    "status": "FAILED"
+  },
+  {
+    "id": "9d63e2ef-b058-4a57-be70-9b0a211f9f20",
+    "recurringExpenseId": "86b61d46-ef6f-43fc-b2be-075164e72421",
+    "userId": 1,
+    "dueDate": "09/08/2026",
+    "amount": 50000.0
+  },
+  {
+    "id": "d985a896-3107-4d1e-83c7-dadd7692187f",
+    "recurringExpenseId": "d945aba7-6fb6-47e8-b5b5-5509c3ea6693",
+    "userId": 1,
+    "dueDate": "11/08/2026",
+    "amount": 500000.0,
+    "status": "SUCCESS",
+    "transactionId": "6febfbd2-b5a8-4d86-8a4a-9cbb0ff4772c"
+  },
+  {
+    "id": "04b765f8-b58c-43ce-9e78-1970debbc32e",
+    "recurringExpenseId": "789d8e1a-6f3b-42c9-bfe7-6754a49438c9",
+    "userId": 1,
+    "dueDate": "11/08/2026",
+    "amount": 500000.0,
+    "status": "SUCCESS",
+    "transactionId": "ba280e5e-0941-4f97-87a5-291c0eb8d0bc"
+  },
+  {
+    "id": "8fe9822f-b6d1-469f-8d6b-6bf720326137",
+    "recurringExpenseId": "7b6343ce-fa49-46a2-8859-5b70839f6574",
+    "userId": 1,
+    "dueDate": "11/08/2026",
+    "amount": 500000.0,
+    "status": "FAILED"
+  },
+  {
+    "id": "0f6379f4-607e-41ef-b257-9d7f8c662d97",
+    "recurringExpenseId": "efa98327-0474-475a-8059-d11230329104",
+    "userId": 1,
+    "dueDate": "11/08/2026",
+    "amount": 200000.0,
+    "status": "FAILED"
+  },
+  {
+    "id": "6dcc3262-9657-487d-827c-07416de01e00",
+    "recurringExpenseId": "59360cc0-8431-4586-9978-2a7fbd44b52f",
+    "userId": 1,
+    "dueDate": "11/08/2026",
+    "amount": 200000.0,
+    "status": "SUCCESS",
+    "transactionId": "6ac70901-77df-460f-a26b-e571819304d5"
+  },
+  {
+    "id": "01e64f09-4a8c-41c6-8a14-0589a631afc0",
+    "recurringExpenseId": "36af2ffb-bcbb-4b56-9e80-41e553632f7b",
+    "userId": 1,
+    "dueDate": "11/08/2026",
+    "amount": 200000.0,
+    "status": "FAILED"
+  },
+  {
+    "id": "29124586-c32d-47ce-97b6-bee67362782e",
+    "recurringExpenseId": "36af2ffb-bcbb-4b56-9e80-41e553632f7b",
+    "userId": 1,
+    "dueDate": "11/08/2026",
+    "amount": 100000.0,
+    "status": "SUCCESS",
+    "transactionId": "42a74b29-5e69-4f13-bab2-159b9f6b1d61"
+  },
+  {
+    "id": "1d2242aa-8354-48fb-9eec-17f0dccac80b",
+    "recurringExpenseId": "9cd2e3c2-7bb2-4308-9cc1-2c5ec4a3e81f",
+    "userId": 1,
+    "dueDate": "11/08/2026",
+    "amount": 20000.0,
+    "status": "FAILED"
+  },
+  {
+    "id": "04d091c0-6e1c-42c2-8ee1-ee1e995b4d5e",
+    "recurringExpenseId": "36af2ffb-bcbb-4b56-9e80-41e553632f7b",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 100000.0,
+    "status": "SUCCESS",
+    "transactionId": "0c6749e0-1c9a-449e-a4c8-bb4ce8d3f7c7"
+  },
+  {
+    "id": "8d84f665-927d-4663-b44c-365b5337e9ac",
+    "recurringExpenseId": "9cd2e3c2-7bb2-4308-9cc1-2c5ec4a3e81f",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 20000.0,
+    "status": "SUCCESS",
+    "transactionId": "b5579e5d-450b-401b-97c3-e45855235f44"
+  },
+  {
+    "id": "dce53535-f362-4d85-ab3c-7b35c5f87733",
+    "recurringExpenseId": "ee9ac697-8848-4264-8979-9175e6760e30",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 120000.0,
+    "status": "SUCCESS",
+    "transactionId": "ac405fe5-adfb-4996-a668-c21c0f23def0"
+  },
+  {
+    "id": "1835f534-d28c-4ed8-b9de-d55fbff6bf62",
+    "recurringExpenseId": "200449ce-0f4a-4166-9e1b-3b464c6e5d5a",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 20000.0,
+    "status": "FAILED"
+  },
+  {
+    "id": "e0715c83-5d48-4580-855e-de4baee1cd8b",
+    "recurringExpenseId": "ca71e81e-dd5f-4c80-aa9b-096395ccf9bd",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 12332.0,
+    "status": "SUCCESS",
+    "transactionId": "f52cbb74-3897-465f-909c-8c5b54cd8533"
+  },
+  {
+    "id": "0b74dde6-8b29-4678-989d-cbe26aaef424",
+    "recurringExpenseId": "31277323-f423-49b6-8ce6-3bea8b89c77b",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 90000.0,
+    "status": "SUCCESS",
+    "transactionId": "3831c1ef-9dea-4311-b366-ad470ed7e9d0"
+  },
+  {
+    "id": "048f8e2a-ed47-4359-bb0a-9f5a49756a04",
+    "recurringExpenseId": "ec88fa4b-9ff3-474f-8eed-1ce33aeaec9c",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 50000.0,
+    "status": "SUCCESS",
+    "transactionId": "4b197bc8-0e0e-4aa2-8cba-dbe61d401991"
+  },
+  {
+    "id": "76d72572-9e67-4ff0-920d-2c0d2ca88515",
+    "recurringExpenseId": "5576f742-9d5c-4cc3-9f94-04e79677e26e",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 100000.0,
+    "status": "FAILED"
+  },
+  {
+    "id": "94220c6f-70c8-4b58-b13e-3c1319bcbf79",
+    "recurringExpenseId": "235ea9ff-0d96-4bc5-8289-fd5b9c81448f",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 20000.0,
+    "status": "FAILED"
+  },
+  {
+    "id": "2c95a8b8-b93f-499d-870b-b201c968a818",
+    "recurringExpenseId": "01a82047-0de3-452d-a421-0d51ec5b6d31",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 12000.0,
+    "status": "FAILED"
+  },
+  {
+    "id": "4d7b820a-60dd-4d55-853d-405c372a9ab2",
+    "recurringExpenseId": "a0a592aa-2e55-487d-815a-9ce520a78952",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 12000.0,
+    "status": "FAILED"
+  },
+  {
+    "id": "1c1b64f3-e2db-4a65-9536-8ac4b3aaafa3",
+    "recurringExpenseId": "6456975b-d3a3-4462-a63d-a5883efb28e6",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 120000.0,
+    "status": "FAILED"
+  },
+  {
+    "id": "014b5896-3b99-4a07-a8bd-61676f59e237",
+    "recurringExpenseId": "c6f8c9bc-df29-40c4-8030-8e7f21a25e9b",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 1000000.0,
+    "status": "FAILED"
+  },
+  {
+    "id": "05ed001e-8bed-461e-be90-276d6d552c76",
+    "recurringExpenseId": "7b4575dc-991e-4bc0-9f74-376a4c2c7a18",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 1000000.0,
+    "status": "FAILED"
+  },
+  {
+    "id": "1edb9439-5d19-44a4-a209-29d755674272",
+    "recurringExpenseId": "bb282c1f-e07b-402f-8186-909ec3025191",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 2000000.0,
+    "status": "SUCCESS",
+    "transactionId": "e84a1a63-49d4-4080-b683-0dc7bb720f2b"
+  },
+  {
+    "id": "c4d97b64-8937-4600-a97d-a5e8e2c61fed",
+    "recurringExpenseId": "71ac5ff4-f9d6-4576-b55a-876c86525d11",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 2000000.0,
+    "status": "SUCCESS",
+    "transactionId": "43115d37-ba2d-42dc-b7cd-d08d67903096"
+  },
+  {
+    "id": "248b13ce-294c-4541-aa7d-38e4b85d170c",
+    "recurringExpenseId": "d49c3ae0-cb12-4436-810a-295c91f7f665",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 3000000.0,
+    "status": "FAILED"
+  },
+  {
+    "id": "d6a1a28c-4f36-4f1b-9e57-d81b7ff059c0",
+    "recurringExpenseId": "d1ffdeac-f510-48e4-8e83-b27117fc8e59",
+    "userId": 1,
+    "dueDate": "12/08/2026",
+    "amount": 200000.0,
+    "status": "SUCCESS",
+    "transactionId": "828f7647-136d-46b9-b65b-ff2e90d60a07"
+  }
+]

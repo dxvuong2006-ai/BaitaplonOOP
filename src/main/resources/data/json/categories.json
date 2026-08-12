@@ -1,7 +1,7 @@
 [
   {
     "id": "3a3ad980-a07b-4c5f-a19d-384740696d24",
-    "name": "ăn",
+    "name": "an",
     "description": "",
     "userId": 1
   },
@@ -12,26 +12,8 @@
     "userId": 1
   },
   {
-    "id": "87ae724e-5fb4-42a1-beb8-cd3b3c7196b3",
-    "name": "an",
-    "description": "tien an",
-    "userId": 3
-  },
-  {
-    "id": "5a34753e-4af6-4d5d-8db0-5c9b20ecbbc4",
-    "name": "haha",
-    "description": "ehehe",
-    "userId": 4
-  },
-  {
-    "id": "80c32365-6c15-4806-89c1-0fcad8ab8389",
-    "name": "ăn",
-    "description": "",
-    "userId": 5
-  },
-  {
-    "id": "a701ef40-973a-45fe-9abc-e297e4233679",
-    "name": "đi",
+    "id": "cf4db8c3-2dd0-47a2-b24b-8a0b1c51d6db",
+    "name": "di",
     "description": "",
     "userId": 1
   }

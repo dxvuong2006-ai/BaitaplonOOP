@@ -1,16 +1,9 @@
 [
   {
-    "id": "88383e87-29d9-4166-9420-69afb8e5143f",
-    "categoryId": "3a3ad980-a07b-4c5f-a19d-384740696d24",
-    "limitAmount": 1500000.0,
+    "id": "75e47d10-bf8a-4945-99ce-017fc6593381",
+    "categoryId": "cf4db8c3-2dd0-47a2-b24b-8a0b1c51d6db",
+    "limitAmount": 6000000.0,
     "period": "DAILY",
     "userId": 1
-  },
-  {
-    "id": "fc0fa7b2-bc53-4066-9e1d-1457a5415404",
-    "categoryId": "80c32365-6c15-4806-89c1-0fcad8ab8389",
-    "limitAmount": 10000.0,
-    "period": "DAILY",
-    "userId": 5
   }
 ]

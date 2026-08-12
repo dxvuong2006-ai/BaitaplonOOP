@@ -1,6 +1,5 @@
 package com.expensemanager.model.enums;
 
-/** Enum xác định các loại trường dữ liệu dùng để hiển thị thông báo lỗi. */
 public enum FieldType {
     AMOUNT("Số tiền"),
     CATEGORY("Danh mục"),

@@ -1,26 +1,28 @@
 package com.expensemanager.model.enums;
 
-/** Enum xác định tên file dữ liệu tương ứng cho từng loại đối tượng. */
 public enum FilePath {
     WALLET("wallets"),
     TRANSACTION("transactions"),
     CATEGORY("categories"),
     BUDGET("budgets"),
-    USER("users");
+    USER("users"),
+    RECURRING("recurring");
 
     private final String basePath;
-    private final String resource;
-
-    /** Khởi tạo FilePath với tên file gốc, thư mục resource được gán mặc định. */
+    private final String resource ;
+    // Constructor của Enum
     FilePath(String basePath) {
         this.basePath = basePath;
         this.resource = "src/main/resources/data/";
     }
 
-    /** Sinh đường dẫn hoàn chỉnh dựa vào StorageType (VD: CSV -> "data/csv/wallets.csv"). */
+    /**
+     * Hàm tự động sinh đường dẫn hoàn chỉnh dựa vào StorageType
+     * VD: Nhét StorageType.CSV vào -> trả về "data/wallets.csv"
+     */
     public String getFullPath(StorageType storageType) {
         // Lấy tên enum (CSV hoặc JSON) chuyển thành chữ thường làm đuôi file
         String extension = storageType.name().toLowerCase();
-        return this.resource + extension + "/" + this.basePath + "." + extension;
+        return this.resource + extension + "/"+ this.basePath + "." + extension;
     }
 }

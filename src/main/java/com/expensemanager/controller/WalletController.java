@@ -4,6 +4,7 @@ import com.expensemanager.model.enums.WalletType;
 import com.expensemanager.model.wallet.Wallet;
 import com.expensemanager.service.ExpenseManager;
 
+import javafx.scene.control.ListCell;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,8 +23,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -31,8 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 /**
  * Controller điều khiển màn hình Ví.
  */
@@ -72,9 +69,6 @@ public class WalletController {
 
     @FXML
     private void initialize() {
-        walletTable.setColumnResizePolicy(
-                TableView.CONSTRAINED_RESIZE_POLICY
-        );
         // 1. Cấu hình các cột cho TableView
         nameColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getName())
@@ -125,55 +119,11 @@ public class WalletController {
     private void setupActionColumn() {
         actionColumn.setCellFactory(
                 column -> new TableCell<>() {
-                    private final Button editButton = new Button();
-                    private final Button deleteButton = new Button();
+                    private final Button editButton = new Button("Sửa");
+                    private final Button deleteButton = new Button("Xóa");
                     private final HBox buttonBox = new HBox(8, editButton, deleteButton);
 
                     {
-                        // =========================
-                        // ICON SỬA
-                        // =========================
-
-                        ImageView editIcon =
-                                new ImageView(
-                                        new Image(
-                                                getClass()
-                                                        .getResource(
-                                                                "/images/sua.png"
-                                                        )
-                                                        .toExternalForm()
-                                        )
-                                );
-
-                        editIcon.setFitWidth(16);
-                        editIcon.setFitHeight(16);
-                        editIcon.setPreserveRatio(true);
-                        editIcon.setSmooth(true);
-
-                        editButton.setGraphic(editIcon);
-
-
-                        // =========================
-                        // ICON XÓA
-                        // =========================
-
-                        ImageView deleteIcon =
-                                new ImageView(
-                                        new Image(
-                                                getClass()
-                                                        .getResource(
-                                                                "/images/trash.png"
-                                                        )
-                                                        .toExternalForm()
-                                        )
-                                );
-
-                        deleteIcon.setFitWidth(16);
-                        deleteIcon.setFitHeight(16);
-                        deleteIcon.setPreserveRatio(true);
-                        deleteIcon.setSmooth(true);
-
-                        deleteButton.setGraphic(deleteIcon);
                         editButton.setOnAction(event -> {
                             Wallet wallet = getTableView().getItems().get(getIndex());
                             handleEditWallet(wallet);

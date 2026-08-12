@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -29,6 +30,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /** Controller điều khiển màn hình Quản lý Ngân sách. */
 public class BudgetController {
@@ -64,7 +67,9 @@ public class BudgetController {
         setupColumns();
         setupFilters();
         setupActionColumn();
-
+        budgetTable.setColumnResizePolicy(
+                TableView.CONSTRAINED_RESIZE_POLICY
+        );
         categoryFilter
                 .valueProperty()
                 .addListener((observable, oldValue, newValue) -> refreshBudgetTable());
@@ -124,7 +129,7 @@ public class BudgetController {
                 new StringConverter<>() {
                     @Override
                     public String toString(Category category) {
-                        return category == null ? "" : category.getName();
+                        return category == null ? "Danh mục" : category.getName();
                     }
 
                     @Override
@@ -135,6 +140,28 @@ public class BudgetController {
 
         categoryFilter.getItems().setAll(expenseManager.getCategories());
         periodFilter.getItems().setAll(Period.values());
+
+        // Cấu hình nhãn mờ hiển thị khi null
+        setupComboBoxPlaceholder(categoryFilter, "Danh mục");
+        setupComboBoxPlaceholder(periodFilter, "Chu kỳ");
+    }
+
+    /** Cấu hình hiển thị nhãn mặc định khi ComboBox có giá trị null */
+    private <T> void setupComboBoxPlaceholder(ComboBox<T> comboBox, String placeholder) {
+        if (comboBox == null) return;
+        comboBox.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(T item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(placeholder);
+                } else if (item instanceof Category) {
+                    setText(((Category) item).getName());
+                } else {
+                    setText(item.toString());
+                }
+            }
+        });
     }
 
     /** Cấu hình cột thao tác (Sửa / Xóa) cho từng dòng trong bảng. */
@@ -142,11 +169,55 @@ public class BudgetController {
         actionColumn.setCellFactory(
                 column ->
                         new TableCell<>() {
-                            private final Button editButton = new Button("Sửa");
-                            private final Button deleteButton = new Button("Xóa");
+                            private final Button editButton = new Button();
+                            private final Button deleteButton = new Button();
                             private final HBox buttonBox = new HBox(8, editButton, deleteButton);
 
                             {
+                                // =========================
+                                // ICON SỬA
+                                // =========================
+
+                                ImageView editIcon =
+                                        new ImageView(
+                                                new Image(
+                                                        getClass()
+                                                                .getResource(
+                                                                        "/images/sua.png"
+                                                                )
+                                                                .toExternalForm()
+                                                )
+                                        );
+
+                                editIcon.setFitWidth(16);
+                                editIcon.setFitHeight(16);
+                                editIcon.setPreserveRatio(true);
+                                editIcon.setSmooth(true);
+
+                                editButton.setGraphic(editIcon);
+
+
+                                // =========================
+                                // ICON XÓA
+                                // =========================
+
+                                ImageView deleteIcon =
+                                        new ImageView(
+                                                new Image(
+                                                        getClass()
+                                                                .getResource(
+                                                                        "/images/trash.png"
+                                                                )
+                                                                .toExternalForm()
+                                                )
+                                        );
+
+                                deleteIcon.setFitWidth(16);
+                                deleteIcon.setFitHeight(16);
+                                deleteIcon.setPreserveRatio(true);
+                                deleteIcon.setSmooth(true);
+
+                                deleteButton.setGraphic(deleteIcon);
                                 editButton.setOnAction(
                                         event -> {
                                             if (getIndex() < 0 || getIndex() >= getTableView().getItems().size()) {
@@ -207,8 +278,14 @@ public class BudgetController {
     /** Xóa tất cả bộ lọc hiện tại. */
     @FXML
     private void handleResetFilters() {
-        categoryFilter.setValue(null);
-        periodFilter.setValue(null);
+        if (categoryFilter != null) {
+            categoryFilter.getSelectionModel().clearSelection();
+            categoryFilter.setValue(null);
+        }
+        if (periodFilter != null) {
+            periodFilter.getSelectionModel().clearSelection();
+            periodFilter.setValue(null);
+        }
         refreshBudgetTable();
     }
 

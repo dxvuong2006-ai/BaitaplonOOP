@@ -17,62 +17,45 @@ SIDEBAR
                     to bottom,
                     #1d2738,
                     #202b3d,
-                    #1d2637
+                    #1c2535
             );
 }
 
 
 /* ==========================================================
-SIDEBAR BRAND - LOGO + APP NAME
+SIDEBAR BRAND / LOGO
 ========================================================== */
 
-/*
- * main.fxml đã có padding cho VBox sidebar,
- * nên KHÔNG đặt padding cho .sidebar thêm lần nữa.
- */
-
 .sidebar-brand {
-    -fx-padding: 4px 4px 32px 4px;
-    -fx-alignment: CENTER-LEFT;
+    -fx-alignment: CENTER;
+    -fx-padding: 0;
 }
 
-
-/* Expense */
 
 .sidebar-app-name {
     -fx-text-fill: #ffffff;
-
     -fx-font-size: 19px;
     -fx-font-weight: bold;
 }
 
-
-/* Manager */
 
 .sidebar-app-name-accent {
     -fx-text-fill: #63d8d1;
-
     -fx-font-size: 19px;
     -fx-font-weight: bold;
 }
 
 
-/*
- * Giữ class cũ.
- * Nếu FXML cũ nào còn sử dụng thì không bị mất style.
- */
 .sidebar-title {
     -fx-text-fill: #ffffff;
-
     -fx-font-size: 19px;
     -fx-font-weight: bold;
-
     -fx-padding: 6px 8px 28px 8px;
 }
 
 
 /* ==========================================================
-SIDEBAR MENU ITEM
+SIDEBAR MENU
 ========================================================== */
 
 .sidebar-button {
@@ -84,7 +67,7 @@ SIDEBAR MENU ITEM
 
     -fx-alignment: CENTER-LEFT;
 
-    -fx-padding: 14px 18px;
+    -fx-padding: 13px 20px;
 
     -fx-background-radius: 13px;
     -fx-border-radius: 13px;
@@ -92,33 +75,68 @@ SIDEBAR MENU ITEM
     -fx-border-width: 0;
 
     -fx-cursor: hand;
+
+    -fx-min-height: 50px;
+    -fx-pref-height: 50px;
 }
-
-
-/* Hover */
-
-.sidebar-button:hover {
-    -fx-background-color:
-            rgba(255, 255, 255, 0.08);
-
-    -fx-text-fill: #ffffff;
-}
-
 
 /* ==========================================================
-SIDEBAR MENU ACTIVE / FOCUS
-========================================================== */
+   SIDEBAR BUTTON - HOVER
+   ========================================================== */
 
-.sidebar-button:focused {
+.sidebar-button:hover {
+    /*
+     * Làm nền sáng hơn để icon màu đen nổi bật
+     */
     -fx-background-color:
             linear-gradient(
                     to right,
-                    rgba(48, 164, 174, 0.25),
-                    rgba(65, 123, 175, 0.17)
+                    rgba(48, 164, 174, 0.32),
+                    rgba(65, 123, 175, 0.28)
             );
 
     -fx-text-fill: #ffffff;
 
+    -fx-background-radius: 13px;
+
+    /*
+     * Glow nhẹ khi hover
+     */
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(87, 218, 220, 0.20),
+            10,
+            0.12,
+            0,
+            0
+    );
+}
+
+
+/* ==========================================================
+   SIDEBAR BUTTON - FOCUSED / ACTIVE
+   ========================================================== */
+
+.sidebar-button:focused {
+
+    /*
+     * Nền sáng và nổi bật hơn Hover
+     * giúp icon màu đen tương phản tốt
+     */
+    -fx-background-color:
+            linear-gradient(
+                    to right,
+                    rgba(48, 164, 174, 0.55),
+                    rgba(65, 123, 175, 0.42)
+            );
+
+    -fx-text-fill: #ffffff;
+
+    -fx-background-radius: 13px;
+
+    /*
+     * Chỉ tạo border ở bên phải
+     */
     -fx-border-color:
             transparent
             #69e1df
@@ -129,18 +147,23 @@ SIDEBAR MENU ACTIVE / FOCUS
 
     -fx-border-radius: 13px;
 
+    /*
+     * Glow mạnh hơn Hover
+     */
     -fx-effect: dropshadow(
             gaussian,
-            rgba(87, 218, 220, 0.16),
-            12,
-            0.15,
+            rgba(87, 218, 220, 0.30),
+            14,
+            0.18,
             0,
             0
     );
 }
 
 
-/* Text button */
+/* ==========================================================
+   SIDEBAR BUTTON TEXT
+   ========================================================== */
 
 .sidebar-button .text {
     -fx-fill: #edf1f7;
@@ -156,8 +179,8 @@ SIDEBAR MENU ACTIVE / FOCUS
 
 
 /* ==========================================================
-SIDEBAR SEPARATOR
-========================================================== */
+   SIDEBAR SEPARATOR
+   ========================================================== */
 
 .sidebar .separator .line {
     -fx-border-color:
@@ -166,8 +189,8 @@ SIDEBAR SEPARATOR
 
 
 /* ==========================================================
-SIDEBAR SCROLLBAR
-========================================================== */
+   SIDEBAR SCROLLBAR
+   ========================================================== */
 
 .sidebar .scroll-bar {
     -fx-background-color: transparent;
@@ -213,8 +236,6 @@ PAGE
 }
 
 
-/* Tiêu đề */
-
 .dashboard-title {
     -fx-font-size: 34px;
 
@@ -223,8 +244,6 @@ PAGE
     -fx-text-fill: #24324d;
 }
 
-
-/* Mô tả dưới tiêu đề */
 
 .dashboard-subtitle {
     -fx-font-size: 16px;
@@ -266,6 +285,253 @@ BUTTON
 .period-button:hover,
 .filter-button:hover {
     -fx-background-color: white;
+}
+
+
+/* ==========================================================
+TRANSACTION - ADD BUTTON
+========================================================== */
+
+.transaction-add-button {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.90);
+
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.85);
+
+    -fx-border-width: 1px;
+
+    -fx-text-fill: #334155;
+
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+
+    -fx-padding: 11px 20px;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(42, 56, 89, 0.12),
+            16,
+            0.15,
+            0,
+            4
+    );
+}
+
+
+.transaction-add-button:hover {
+    -fx-background-color: #ffffff;
+
+    -fx-text-fill: #2563eb;
+
+    -fx-border-color: #c7d2fe;
+}
+
+
+/* ==========================================================
+TRANSACTION - FILTER PANEL
+========================================================== */
+
+.transaction-filter-panel {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.80);
+
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.80);
+
+    -fx-border-width: 1px;
+
+    -fx-padding: 18px 20px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(42, 56, 89, 0.11),
+            20,
+            0.16,
+            0,
+            5
+    );
+}
+
+
+/* ==========================================================
+TRANSACTION - FILTER COMBOBOX
+========================================================== */
+
+.transaction-filter-combo {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.94);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-padding: 0 7px;
+
+    -fx-font-size: 14px;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.06),
+            8,
+            0.10,
+            0,
+            2
+    );
+}
+
+
+.transaction-filter-combo:hover {
+    -fx-background-color: #ffffff;
+
+    -fx-border-color: #b9c7df;
+}
+
+
+.transaction-filter-combo:focused {
+    -fx-background-color: #ffffff;
+
+    -fx-border-color: #6bd8d5;
+    -fx-border-width: 1.5px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(75, 200, 204, 0.20),
+            10,
+            0.14,
+            0,
+            0
+    );
+}
+
+
+/* Chữ bên trong ComboBox */
+
+.transaction-filter-combo .list-cell {
+    -fx-background-color: transparent;
+
+    -fx-text-fill: #334155;
+
+    -fx-font-size: 14px;
+
+    -fx-padding: 0 7px;
+}
+
+
+/* Nút mũi tên */
+
+.transaction-filter-combo .arrow-button {
+    -fx-background-color: transparent;
+}
+
+
+.transaction-filter-combo .arrow {
+    -fx-background-color: #64748b;
+}
+
+
+/* ==========================================================
+COMBOBOX POPUP
+========================================================== */
+
+.combo-box-popup .list-view {
+    -fx-background-color: #ffffff;
+
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1px;
+
+    -fx-padding: 5px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.12),
+            14,
+            0.12,
+            0,
+            4
+    );
+}
+
+
+.combo-box-popup .list-cell {
+    -fx-background-color: transparent;
+
+    -fx-text-fill: #334155;
+
+    -fx-font-size: 14px;
+
+    -fx-padding: 9px 12px;
+}
+
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #eef8fa;
+
+    -fx-background-radius: 8px;
+}
+
+
+.combo-box-popup .list-cell:selected {
+    -fx-background-color: #e8f4ff;
+
+    -fx-background-radius: 8px;
+
+    -fx-text-fill: #2563eb;
+}
+
+
+/* ==========================================================
+TRANSACTION - RESET BUTTON
+========================================================== */
+
+.transaction-reset-button {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.94);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-text-fill: #475569;
+
+    -fx-font-size: 14px;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.07),
+            9,
+            0.10,
+            0,
+            2
+    );
+}
+
+
+.transaction-reset-button:hover {
+    -fx-background-color: #ffffff;
+
+    -fx-text-fill: #2563eb;
+
+    -fx-border-color: #a7c7ee;
 }
 
 
@@ -312,10 +578,16 @@ SUMMARY CARD
 }
 
 
+/* ==========================================================
+SUMMARY TEXT
+========================================================== */
+
 .summary-label {
     -fx-font-size: 13px;
 
-    -fx-font-weight: bold;
+    -fx-font-weight: normal;
+
+    -fx-text-fill: #18243d;
 }
 
 
@@ -330,6 +602,8 @@ SUMMARY CARD
 
 .summary-description {
     -fx-font-size: 13px;
+
+    -fx-font-weight: normal;
 
     -fx-text-fill: #6b7280;
 }
@@ -365,21 +639,31 @@ SUMMARY COLORS
 ========================================================== */
 
 .balance-text {
-    -fx-text-fill: #2f80ed;
+    -fx-text-fill: #18243d;
+    -fx-font-weight: normal;
 }
+
 
 .income-text {
-    -fx-text-fill: #00b894;
+    -fx-text-fill: #18243d;
+    -fx-font-weight: normal;
 }
+
 
 .expense-text {
-    -fx-text-fill: #ff5a5f;
+    -fx-text-fill: #18243d;
+    -fx-font-weight: normal;
 }
 
+
+/* ==========================================================
+SUMMARY ICON COLORS
+========================================================== */
 
 .balance-icon {
     -fx-background-color: #d9ebff;
 }
+
 
 .balance-icon .label {
     -fx-text-fill: #2f80ed;
@@ -390,6 +674,7 @@ SUMMARY COLORS
     -fx-background-color: #dcfff5;
 }
 
+
 .income-icon .label {
     -fx-text-fill: #00b894;
 }
@@ -398,6 +683,7 @@ SUMMARY COLORS
 .expense-icon {
     -fx-background-color: #ffe4e7;
 }
+
 
 .expense-icon .label {
     -fx-text-fill: #ff5a5f;
@@ -429,6 +715,35 @@ DASHBOARD PANEL
             0.18,
             0,
             6
+    );
+}
+
+
+/* ==========================================================
+TRANSACTION LIST PANEL
+========================================================== */
+
+.transaction-list-panel {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.86);
+
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.78);
+
+    -fx-border-width: 1px;
+
+    -fx-padding: 20px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.11),
+            20,
+            0.15,
+            0,
+            5
     );
 }
 
@@ -477,21 +792,21 @@ TABLE VIEW
     -fx-background-color:
             rgba(255, 255, 255, 0.82);
 
-    -fx-background-radius: 18px;
-    -fx-border-radius: 18px;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
 
     -fx-border-color:
-            rgba(255, 255, 255, 0.75);
+            #e5eaf2;
 
     -fx-border-width: 1px;
 
     -fx-effect: dropshadow(
             gaussian,
-            rgba(0, 0, 0, 0.10),
-            16,
-            0.15,
+            rgba(0, 0, 0, 0.07),
+            12,
+            0.10,
             0,
-            3
+            2
     );
 }
 
@@ -502,10 +817,10 @@ TABLE HEADER
 
 .table-view .column-header-background {
     -fx-background-color:
-            rgba(247, 249, 255, 0.95);
+            rgba(247, 249, 255, 0.96);
 
     -fx-background-radius:
-            18px 18px 0 0;
+            16px 16px 0 0;
 }
 
 
@@ -520,6 +835,8 @@ TABLE HEADER
 
     -fx-border-width:
             0 1px 1px 0;
+
+    -fx-pref-height: 38px;
 }
 
 
@@ -538,18 +855,20 @@ TABLE ROW
 
 .table-row-cell {
     -fx-background-color:
-            rgba(255, 255, 255, 0.82);
+            rgba(255, 255, 255, 0.84);
 
     -fx-border-color:
             transparent
             transparent
             #edf2f7
             transparent;
+
+    -fx-pref-height: 52px;
 }
 
 
 .table-row-cell:hover {
-    -fx-background-color: #f9fbff;
+    -fx-background-color: #f7fbff;
 }
 
 
@@ -568,6 +887,8 @@ TABLE CELL
     -fx-text-fill: #334155;
 
     -fx-font-size: 13px;
+
+    -fx-alignment: CENTER-LEFT;
 }
 
 
@@ -577,6 +898,8 @@ TABLE EMPTY
 
 .table-view .placeholder .label {
     -fx-text-fill: #94a3b8;
+
+    -fx-font-size: 14px;
 }
 
 
@@ -590,4 +913,1716 @@ EMPTY STATE
     -fx-font-weight: bold;
 
     -fx-text-fill: #374151;
+}
+
+/* ==========================================================
+AUTH - LOGIN / REGISTER
+========================================================== */
+
+.auth-root {
+    -fx-background-color:
+            linear-gradient(
+                    to bottom right,
+                    #b8f4ef,
+                    #d7efff,
+                    #e2d5ff,
+                    #ffd8ef,
+                    #c4f3ed
+            );
+
+    -fx-font-family: "Segoe UI";
+}
+
+
+/* ==========================================================
+AUTH CARD - DARK GLASS
+========================================================== */
+
+.auth-card {
+    -fx-background-color:
+            rgba(27, 38, 57, 0.94);
+
+    -fx-background-radius: 30px;
+    -fx-border-radius: 30px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.12);
+
+    -fx-border-width: 1px;
+
+    -fx-padding: 28px 34px 30px 34px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.35),
+            34,
+            0.20,
+            0,
+            10
+    );
+}
+
+
+/* ==========================================================
+AUTH TITLE
+========================================================== */
+
+.auth-title {
+    -fx-font-size: 28px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #ffffff;
+}
+
+
+/* ==========================================================
+AUTH SUBTITLE
+========================================================== */
+
+.auth-subtitle {
+    -fx-font-size: 14px;
+
+    -fx-text-fill: #cbd5e1;
+
+    -fx-padding: 0 0 8px 0;
+}
+
+
+/* ==========================================================
+AUTH FIELD LABEL
+========================================================== */
+
+.auth-field-label {
+    -fx-font-size: 13px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #f1f5f9;
+
+    -fx-alignment: CENTER-LEFT;
+}
+
+
+/* ==========================================================
+AUTH INPUT
+========================================================== */
+
+.auth-input {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.09);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.18);
+
+    -fx-border-width: 1px;
+
+    -fx-padding: 0 15px;
+
+    -fx-font-size: 14px;
+
+    -fx-text-fill: #ffffff;
+
+    -fx-prompt-text-fill: #94a3b8;
+
+    -fx-effect: none;
+}
+
+
+/* Hover */
+
+.auth-input:hover {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.12);
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.30);
+}
+
+
+/* Focus */
+
+.auth-input:focused {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.13);
+
+    -fx-border-color: #5ee7df;
+
+    -fx-border-width: 1.5px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(94, 231, 223, 0.20),
+            10,
+            0.15,
+            0,
+            0
+    );
+}
+
+
+/* ==========================================================
+AUTH ERROR
+========================================================== */
+
+.auth-error {
+    -fx-text-fill: #ff8a8a;
+
+    -fx-font-size: 12px;
+
+    -fx-padding: 1px 2px;
+
+    -fx-alignment: CENTER-LEFT;
+}
+
+
+/* ==========================================================
+AUTH PRIMARY BUTTON
+ĐĂNG NHẬP / ĐĂNG KÝ
+========================================================== */
+
+.auth-primary-button {
+    -fx-background-color:
+            linear-gradient(
+                    to right,
+                    #20c7c7,
+                    #3b82f6,
+                    #8055f5
+            );
+
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+
+    -fx-border-width: 0;
+
+    -fx-text-fill: #ffffff;
+
+    -fx-font-size: 14px;
+
+    -fx-font-weight: bold;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(59, 130, 246, 0.30),
+            16,
+            0.20,
+            0,
+            5
+    );
+}
+
+
+.auth-primary-button:hover {
+    -fx-translate-y: -1px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(59, 130, 246, 0.42),
+            20,
+            0.23,
+            0,
+            7
+    );
+}
+
+
+.auth-primary-button:pressed {
+    -fx-translate-y: 0px;
+}
+
+
+/* ==========================================================
+AUTH SECONDARY BUTTON
+ĐĂNG KÝ NGAY / QUAY LẠI ĐĂNG NHẬP
+========================================================== */
+
+.auth-secondary-button {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.06);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.18);
+
+    -fx-border-width: 1px;
+
+    -fx-text-fill: #cbd5e1;
+
+    -fx-font-size: 13px;
+
+    -fx-cursor: hand;
+}
+
+
+.auth-secondary-button:hover {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.12);
+
+    -fx-border-color: #5ee7df;
+
+    -fx-text-fill: #ffffff;
+}
+
+/* ==========================================================
+   REPORT - EXPORT BUTTON
+   ========================================================== */
+
+.report-export-button {
+    -fx-background-color:
+            linear-gradient(
+                    to right,
+                    #20c7c7,
+                    #3b82f6,
+                    #8055f5
+            );
+
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-border-width: 0;
+
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+
+    -fx-padding: 11px 28px;
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(59, 130, 246, 0.30),
+            16,
+            0.20,
+            0,
+            5
+    );
+}
+
+.report-export-button .text {
+    -fx-fill: #ffffff;
+}
+
+.report-export-button:hover {
+    -fx-background-color:
+            linear-gradient(
+                    to right,
+                    #18bdbd,
+                    #3178ed,
+                    #7447ed
+            );
+
+    -fx-text-fill: #ffffff;
+    -fx-translate-y: -1px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(59, 130, 246, 0.42),
+            20,
+            0.23,
+            0,
+            7
+    );
+}
+
+.report-export-button:hover .text {
+    -fx-fill: #ffffff;
+}
+
+.report-export-button:pressed {
+    -fx-translate-y: 0px;
+}
+
+/* ==========================================================
+   WALLET FORM
+   ========================================================== */
+
+.wallet-form-root {
+    -fx-background-color:
+            linear-gradient(
+                    to bottom right,
+                    #f7fbff,
+                    #f3f7ff,
+                    #faf5ff
+            );
+
+    -fx-font-family: "Segoe UI";
+}
+
+
+/* ==========================================================
+   WALLET FORM - HEADER
+   ========================================================== */
+
+.wallet-form-title {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #24324d;
+}
+
+.wallet-form-subtitle {
+    -fx-font-size: 15px;
+    -fx-text-fill: #64748b;
+    -fx-padding: 0 0 8px 0;
+}
+
+
+/* ==========================================================
+   WALLET FORM - LABEL
+   ========================================================== */
+
+.wallet-form-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #475569;
+    -fx-padding: 3px 0 0 2px;
+}
+
+
+/* ==========================================================
+   WALLET FORM - TEXT FIELD
+   ========================================================== */
+
+.wallet-form-input {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-padding: 0 14px;
+
+    -fx-font-size: 14px;
+    -fx-text-fill: #334155;
+    -fx-prompt-text-fill: #94a3b8;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.05),
+            8,
+            0.10,
+            0,
+            2
+    );
+}
+
+.wallet-form-input:hover {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #b9c7df;
+}
+
+.wallet-form-input:focused {
+    -fx-background-color: #ffffff;
+
+    -fx-border-color: #5ee7df;
+    -fx-border-width: 1.5px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(94, 231, 223, 0.20),
+            10,
+            0.15,
+            0,
+            0
+    );
+}
+
+
+/* ==========================================================
+   WALLET FORM - COMBOBOX
+   ========================================================== */
+
+.wallet-form-combo {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-padding: 0 7px;
+
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.05),
+            8,
+            0.10,
+            0,
+            2
+    );
+}
+
+.wallet-form-combo:hover {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #b9c7df;
+}
+
+.wallet-form-combo:focused {
+    -fx-background-color: #ffffff;
+
+    -fx-border-color: #5ee7df;
+    -fx-border-width: 1.5px;
+}
+
+.wallet-form-combo .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #334155;
+    -fx-font-size: 14px;
+    -fx-padding: 0 7px;
+}
+
+.wallet-form-combo .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.wallet-form-combo .arrow {
+    -fx-background-color: #64748b;
+}
+
+
+/* ==========================================================
+   WALLET FORM - TEXTAREA
+   ========================================================== */
+
+.wallet-form-textarea {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-font-size: 14px;
+    -fx-text-fill: #334155;
+    -fx-prompt-text-fill: #94a3b8;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.05),
+            8,
+            0.10,
+            0,
+            2
+    );
+}
+
+.wallet-form-textarea .scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-radius: 13px;
+}
+
+.wallet-form-textarea .scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.wallet-form-textarea .content {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+    -fx-background-radius: 13px;
+    -fx-padding: 10px 12px;
+}
+
+.wallet-form-textarea:hover {
+    -fx-border-color: #b9c7df;
+}
+
+.wallet-form-textarea:focused {
+    -fx-border-color: #5ee7df;
+    -fx-border-width: 1.5px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(94, 231, 223, 0.20),
+            10,
+            0.15,
+            0,
+            0
+    );
+}
+
+
+/* ==========================================================
+   WALLET FORM - CANCEL BUTTON
+   ========================================================== */
+
+.wallet-form-cancel-button {
+    -fx-background-color: rgba(255, 255, 255, 0.94);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-text-fill: #475569;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.08),
+            10,
+            0.10,
+            0,
+            3
+    );
+}
+
+.wallet-form-cancel-button:hover {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #a7c7ee;
+    -fx-text-fill: #2563eb;
+}
+
+
+/* ==========================================================
+   WALLET FORM - SAVE BUTTON
+   ========================================================== */
+
+.wallet-form-save-button {
+    -fx-background-color:
+            linear-gradient(
+                    to right,
+                    #20c7c7,
+                    #3b82f6,
+                    #8055f5
+            );
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-width: 0;
+
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(59, 130, 246, 0.30),
+            16,
+            0.20,
+            0,
+            5
+    );
+}
+
+.wallet-form-save-button .text {
+    -fx-fill: #ffffff;
+}
+
+.wallet-form-save-button:hover {
+    -fx-background-color:
+            linear-gradient(
+                    to right,
+                    #18bdbd,
+                    #3178ed,
+                    #7447ed
+            );
+
+    -fx-translate-y: -1px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(59, 130, 246, 0.42),
+            20,
+            0.23,
+            0,
+            7
+    );
+}
+
+.wallet-form-save-button:hover .text {
+    -fx-fill: #ffffff;
+}
+
+.wallet-form-save-button:pressed {
+    -fx-translate-y: 0px;
+}
+
+/* ==========================================================
+   TRANSACTION FORM - MODERN
+   ========================================================== */
+
+.transaction-form-modern-root {
+    -fx-background-color:
+            linear-gradient(
+                    to bottom right,
+                    #f7fbff,
+                    #f3f7ff,
+                    #faf5ff
+            );
+
+    -fx-font-family: "Segoe UI";
+}
+
+
+/* HEADER */
+
+.transaction-form-title {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #24324d;
+}
+
+.transaction-form-subtitle {
+    -fx-font-size: 15px;
+    -fx-text-fill: #64748b;
+    -fx-padding: 0 0 8px 0;
+}
+
+
+/* LABEL */
+
+.transaction-form-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #475569;
+    -fx-padding: 3px 0 0 2px;
+}
+
+
+/* ==========================================================
+   TEXT FIELD
+   ========================================================== */
+
+.transaction-form-input {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-padding: 0 14px;
+
+    -fx-font-size: 14px;
+    -fx-text-fill: #334155;
+    -fx-prompt-text-fill: #94a3b8;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.05),
+            8,
+            0.10,
+            0,
+            2
+    );
+}
+
+.transaction-form-input:hover {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #b9c7df;
+}
+
+.transaction-form-input:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #5ee7df;
+    -fx-border-width: 1.5px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(94, 231, 223, 0.20),
+            10,
+            0.15,
+            0,
+            0
+    );
+}
+
+
+/* ==========================================================
+   COMBO BOX
+   ========================================================== */
+
+.transaction-form-combo {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-padding: 0 7px;
+
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.05),
+            8,
+            0.10,
+            0,
+            2
+    );
+}
+
+.transaction-form-combo:hover {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #b9c7df;
+}
+
+.transaction-form-combo:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #5ee7df;
+    -fx-border-width: 1.5px;
+}
+
+.transaction-form-combo .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #334155;
+    -fx-font-size: 14px;
+    -fx-padding: 0 7px;
+}
+
+.transaction-form-combo .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.transaction-form-combo .arrow {
+    -fx-background-color: #64748b;
+}
+
+
+/* ==========================================================
+   DATE PICKER
+   ========================================================== */
+
+.transaction-form-date {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-font-size: 14px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.05),
+            8,
+            0.10,
+            0,
+            2
+    );
+}
+
+.transaction-form-date:hover {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #b9c7df;
+}
+
+.transaction-form-date:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #5ee7df;
+    -fx-border-width: 1.5px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(94, 231, 223, 0.20),
+            10,
+            0.15,
+            0,
+            0
+    );
+}
+
+.transaction-form-date .text-field {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+
+    -fx-text-fill: #334155;
+    -fx-prompt-text-fill: #94a3b8;
+
+    -fx-padding: 0 14px;
+}
+
+.transaction-form-date .arrow-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0 13px 13px 0;
+    -fx-cursor: hand;
+}
+
+.transaction-form-date .arrow-button:hover {
+    -fx-background-color: #eef8fa;
+}
+
+.transaction-form-date .arrow-button .arrow {
+    -fx-background-color: #64748b;
+}
+
+
+/* ==========================================================
+   TEXT AREA
+   ========================================================== */
+
+.transaction-form-textarea {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-font-size: 14px;
+    -fx-text-fill: #334155;
+    -fx-prompt-text-fill: #94a3b8;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.05),
+            8,
+            0.10,
+            0,
+            2
+    );
+}
+
+.transaction-form-textarea .scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-radius: 13px;
+}
+
+.transaction-form-textarea .scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.transaction-form-textarea .content {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+    -fx-background-radius: 13px;
+    -fx-padding: 10px 12px;
+}
+
+.transaction-form-textarea:hover {
+    -fx-border-color: #b9c7df;
+}
+
+.transaction-form-textarea:focused {
+    -fx-border-color: #5ee7df;
+    -fx-border-width: 1.5px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(94, 231, 223, 0.20),
+            10,
+            0.15,
+            0,
+            0
+    );
+}
+
+
+/* ==========================================================
+   CANCEL BUTTON
+   ========================================================== */
+
+.transaction-form-cancel-button {
+    -fx-background-color: rgba(255, 255, 255, 0.94);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-text-fill: #475569;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.08),
+            10,
+            0.10,
+            0,
+            3
+    );
+}
+
+.transaction-form-cancel-button:hover {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #a7c7ee;
+    -fx-text-fill: #2563eb;
+}
+
+
+/* ==========================================================
+   SAVE BUTTON
+   ========================================================== */
+
+.transaction-form-save-button {
+    -fx-background-color:
+            linear-gradient(
+                    to right,
+                    #20c7c7,
+                    #3b82f6,
+                    #8055f5
+            );
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+    -fx-border-width: 0;
+
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(59, 130, 246, 0.30),
+            16,
+            0.20,
+            0,
+            5
+    );
+}
+
+.transaction-form-save-button .text {
+    -fx-fill: #ffffff;
+}
+
+.transaction-form-save-button:hover {
+    -fx-background-color:
+            linear-gradient(
+                    to right,
+                    #18bdbd,
+                    #3178ed,
+                    #7447ed
+            );
+
+    -fx-translate-y: -1px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(59, 130, 246, 0.42),
+            20,
+            0.23,
+            0,
+            7
+    );
+}
+
+.transaction-form-save-button:hover .text {
+    -fx-fill: #ffffff;
+}
+
+.transaction-form-save-button:pressed {
+    -fx-translate-y: 0px;
+}
+
+/* ==========================================================
+   CATEGORY FORM
+   ========================================================== */
+
+.category-form-root {
+    -fx-background-color:
+            linear-gradient(
+                    to bottom right,
+                    #f7fbff,
+                    #f3f7ff,
+                    #faf5ff
+            );
+
+    -fx-font-family: "Segoe UI";
+}
+
+
+/* ==========================================================
+   CATEGORY FORM - HEADER
+   ========================================================== */
+
+.category-form-title {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #24324d;
+}
+
+.category-form-subtitle {
+    -fx-font-size: 15px;
+    -fx-text-fill: #64748b;
+    -fx-padding: 0 0 8px 0;
+}
+
+
+/* ==========================================================
+   CATEGORY FORM - LABEL
+   ========================================================== */
+
+.category-form-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #475569;
+    -fx-padding: 3px 0 0 2px;
+}
+
+
+/* ==========================================================
+   CATEGORY FORM - INPUT
+   ========================================================== */
+
+.category-form-input {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-padding: 0 14px;
+
+    -fx-font-size: 14px;
+    -fx-text-fill: #334155;
+    -fx-prompt-text-fill: #94a3b8;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.05),
+            8,
+            0.10,
+            0,
+            2
+    );
+}
+
+.category-form-input:hover {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #b9c7df;
+}
+
+.category-form-input:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #5ee7df;
+    -fx-border-width: 1.5px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(94, 231, 223, 0.20),
+            10,
+            0.15,
+            0,
+            0
+    );
+}
+
+
+/* ==========================================================
+   CATEGORY FORM - TEXTAREA
+   ========================================================== */
+
+.category-form-textarea {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-font-size: 14px;
+    -fx-text-fill: #334155;
+    -fx-prompt-text-fill: #94a3b8;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.05),
+            8,
+            0.10,
+            0,
+            2
+    );
+}
+
+.category-form-textarea .scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-radius: 13px;
+}
+
+.category-form-textarea .scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.category-form-textarea .content {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+    -fx-background-radius: 13px;
+    -fx-padding: 10px 12px;
+}
+
+.category-form-textarea:hover {
+    -fx-border-color: #b9c7df;
+}
+
+.category-form-textarea:focused {
+    -fx-border-color: #5ee7df;
+    -fx-border-width: 1.5px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(94, 231, 223, 0.20),
+            10,
+            0.15,
+            0,
+            0
+    );
+}
+
+
+/* ==========================================================
+   CATEGORY FORM - CANCEL BUTTON
+   ========================================================== */
+
+.category-form-cancel-button {
+    -fx-background-color: rgba(255, 255, 255, 0.94);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-text-fill: #475569;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.08),
+            10,
+            0.10,
+            0,
+            3
+    );
+}
+
+.category-form-cancel-button:hover {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #a7c7ee;
+    -fx-text-fill: #2563eb;
+}
+
+
+/* ==========================================================
+   CATEGORY FORM - SAVE BUTTON
+   ========================================================== */
+
+.category-form-save-button {
+    -fx-background-color:
+            linear-gradient(
+                    to right,
+                    #20c7c7,
+                    #3b82f6,
+                    #8055f5
+            );
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-width: 0;
+
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(59, 130, 246, 0.30),
+            16,
+            0.20,
+            0,
+            5
+    );
+}
+
+.category-form-save-button .text {
+    -fx-fill: #ffffff;
+}
+
+.category-form-save-button:hover {
+    -fx-background-color:
+            linear-gradient(
+                    to right,
+                    #18bdbd,
+                    #3178ed,
+                    #7447ed
+            );
+
+    -fx-translate-y: -1px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(59, 130, 246, 0.42),
+            20,
+            0.23,
+            0,
+            7
+    );
+}
+
+.category-form-save-button:hover .text {
+    -fx-fill: #ffffff;
+}
+
+.category-form-save-button:pressed {
+    -fx-translate-y: 0px;
+}
+
+/* ==========================================================
+   BUDGET FORM
+   ========================================================== */
+
+.budget-form-root {
+    -fx-background-color:
+            linear-gradient(
+                    to bottom right,
+                    #f7fbff,
+                    #f3f7ff,
+                    #faf5ff
+            );
+
+    -fx-font-family: "Segoe UI";
+}
+
+
+/* HEADER */
+
+.budget-form-title {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #24324d;
+}
+
+.budget-form-subtitle {
+    -fx-font-size: 15px;
+    -fx-text-fill: #64748b;
+    -fx-padding: 0 0 8px 0;
+}
+
+
+/* LABEL */
+
+.budget-form-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #475569;
+    -fx-padding: 3px 0 0 2px;
+}
+
+
+/* ==========================================================
+   INPUT
+   ========================================================== */
+
+.budget-form-input {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-padding: 0 14px;
+
+    -fx-font-size: 14px;
+    -fx-text-fill: #334155;
+    -fx-prompt-text-fill: #94a3b8;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.05),
+            8,
+            0.10,
+            0,
+            2
+    );
+}
+
+.budget-form-input:hover {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #b9c7df;
+}
+
+.budget-form-input:focused {
+    -fx-background-color: #ffffff;
+
+    -fx-border-color: #5ee7df;
+    -fx-border-width: 1.5px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(94, 231, 223, 0.20),
+            10,
+            0.15,
+            0,
+            0
+    );
+}
+
+
+/* ==========================================================
+   COMBO BOX
+   ========================================================== */
+
+.budget-form-combo {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-padding: 0 7px;
+
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.05),
+            8,
+            0.10,
+            0,
+            2
+    );
+}
+
+.budget-form-combo:hover {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #b9c7df;
+}
+
+.budget-form-combo:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #5ee7df;
+    -fx-border-width: 1.5px;
+}
+
+.budget-form-combo .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #334155;
+    -fx-font-size: 14px;
+    -fx-padding: 0 7px;
+}
+
+.budget-form-combo .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.budget-form-combo .arrow {
+    -fx-background-color: #64748b;
+}
+
+
+/* ==========================================================
+   CANCEL BUTTON
+   ========================================================== */
+
+.budget-form-cancel-button {
+    -fx-background-color: rgba(255, 255, 255, 0.94);
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+
+    -fx-border-color: #dce4ef;
+    -fx-border-width: 1px;
+
+    -fx-text-fill: #475569;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.08),
+            10,
+            0.10,
+            0,
+            3
+    );
+}
+
+.budget-form-cancel-button:hover {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #a7c7ee;
+    -fx-text-fill: #2563eb;
+}
+
+
+/* ==========================================================
+   SAVE BUTTON
+   ========================================================== */
+
+.budget-form-save-button {
+    -fx-background-color:
+            linear-gradient(
+                    to right,
+                    #20c7c7,
+                    #3b82f6,
+                    #8055f5
+            );
+
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+    -fx-border-width: 0;
+
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(59, 130, 246, 0.30),
+            16,
+            0.20,
+            0,
+            5
+    );
+}
+
+.budget-form-save-button .text {
+    -fx-fill: #ffffff;
+}
+
+.budget-form-save-button:hover {
+    -fx-background-color:
+            linear-gradient(
+                    to right,
+                    #18bdbd,
+                    #3178ed,
+                    #7447ed
+            );
+
+    -fx-translate-y: -1px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(59, 130, 246, 0.42),
+            20,
+            0.23,
+            0,
+            7
+    );
+}
+
+.budget-form-save-button:hover .text {
+    -fx-fill: #ffffff;
+}
+
+.budget-form-save-button:pressed {
+    -fx-translate-y: 0px;
+}
+
+/* ==========================================================
+   SIDEBAR - CURRENT USER
+   ========================================================== */
+
+.sidebar-user-card {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.07);
+
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.08);
+
+    -fx-border-width: 1px;
+
+    -fx-padding: 13px 14px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0, 0, 0, 0.16),
+            14,
+            0.12,
+            0,
+            4
+    );
+}
+
+
+/* AVATAR */
+
+.sidebar-user-avatar {
+    -fx-background-color:
+            linear-gradient(
+                    to bottom right,
+                    #20c7c7,
+                    #3b82f6,
+                    #8055f5
+            );
+
+    -fx-background-radius: 23px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(59, 130, 246, 0.30),
+            12,
+            0.18,
+            0,
+            3
+    );
+}
+
+
+.sidebar-user-avatar-text {
+    -fx-text-fill: #ffffff;
+
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+
+/* USERNAME */
+
+.sidebar-user-name {
+    -fx-text-fill: #ffffff;
+
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+
+/* STATUS */
+
+.sidebar-user-status {
+    -fx-text-fill: #9fb0c6;
+
+    -fx-font-size: 12px;
+}
+
+/* ==========================================================
+   SIDEBAR USER - CLICK / LOGOUT MENU
+   ========================================================== */
+
+.sidebar-user-card {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.07);
+
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.10);
+
+    -fx-border-width: 1px;
+
+    -fx-padding: 13px 14px;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0, 0, 0, 0.16),
+            14,
+            0.12,
+            0,
+            4
+    );
+}
+
+.sidebar-user-card:hover {
+    -fx-background-color:
+            rgba(255, 255, 255, 0.11);
+
+    -fx-border-color:
+            rgba(94, 231, 223, 0.28);
+}
+
+
+/* USER MENU */
+
+.sidebar-user-menu {
+    -fx-background-color:
+            rgba(30, 42, 61, 0.98);
+
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+
+    -fx-border-color:
+            rgba(255, 255, 255, 0.10);
+
+    -fx-border-width: 1px;
+
+    -fx-padding: 7px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0, 0, 0, 0.25),
+            18,
+            0.16,
+            0,
+            5
+    );
+}
+
+
+/* LOGOUT BUTTON */
+
+.sidebar-logout-button {
+    -fx-background-color: transparent;
+
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+
+    -fx-border-width: 0;
+
+    -fx-text-fill: #f1f5f9;
+    -fx-font-size: 14px;
+
+    -fx-alignment: CENTER-LEFT;
+
+    -fx-padding: 11px 14px;
+
+    -fx-cursor: hand;
+}
+
+.sidebar-logout-button:hover {
+    -fx-background-color:
+            rgba(255, 90, 95, 0.15);
+
+    -fx-text-fill: #ff8a8a;
+}
+
+
+/* SMALL ARROW */
+
+.sidebar-user-menu-arrow {
+    -fx-text-fill: #9fb0c6;
+
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
 }

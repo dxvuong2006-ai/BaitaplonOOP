@@ -26,33 +26,47 @@ import javafx.util.StringConverter;
 /** Controller điều khiển form thêm / sửa giao dịch. */
 public class TransactionFormController {
 
-    @FXML private Label formTitleLabel;
+    @FXML
+    private Label formTitleLabel;
 
-    @FXML private Label formSubtitleLabel;
+    @FXML
+    private Label formSubtitleLabel;
 
-    @FXML private ComboBox<TransactionType> transactionTypeComboBox;
+    @FXML
+    private ComboBox<TransactionType> transactionTypeComboBox;
 
-    @FXML private TextField amountField;
+    @FXML
+    private TextField amountField;
 
-    @FXML private DatePicker datePicker;
+    @FXML
+    private DatePicker datePicker;
 
-    @FXML private ComboBox<Wallet> walletComboBox;
+    @FXML
+    private ComboBox<Wallet> walletComboBox;
 
-    @FXML private ComboBox<Category> categoryComboBox;
+    @FXML
+    private ComboBox<Category> categoryComboBox;
 
-    @FXML private VBox incomeFieldsBox;
+    @FXML
+    private VBox incomeFieldsBox;
 
-    @FXML private VBox paymentFieldsBox;
+    @FXML
+    private VBox paymentFieldsBox;
 
-    @FXML private VBox periodFieldsBox;
+    @FXML
+    private VBox periodFieldsBox;
 
-    @FXML private TextField sourceField;
+    @FXML
+    private TextField sourceField;
 
-    @FXML private TextField paymentMethodField;
+    @FXML
+    private TextField paymentMethodField;
 
-    @FXML private ComboBox<Period> periodComboBox;
+    @FXML
+    private ComboBox<Period> periodComboBox;
 
-    @FXML private TextArea noteArea;
+    @FXML
+    private TextArea noteArea;
 
     private final ExpenseManager manager = ExpenseManager.getInstance();
 
@@ -98,16 +112,24 @@ public class TransactionFormController {
 
         transactionTypeComboBox
                 .valueProperty()
-                .addListener((observable, oldValue, newValue) -> updateDynamicFields(newValue));
+                .addListener(
+                        (observable, oldValue, newValue) ->
+                                updateDynamicFields(newValue));
 
         updateDynamicFields(TransactionType.INCOME);
     }
 
     /** Ẩn / hiện field theo loại giao dịch. */
     private void updateDynamicFields(TransactionType type) {
+
+        // Income: chỉ hiện Nguồn thu
         boolean income = (type == TransactionType.INCOME);
-        boolean expense =
-                (type == TransactionType.EXPENSE || type == TransactionType.RECURRING_EXPENSE);
+
+        // Expense thường: hiện Phương thức thanh toán
+        boolean expense = (type == TransactionType.EXPENSE);
+
+        // Recurring Expense: chỉ hiện Chu kỳ,
+        // không hiện Phương thức thanh toán
         boolean recurring = (type == TransactionType.RECURRING_EXPENSE);
 
         incomeFieldsBox.setVisible(income);
@@ -216,8 +238,17 @@ public class TransactionFormController {
 
             Transaction transaction =
                     TransactionFactory.createTransaction(
-                            type, id, amount, date, note, category, wallet, source,
-                            paymentMethod, period, userId, nextDueDate, active);
+                            type,
+                            id,
+                            amount,
+                            date,
+                            note,
+                            category,
+                            wallet,
+                            source,
+                            paymentMethod,
+                            period,
+                            userId);
 
             if (editingTransaction == null) {
                 manager.addTransaction(transaction);
@@ -250,13 +281,15 @@ public class TransactionFormController {
     /** Chuyển số tiền nhập thành double. */
     private double parseAmount(String value) {
         if (value == null || value.trim().isEmpty()) {
-            throw new IllegalArgumentException("Số tiền không được để trống.");
+            throw new IllegalArgumentException(
+                    "Số tiền không được để trống.");
         }
 
         try {
             return Double.parseDouble(value.trim());
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Số tiền phải là một số hợp lệ.");
+            throw new IllegalArgumentException(
+                    "Số tiền phải là một số hợp lệ.");
         }
     }
 

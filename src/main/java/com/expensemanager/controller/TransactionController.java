@@ -7,6 +7,7 @@ import com.expensemanager.model.wallet.Wallet;
 import com.expensemanager.service.ExpenseManager;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.ListCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,6 +27,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -81,6 +84,10 @@ public class TransactionController {
      */
     @FXML
     private void initialize() {
+
+        transactionTable.setColumnResizePolicy(
+                TableView.CONSTRAINED_RESIZE_POLICY
+        );
         setupColumns();
         setupActionColumn();
         setupFilters();
@@ -140,20 +147,41 @@ public class TransactionController {
     private void setupFilters() {
         transactionTypeFilter.getItems().setAll(TransactionType.values());
 
-        categoryFilter.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(Category category) {
-                if (category == null) {
-                    return "";
-                }
-                return category.getName();
-            }
+        transactionTypeFilter
+                .getItems()
+                .setAll(TransactionType.values());
 
-            @Override
-            public Category fromString(String string) {
-                return null;
-            }
-        });
+        setupComboBoxPlaceholder(transactionTypeFilter, "Loại giao dịch");
+
+        categoryFilter.setConverter(
+                new StringConverter<>() {
+
+                    @Override
+                    public String toString(Category category) {
+                        if (category == null) {
+                            return "Danh mục";
+                        }
+                        return category.getName();
+                    }
+
+                    @Override
+                    public Category fromString(String string) {
+                        return null;
+                    }
+                }
+        );
+        setupComboBoxPlaceholder(categoryFilter, "Danh mục");
+
+        walletFilter.setConverter(
+                new StringConverter<>() {
+
+                    @Override
+                    public String toString(Wallet wallet) {
+                        if (wallet == null) {
+                            return "Ví";
+                        }
+                        return wallet.getName();
+                    }
 
         walletFilter.setConverter(new StringConverter<>() {
             @Override
@@ -161,16 +189,32 @@ public class TransactionController {
                 if (wallet == null) {
                     return "";
                 }
-                return wallet.getName();
-            }
-
-            @Override
-            public Wallet fromString(String string) {
-                return null;
-            }
-        });
+        );
+        setupComboBoxPlaceholder(walletFilter, "Ví");
 
         reloadFilterOptions();
+    }
+
+    /**
+     * Cấu hình hiển thị nhãn mặc định khi ComboBox có giá trị null
+     */
+    private <T> void setupComboBoxPlaceholder(ComboBox<T> comboBox, String placeholder) {
+        if (comboBox == null) return;
+        comboBox.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(T item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(placeholder);
+                } else if (item instanceof Category) {
+                    setText(((Category) item).getName());
+                } else if (item instanceof Wallet) {
+                    setText(((Wallet) item).getName());
+                } else {
+                    setText(item.toString());
+                }
+            }
+        });
     }
 
     /**
@@ -206,9 +250,6 @@ public class TransactionController {
         }
     }
 
-    /**
-     * Áp dụng filter.
-     */
     @FXML
     private void handleFilterChanged() {
         if (!isReloadingFilter) {
@@ -221,9 +262,22 @@ public class TransactionController {
      */
     @FXML
     private void handleResetFilters() {
-        transactionTypeFilter.setValue(null);
-        categoryFilter.setValue(null);
-        walletFilter.setValue(null);
+
+        if (transactionTypeFilter != null) {
+            transactionTypeFilter.getSelectionModel().clearSelection();
+            transactionTypeFilter.setValue(null);
+        }
+
+        if (categoryFilter != null) {
+            categoryFilter.getSelectionModel().clearSelection();
+            categoryFilter.setValue(null);
+        }
+
+        if (walletFilter != null) {
+            walletFilter.getSelectionModel().clearSelection();
+            walletFilter.setValue(null);
+        }
+
         refreshTransactionTable();
     }
 
@@ -233,10 +287,14 @@ public class TransactionController {
     private void refreshTransactionTable() {
         //reloadFilterOptions();
 
-        List<Transaction> allTransactions = expenseManager.getTransactions();
-        TransactionType selectedType = transactionTypeFilter.getValue();
-        Category selectedCategory = categoryFilter.getValue();
-        Wallet selectedWallet = walletFilter.getValue();
+        List<Transaction> allTransactions =
+                expenseManager.getTransactions();
+
+        TransactionType selectedType =
+                transactionTypeFilter.getValue();
+
+        Category selectedCategory =
+                categoryFilter.getValue();
 
         List<Transaction> filteredTransactions = new ArrayList<>();
 
@@ -284,16 +342,125 @@ public class TransactionController {
                 });
             }
 
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(buttonBox);
-                }
-            }
-        });
+        actionColumn.setCellFactory(
+                column ->
+                        new TableCell<>() {
+
+                            private final Button editButton =
+                                    new Button();
+
+                            private final Button deleteButton =
+                                    new Button();
+
+                            private final HBox buttonBox =
+                                    new HBox(
+                                            8,
+                                            editButton,
+                                            deleteButton
+                                    );
+
+                            {
+                                // =========================
+                                // ICON SỬA
+                                // =========================
+
+                                ImageView editIcon =
+                                        new ImageView(
+                                                new Image(
+                                                        getClass()
+                                                                .getResource(
+                                                                        "/images/sua.png"
+                                                                )
+                                                                .toExternalForm()
+                                                )
+                                        );
+
+                                editIcon.setFitWidth(16);
+                                editIcon.setFitHeight(16);
+                                editIcon.setPreserveRatio(true);
+                                editIcon.setSmooth(true);
+
+                                editButton.setGraphic(editIcon);
+
+
+                                // =========================
+                                // ICON XÓA
+                                // =========================
+
+                                ImageView deleteIcon =
+                                        new ImageView(
+                                                new Image(
+                                                        getClass()
+                                                                .getResource(
+                                                                        "/images/trash.png"
+                                                                )
+                                                                .toExternalForm()
+                                                )
+                                        );
+
+                                deleteIcon.setFitWidth(16);
+                                deleteIcon.setFitHeight(16);
+                                deleteIcon.setPreserveRatio(true);
+                                deleteIcon.setSmooth(true);
+
+                                deleteButton.setGraphic(deleteIcon);
+                                editButton.setOnAction(
+                                        event -> {
+
+                                            Transaction transaction =
+                                                    getTableView()
+                                                            .getItems()
+                                                            .get(
+                                                                    getIndex()
+                                                            );
+
+                                            handleEditTransaction(
+                                                    transaction
+                                            );
+                                        }
+                                );
+
+                                deleteButton.setOnAction(
+                                        event -> {
+
+                                            Transaction transaction =
+                                                    getTableView()
+                                                            .getItems()
+                                                            .get(
+                                                                    getIndex()
+                                                            );
+
+                                            handleDeleteTransaction(
+                                                    transaction
+                                            );
+                                        }
+                                );
+                            }
+
+                            @Override
+                            protected void updateItem(
+                                    Void item,
+                                    boolean empty
+                            ) {
+
+                                super.updateItem(
+                                        item,
+                                        empty
+                                );
+
+                                if (empty) {
+
+                                    setGraphic(null);
+
+                                } else {
+
+                                    setGraphic(
+                                            buttonBox
+                                    );
+                                }
+                            }
+                        }
+        );
     }
 
     /**

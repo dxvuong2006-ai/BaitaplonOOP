@@ -24,6 +24,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * Controller điều khiển màn hình Danh mục.
@@ -54,6 +56,9 @@ public class CategoryController {
     @FXML
     private void initialize() {
 
+        categoryTable.setColumnResizePolicy(
+                TableView.CONSTRAINED_RESIZE_POLICY
+        );
         /*
          * Tên danh mục.
          */
@@ -106,10 +111,10 @@ public class CategoryController {
                         new TableCell<>() {
 
                             private final Button editButton =
-                                    new Button("Sửa");
+                                    new Button();
 
                             private final Button deleteButton =
-                                    new Button("Xóa");
+                                    new Button();
 
                             private final HBox buttonBox =
                                     new HBox(
@@ -119,6 +124,50 @@ public class CategoryController {
                                     );
 
                             {
+                                // =========================
+                                // ICON SỬA
+                                // =========================
+
+                                ImageView editIcon =
+                                        new ImageView(
+                                                new Image(
+                                                        getClass()
+                                                                .getResource(
+                                                                        "/images/sua.png"
+                                                                )
+                                                                .toExternalForm()
+                                                )
+                                        );
+
+                                editIcon.setFitWidth(16);
+                                editIcon.setFitHeight(16);
+                                editIcon.setPreserveRatio(true);
+                                editIcon.setSmooth(true);
+
+                                editButton.setGraphic(editIcon);
+
+
+                                // =========================
+                                // ICON XÓA
+                                // =========================
+
+                                ImageView deleteIcon =
+                                        new ImageView(
+                                                new Image(
+                                                        getClass()
+                                                                .getResource(
+                                                                        "/images/trash.png"
+                                                                )
+                                                                .toExternalForm()
+                                                )
+                                        );
+
+                                deleteIcon.setFitWidth(16);
+                                deleteIcon.setFitHeight(16);
+                                deleteIcon.setPreserveRatio(true);
+                                deleteIcon.setSmooth(true);
+
+                                deleteButton.setGraphic(deleteIcon);
                                 /*
                                  * Sửa.
                                  */

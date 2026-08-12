@@ -12,63 +12,71 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.expensemanager.controller.CategoryFormController"
-      spacing="16.0"
-      prefWidth="460.0"
-      styleClass="transaction-form-root">
+      spacing="12.0"
+      prefWidth="520.0"
+      styleClass="category-form-root">
 
     <padding>
-
-        <Insets top="24.0"
-                right="24.0"
-                bottom="24.0"
-                left="24.0"/>
-
+        <Insets top="28.0"
+                right="30.0"
+                bottom="28.0"
+                left="30.0"/>
     </padding>
 
-    <!-- Tiêu đề -->
+    <!-- HEADER -->
+    <VBox spacing="4.0">
 
-    <Label fx:id="formTitleLabel"
-           text="Thêm danh mục"
-           styleClass="dashboard-title"/>
+        <Label fx:id="formTitleLabel"
+               text="Thêm danh mục"
+               styleClass="category-form-title"/>
 
-    <Label fx:id="formSubtitleLabel"
-           text="Nhập thông tin danh mục"
-           styleClass="dashboard-subtitle"/>
+        <Label fx:id="formSubtitleLabel"
+               text="Nhập thông tin danh mục"
+               styleClass="category-form-subtitle"/>
 
-    <!-- Tên danh mục -->
+    </VBox>
 
+    <!-- TÊN DANH MỤC -->
     <Label text="Tên danh mục"
-           styleClass="form-label"/>
+           styleClass="category-form-label"/>
 
     <TextField fx:id="categoryNameField"
-               promptText="Ví dụ: Ăn uống, Lương, Di chuyển"/>
+               promptText="Ví dụ: Ăn uống, Lương, Di chuyển"
+               minHeight="46.0"
+               prefHeight="46.0"
+               styleClass="category-form-input"/>
 
-    <!-- Mô tả -->
-
+    <!-- MÔ TẢ -->
     <Label text="Mô tả"
-           styleClass="form-label"/>
+           styleClass="category-form-label"/>
 
     <TextArea fx:id="descriptionArea"
               promptText="Nhập mô tả cho danh mục"
               prefRowCount="4"
-              wrapText="true"/>
+              wrapText="true"
+              minHeight="120.0"
+              prefHeight="120.0"
+              styleClass="category-form-textarea"/>
 
-    <!-- Buttons -->
-
-    <HBox spacing="10.0"
+    <!-- ACTION BUTTONS -->
+    <HBox spacing="12.0"
           alignment="CENTER_RIGHT">
 
         <Region HBox.hgrow="ALWAYS"/>
 
         <Button text="Hủy"
-                minWidth="90.0"
+                minWidth="105.0"
+                minHeight="44.0"
+                prefHeight="44.0"
                 onAction="#handleCancel"
-                styleClass="filter-button"/>
+                styleClass="category-form-cancel-button"/>
 
         <Button text="Lưu"
-                minWidth="90.0"
+                minWidth="115.0"
+                minHeight="44.0"
+                prefHeight="44.0"
                 onAction="#handleSave"
-                styleClass="period-button"/>
+                styleClass="category-form-save-button"/>
 
     </HBox>
 

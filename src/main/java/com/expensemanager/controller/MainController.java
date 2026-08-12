@@ -1,6 +1,5 @@
 package com.expensemanager.controller;
 
-import com.expensemanager.exception.ExpenseManagerException;
 import com.expensemanager.model.user.User;
 import com.expensemanager.service.ExpenseManager;
 
@@ -42,7 +41,6 @@ public class MainController {
     private void initialize() {
         loadCurrentUser();
         hideUserMenu();
-        //expenseManager.processDueExpenses();
         loadView("dashboard.fxml");
         Platform.runLater(() -> {
             if (contentPane != null && contentPane.getScene() != null) {

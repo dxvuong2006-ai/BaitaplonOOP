@@ -10,139 +10,217 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.expensemanager.controller.MainController"
             stylesheets="@../../../css/styles.css"
-            prefHeight="600.0"
-            prefWidth="900.0">
-
-    <!-- ================================================= -->
-    <!-- THANH ĐIỀU HƯỚNG BÊN TRÁI -->
-    <!-- ================================================= -->
+            prefWidth="1200.0"
+            prefHeight="760.0">
 
     <left>
 
         <VBox fx:id="sidebar"
               styleClass="sidebar"
-              spacing="10.0"
+              spacing="8.0"
               prefWidth="260.0"
               minWidth="260.0"
               maxWidth="260.0">
 
             <padding>
-                <Insets top="18.0"
+                <Insets top="12.0"
                         right="16.0"
-                        bottom="22.0"
+                        bottom="18.0"
                         left="16.0"/>
             </padding>
 
-            <!-- ========================================= -->
-            <!-- LOGO ỨNG DỤNG -->
-            <!-- ========================================= -->
+            <!-- LOGO -->
 
             <VBox alignment="CENTER"
+                  prefHeight="175.0"
+                  minHeight="175.0"
+                  maxHeight="175.0"
                   styleClass="sidebar-brand">
 
-                <ImageView fitWidth="220.0"
-                           fitHeight="125.0"
+                <ImageView fitWidth="245.0"
+                           fitHeight="155.0"
                            preserveRatio="true"
                            smooth="true">
 
                     <image>
-                        <Image url="@../../../images/logo.png"/>
+                        <Image url="@../../../images/logo2.png"/>
                     </image>
 
                 </ImageView>
 
             </VBox>
 
-            <!-- Khoảng cách giữa logo và menu -->
-            <Region prefHeight="14.0"/>
-
-            <!-- ========================================= -->
-            <!-- NAVIGATION -->
-            <!-- ========================================= -->
+            <!-- MENU -->
 
             <Button fx:id="btnDashboard"
                     text="Tổng quan"
                     styleClass="sidebar-button"
                     onAction="#handleShowDashboard"
-                    maxWidth="Infinity"/>
+                    maxWidth="Infinity">
+                <graphic>
+                    <ImageView fitWidth="24"
+                               fitHeight="24"
+                               preserveRatio="true">
+                        <image>
+                            <Image url="/images/house.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
 
             <Button fx:id="btnTransaction"
                     text="Giao dịch"
                     styleClass="sidebar-button"
                     onAction="#handleShowTransaction"
-                    maxWidth="Infinity"/>
+                    maxWidth="Infinity">
+                <graphic>
+                    <ImageView fitWidth="24"
+                               fitHeight="24"
+                               preserveRatio="true">
+                        <image>
+                            <Image url="/images/exchange.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
 
             <Button fx:id="btnWallet"
                     text="Ví"
                     styleClass="sidebar-button"
                     onAction="#handleShowWallet"
-                    maxWidth="Infinity"/>
+                    maxWidth="Infinity">
+                <graphic>
+                    <ImageView fitWidth="24"
+                               fitHeight="24"
+                               preserveRatio="true">
+                        <image>
+                            <Image url="/images/wallet.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
 
             <Button fx:id="btnCategory"
                     text="Danh mục"
                     styleClass="sidebar-button"
                     onAction="#handleShowCategory"
-                    maxWidth="Infinity"/>
+                    maxWidth="Infinity">
+                <graphic>
+                    <ImageView fitWidth="24"
+                               fitHeight="24"
+                               preserveRatio="true">
+                        <image>
+                            <Image url="/images/category.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
 
             <Button fx:id="btnBudget"
                     text="Ngân sách"
                     styleClass="sidebar-button"
                     onAction="#handleShowBudget"
-                    maxWidth="Infinity"/>
+                    maxWidth="Infinity">
+                <graphic>
+                    <ImageView fitWidth="24"
+                               fitHeight="24"
+                               preserveRatio="true">
+                        <image>
+                            <Image url="/images/ngan_sach.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
 
             <Button fx:id="btnReport"
                     text="Báo cáo"
                     styleClass="sidebar-button"
                     onAction="#handleShowReport"
-                    maxWidth="Infinity"/>
+                    maxWidth="Infinity">
+                <graphic>
+                    <ImageView fitWidth="24"
+                               fitHeight="24"
+                               preserveRatio="true">
+                        <image>
+                            <Image url="/images/bao_cao.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
 
-            <!-- Đẩy khối người dùng xuống đáy Sidebar -->
+            <!-- ĐẨY USER AREA XUỐNG ĐÁY -->
+
             <Region VBox.vgrow="ALWAYS"/>
 
-            <!-- ========================================= -->
-            <!-- THÔNG TIN NGƯỜI DÙNG & ĐĂNG XUẤT -->
-            <!-- ========================================= -->
+            <!-- MENU KHI CLICK USER -->
 
-            <VBox spacing="8.0">
-                <!-- Card người dùng (bấm vào để hiện/ẩn menu) -->
-                <HBox alignment="CENTER_LEFT"
-                      spacing="10.0"
-                      styleClass="user-card"
-                      onMouseClicked="#handleToggleUserMenu">
+            <VBox fx:id="userMenuBox"
+                  spacing="6.0"
+                  visible="false"
+                  managed="false"
+                  styleClass="sidebar-user-menu">
+
+                <Button text="Đăng xuất"
+                        maxWidth="Infinity"
+                        onAction="#handleLogout"
+                        styleClass="sidebar-logout-button"/>
+
+            </VBox>
+
+            <!-- CURRENT USER CARD -->
+
+            <HBox alignment="CENTER_LEFT"
+                  spacing="12.0"
+                  onMouseClicked="#handleToggleUserMenu"
+                  styleClass="sidebar-user-card">
+
+                <!-- AVATAR -->
+
+                <StackPane minWidth="46.0"
+                           prefWidth="46.0"
+                           maxWidth="46.0"
+                           minHeight="46.0"
+                           prefHeight="46.0"
+                           maxHeight="46.0"
+                           styleClass="sidebar-user-avatar">
+
                     <Label fx:id="sidebarAvatarLabel"
                            text="U"
-                           styleClass="user-avatar"/>
-                    <Label fx:id="sidebarUsernameLabel"
-                           text="User"
-                           styleClass="user-name"
-                           maxWidth="Infinity"
-                           HBox.hgrow="ALWAYS"/>
-                </HBox>
+                           styleClass="sidebar-user-avatar-text"/>
 
-                <!-- Menu xổ ra chứa nút Đăng xuất -->
-                <VBox fx:id="userMenuBox"
-                      spacing="5.0"
-                      visible="false"
-                      managed="false">
-                    <Button text="Đăng xuất"
-                            onAction="#handleLogout"
-                            styleClass="sidebar-button, logout-button"
-                            maxWidth="Infinity"/>
+                </StackPane>
+
+                <!-- USER INFO -->
+
+                <VBox spacing="3.0"
+                      alignment="CENTER_LEFT">
+
+                    <Label fx:id="sidebarUsernameLabel"
+                           text="Người dùng"
+                           styleClass="sidebar-user-name"/>
+
+                    <Label text="Đang đăng nhập"
+                           styleClass="sidebar-user-status"/>
+
                 </VBox>
-            </VBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Label text="⌃"
+                       styleClass="sidebar-user-menu-arrow"/>
+
+            </HBox>
 
         </VBox>
 
     </left>
-
-    <!-- ================================================= -->
-    <!-- NỘI DUNG CHÍNH -->
-    <!-- ================================================= -->
 
     <center>
 

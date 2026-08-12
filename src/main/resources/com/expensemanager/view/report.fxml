@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -26,11 +27,15 @@
                 left="32.0"/>
     </padding>
 
+    <!-- HEADER -->
+
     <Label text="Báo cáo thống kê"
            styleClass="dashboard-title"/>
 
     <Label text="Chọn khoảng thời gian và định dạng để xuất báo cáo thu chi."
            styleClass="dashboard-subtitle"/>
+
+    <!-- REPORT PANEL -->
 
     <VBox spacing="20.0"
           maxWidth="620.0"
@@ -40,12 +45,16 @@
                   vgap="18.0">
 
             <columnConstraints>
+
                 <ColumnConstraints minWidth="100.0"
                                    prefWidth="110.0"/>
 
                 <ColumnConstraints prefWidth="420.0"
                                    hgrow="ALWAYS"/>
+
             </columnConstraints>
+
+            <!-- TỪ NGÀY -->
 
             <Label text="Từ ngày:"
                    styleClass="report-field-label"
@@ -60,6 +69,8 @@
                         maxWidth="Infinity"
                         styleClass="report-date-picker"/>
 
+            <!-- ĐẾN NGÀY -->
+
             <Label text="Đến ngày:"
                    styleClass="report-field-label"
                    GridPane.rowIndex="1"
@@ -72,6 +83,8 @@
                         prefHeight="46.0"
                         maxWidth="Infinity"
                         styleClass="report-date-picker"/>
+
+            <!-- ĐỊNH DẠNG -->
 
             <Label text="Định dạng:"
                    styleClass="report-field-label"
@@ -91,13 +104,39 @@
 
         <Separator/>
 
-        <HBox alignment="CENTER_RIGHT">
-            <Button text="Xuất báo cáo"
+        <!-- EXPORT AREA -->
+
+        <HBox alignment="CENTER_RIGHT"
+              spacing="12.0">
+
+            <!-- LOADING -->
+
+            <ProgressIndicator fx:id="exportProgressIndicator"
+                               visible="false"
+                               managed="false"
+                               minWidth="24.0"
+                               prefWidth="24.0"
+                               maxWidth="24.0"
+                               minHeight="24.0"
+                               prefHeight="24.0"
+                               maxHeight="24.0"/>
+
+            <Label fx:id="exportStatusLabel"
+                   text="Đang tạo báo cáo..."
+                   visible="false"
+                   managed="false"
+                   styleClass="report-field-label"/>
+
+            <!-- EXPORT BUTTON -->
+
+            <Button fx:id="exportButton"
+                    text="Xuất báo cáo"
                     minWidth="160.0"
                     minHeight="46.0"
                     prefHeight="46.0"
                     styleClass="report-export-button"
                     onAction="#handleExportReport"/>
+
         </HBox>
 
     </VBox>

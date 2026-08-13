@@ -48,7 +48,7 @@ public class TransactionService {
     }
 
     public void load() {
-        transactions.clear();;
+        transactions.clear();
         List<TransactionRecord> records = storageFactory.load(FilePath.TRANSACTION);
         for (TransactionRecord record : records) {
             try {
